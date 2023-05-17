@@ -1,0 +1,45 @@
+.container {
+    display:flex;
+    flex-direction:column;
+}
+
+.ajouterBtn {
+    align-self: flex-end;
+}
+
+.example-viewport {
+    height: 600px;
+    width: 1600px;
+    border: 1px solid black;
+  }
+  
+  .example-item {
+    height: 150px;
+  }
+
+  .demo-table {
+    width: 100%;
+  }
+  
+  .mat-column-id {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+  }
+  
+  .mat-column-nom {
+    padding-left: 16px;
+    font-size: 20px;
+  }
+  
+  .mat-column-dateDeRendu {
+    font-style: italic;
+  }
+  
+  .mat-column-rendu {
+    width: 32px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
