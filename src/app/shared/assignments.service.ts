@@ -14,8 +14,8 @@ assignments:Assignment[] = []
   constructor(private loggingService:LoggingService,
     private http:HttpClient) { }
 
-    //uri_api = 'http://localhost:8010/api/assignments';
-    uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
+    uri_api = 'http://localhost:8010/api/assignments';
+    // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
 
   getAssignments(page:number, limit:number):Observable<any> {
     // normalement on doit envoyer une requête HTTP
@@ -113,10 +113,11 @@ assignments:Assignment[] = []
   peuplerBD() {
     bdInitialAssignments.forEach(a => {
       const newAssignment = new Assignment();
-      newAssignment.id = a.id;
       newAssignment.nom = a.nom;
       newAssignment.dateDeRendu = new Date(a.dateDeRendu);
-      newAssignment.rendu = a.rendu;
+      newAssignment.rendu = false;
+      newAssignment.idMatiere = a.idMatiere;
+      newAssignment.idEleve = a.idEleve;
 
       this.addAssignment(newAssignment)
       .subscribe((reponse) => {
@@ -133,10 +134,11 @@ assignments:Assignment[] = []
  
     bdInitialAssignments.forEach(a => {
       const nouvelAssignment = new Assignment();
-      nouvelAssignment.id = a.id;
       nouvelAssignment.nom = a.nom;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
-      nouvelAssignment.rendu = a.rendu;
+      nouvelAssignment.rendu = false;
+      nouvelAssignment.idMatiere = a.idMatiere;
+      nouvelAssignment.idEleve = a.idEleve;
  
       appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
     });

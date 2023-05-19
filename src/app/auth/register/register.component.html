@@ -1,0 +1,48 @@
+<div class="container-fluid p-0">
+    <div class="row m-0">
+      <div class="col-12 p-0">    
+        <div class="login-card">
+          <div>
+            <div><a class="logo" href="#"><img class="img-fluid for-light" src="../assets/images/logo/logo2.png" alt="looginpage"></a></div>
+            <div class="login-main mb-4"> 
+              <form class="theme-form">
+                <h4 class="text-center">Inscrivez-vous</h4>
+                <div class="form-group ">
+                  <label class="col-form-label mt-4">Nom d'utilisateur</label>
+                  <input class="form-control" type="email" required="" placeholder="Pseudo">
+                </div>
+                <div class="form-group ">   
+                    <label class="col-form-label">Profil</label>
+                    <select class="form-select btn-square digits" id="exampleFormControlSelect12">
+                        <option>Étudiant</option>
+                        <option>Administrateur</option>
+                    </select>
+                </div> 
+                <div class="form-group ">   
+                    <label class="col-form-label">Image</label>
+                    <div class="form-input position-relative">
+                        <input class="form-control" type="file">
+                    </div>
+                </div> 
+                <div class="form-group">
+                  <label class="col-form-label">Mot de passe</label>
+                  <div class="form-input position-relative">
+                    <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
+                    <div class="show-hide"></div>
+                  </div>
+                </div>
+                <div class="form-group mb-0">
+                  <div class="checkbox p-0">
+                  </div>
+                  <div class="text-end mt-4">
+                    <button class="btn btn-primary btn-block w-100" type="submit">S'inscrire</button>
+                    </div>
+                </div>
+                <p class="mt-4 mb-0 text-center">Vous avez déjà un compte ?<a class="ms-2" [routerLink]="['/login']">Connectez-vous</a></p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

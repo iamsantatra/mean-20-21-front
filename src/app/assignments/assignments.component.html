@@ -1,123 +1,84 @@
-<h2>{{titre}}</h2>
+<app-navbar></app-navbar>
 
-<main class="container">
-    <nav class="ajouterBtn">
-        <a routerLink="/add">
-            <button mat-flat-button color="accent"> Ajouter Assignment
-            </button>
-        </a>
-    </nav>
-
-
- 
-    <mat-divider></mat-divider>
-    <p>
-        Nb assignments total {{totalDocs}}, par page {{limit}}, nbPages {{totalPages}}
-    </p>
-    <p>
-        Régler nb par page : 
-           <input type="range" 
-                  min=1 max=100 value=10 
-                  [(ngModel)]="limit"
-                  (change)="getAssignments()"
-           /> {{limit}}
-    </p>
-<p>
-    <button (click)="premierePage()" [disabled]="!hasPrevPage">
-        Première page
-    </button>
-    <button (click)="pagePrecedente()" [disabled]="!hasPrevPage">
-        Page Précédente
-    </button>
-    <button (click)="pageSuivante()" [disabled]="!hasNextPage">Page Suivante</button>
-    <button (click)="dernierePage()" [disabled]="!hasNextPage">
-        Derniere page
-    </button>
-</p>
-<h1>Affichage avec data table</h1>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Selection de la page des assigments"
-                 (page)="handlePage($event)"
-                 class="demo-paginator"
-                 [length]="totalPages"
-                 [pageSize]="limit"
-                 [pageIndex]="page"
-  >
-  </mat-paginator>
-<table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table">
-    <!-- id Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-  
-    <!-- nom Column -->
-    <ng-container matColumnDef="nom">
-      <th mat-header-cell *matHeaderCellDef> Nom </th>
-      <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
-    </ng-container>
-  
-    <!-- dateDeRendu Column -->
-    <ng-container matColumnDef="dateDeRendu">
-      <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
-      <td mat-cell *matCellDef="let element"> {{element.dateDeRendu}} </td>
-    </ng-container>
-  
-    <!-- rendu Column -->
-    <ng-container matColumnDef="rendu">
-      <th mat-header-cell *matHeaderCellDef> Rendu </th>
-      <td mat-cell *matCellDef="let element"> {{element.rendu}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Selection de la page des assigments"
-                 (page)="handlePage($event)"
-                 class="demo-paginator"
-                 [length]="totalPages"
-                 [pageSize]="limit"
-                 [pageIndex]="page"
-  >
-  </mat-paginator>
-
-  
-<h1>Affichage avec mat-list / mat-list-item</h1>
-    <mat-list *ngFor="let a of assignments">
-        <a routerLink="/assignments/{{a.id}}">
-            <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
-            <mat-list-item>
-                <p appRendu *ngIf="a.rendu; else nonsoumis">
-                    {{a.nom}} id = {{a._id}}
-                </p>
-                <ng-template #nonsoumis>
-                    {{a.nom}} NON RENDU id = {{a._id}}
-                </ng-template>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </a>
-    </mat-list>
-    
-
-    <h1>Exemple de scrolling virtuel infini</h1>
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
-    <mat-list *cdkVirtualFor="let a of assignments">
-        <a routerLink="/assignments/{{a.id}}">
-            <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
-            <mat-list-item>
-                <p appRendu *ngIf="a.rendu; else nonsoumis">
-                    {{a.nom}} id = {{a._id}}
-                </p>
-                <ng-template #nonsoumis>
-                    {{a.nom}} NON RENDU id = {{a._id}}
-                </ng-template>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </a>
-    </mat-list>
-</cdk-virtual-scroll-viewport>
-
-</main>
+<div class="page-body-wrapper">
+    <!-- Page Sidebar Ends-->
+    <div class="page-body">
+      <div class="container-fluid">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>
+                Liste des devoirs</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Container-fluid starts-->
+      <div class="container-fluid">
+        <div class="row ui-sortable" id="draggableMultiple">
+            <div class="col-md-4 project-list" 
+                cdkDropList 
+                #moviesList="cdkDropList" 
+                [cdkDropListData]="MoviesList"
+                [cdkDropListConnectedTo]="[doneMovieList]" 
+                (cdkDropListDropped)="onDrop($event)">
+                <h4 class="font-primary">Non rendu</h4>
+                <div class="card" *ngFor="let moviesList of MoviesList" cdkDrag>
+                    <div class="card-header pb-0">
+                      <div class="d-sm-flex d-block justify-content-between">
+                        <h4>{{moviesList}}</h4>
+                        <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
+                        <div class="badge-group">
+                          <div class="badge badge-light-primary f-12"><span id="txt">Web</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <img class="img-fluid" style="border-radius: 15px;"  src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
+                      <div class="d-flex align-items-start mt-2">
+                        <img class="img-40 me-1 mt-2 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-original-title="" title="">
+                        <div class="flex-grow-1 mt-3">
+                          <p class="mb-0"> Themeforest, australia</p>
+                        </div>
+                      </div>
+                      <p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div 
+                class="col-md-4 project-list"
+                cdkDropList 
+                #doneMovieList="cdkDropList" 
+                [cdkDropListData]="MoviesWatched"
+                [cdkDropListConnectedTo]="[moviesList]" 
+                (cdkDropListDropped)="onDrop($event)">
+                <h4 class="font-success">Rendu</h4>
+                <div class="card" *ngFor="let moviesWatched of MoviesWatched" cdkDrag>
+                <div class="card-header pb-0">
+                    <h4>{{moviesWatched}}</h4>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+      </div>
+      <!-- Container-fluid Ends-->
+    </div>
+    <!-- footer start-->
+    <!-- <footer class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6 p-0 footer-left">
+            <p class="mb-0">Copyright © 2023 Tivo. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 p-0 footer-right">
+            <p class="mb-0">Hand-crafted & made with <i class="fa fa-heart font-danger"></i></p>
+          </div>
+        </div>
+      </div>
+    </footer> -->
+  </div>
