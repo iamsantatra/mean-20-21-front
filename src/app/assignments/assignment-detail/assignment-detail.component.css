@@ -1,5 +1,9 @@
-#bottom {
+/* #bottom {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+} */
+
+* {
+    font-family: 'Montserrat', sans-serif;
 }

@@ -20,11 +20,11 @@
               <div class="input-group">
                 <div class="input-group-prepend"></div>
                   <input class="form-control" type="text" placeholder="Rechercher devoir........">
-                  <button class="btn btn-primary" type="button">Rechercher</button>
+                  <!-- ovaina am manaraka n bouton -->
+                  <!-- <button class="btn btn-primary" type="button">Rechercher</button> -->
                 </div>
             </div>
-            <div class="col-md-1 p-0 "></div>
-            <div class="col-md-4 p-0 ">
+            <div class="col-md-5 p-0 ">
               <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                   showFirstLastButtons
                   aria-label="Selection de la page des assigments"
@@ -54,7 +54,7 @@
               [cdkDropListConnectedTo]="[doneMovieList]" 
               (cdkDropListDropped)="onDrop($event)">
               <h4 class="font-primary">Non rendu</h4>
-              <div class="card" *ngFor="let moviesList of MoviesList" cdkDrag>
+              <div class="card" (click)="onDetailDevoir()" *ngFor="let moviesList of MoviesList" cdkDrag>
                   <div class="card-header pb-0">
                     <div class="d-sm-flex d-block justify-content-between">
                       <h4>{{moviesList}}</h4>

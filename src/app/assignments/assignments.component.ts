@@ -6,6 +6,7 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
+import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
 
 @Component({
   selector: 'app-assignments',
@@ -177,7 +178,14 @@ export class AssignmentsComponent implements OnInit {
   } 
 
   onAjoutDevoir() {
-    const dialogRef = this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
+    this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
+    // dialogRef.afterClosed().subscribe(result => {
+    //   this.getAssignments(this.token);
+    // });
+  }
+
+  onDetailDevoir() {
+    this.dialog.open(AssignmentDetailComponent, {width:'35vw'});
     // dialogRef.afterClosed().subscribe(result => {
     //   this.getAssignments(this.token);
     // });

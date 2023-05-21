@@ -36,6 +36,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 const routes: Routes = [
@@ -94,7 +95,8 @@ const routes: Routes = [
     MatTableModule, MatPaginatorModule,
     DragDropModule,
     MatDialogModule,
-    MatStepperModule
+    MatStepperModule, 
+    MatSidenavModule
   ],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, 
