@@ -20,7 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
@@ -33,6 +33,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { NavbarComponent } from './navbar/navbar.component';  
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatStepperModule } from '@angular/material/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 
 const routes: Routes = [
@@ -81,16 +84,25 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule, RouterModule.forRoot(routes),
+    FormsModule, ReactiveFormsModule,
+    RouterModule.forRoot(routes),
     HttpClientModule,
     MatNativeDateModule, ScrollingModule,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule,
-    DragDropModule
+    DragDropModule,
+    MatDialogModule,
+    MatStepperModule
   ],
-  providers: [],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, 
+    useValue: { 
+        showError: true,
+        displayDefaultIndicatorType: false 
+    }
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,9 @@
-.form {
+/* .form {
     display: flex;
     flex-direction: column;
     margin:5px;
+} */
+
+.custom-stepper {
+    font-family: 'Montserrat', sans-serif;
 }

@@ -4,6 +4,8 @@ import { AssignmentsService } from '../shared/assignments.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 
 @Component({
   selector: 'app-assignments',
@@ -31,7 +33,8 @@ export class AssignmentsComponent implements OnInit {
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
   constructor(private assignmentsService:AssignmentsService,
-              private ngZone: NgZone) {    
+              private ngZone: NgZone,
+              public dialog: MatDialog) {    
   }
   
   ngOnInit(): void {
@@ -172,4 +175,11 @@ export class AssignmentsComponent implements OnInit {
         event.currentIndex);
     }
   } 
+
+  onAjoutDevoir() {
+    const dialogRef = this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
+    // dialogRef.afterClosed().subscribe(result => {
+    //   this.getAssignments(this.token);
+    // });
+  }
 }

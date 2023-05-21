@@ -7,5 +7,6 @@ export class Assignment {
     note?: number;
     idMatiere!: number;
     idEleve!: number;
+    remarques?: string;
 }
 

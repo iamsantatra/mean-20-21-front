@@ -13,6 +13,7 @@ export class AddAssignmentComponent {
   // champs du formulaire
   nomDevoir = "";
   dateDeRendu!: Date;
+  today: Date = new Date();
 
 
   constructor(private assignmentsService: AssignmentsService,
