@@ -31,15 +31,15 @@ export class AppComponent {
 
   login() {
     // utilise l'authService pour se connecter
-    if(!this.authService.loggedIn) {
-      this.authService.logIn();
-      // on change le label du bouton
-      this.labelConnexion = "Se déconnecter";
-    } else {
-      this.authService.logOut();
-      // et on navigue vers la page d'accueil
-      this.router.navigate(["/home"]);
-    }
+    // if(!this.authService.loggedIn) {
+    //   this.authService.logIn();
+    //   // on change le label du bouton
+    //   this.labelConnexion = "Se déconnecter";
+    // } else {
+    //   this.authService.logOut();
+    //   // et on navigue vers la page d'accueil
+    //   this.router.navigate(["/home"]);
+    // }
   }
 
   isLogged() {

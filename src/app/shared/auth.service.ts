@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Utilisateur } from '../models/user.model';
+
+const BACKEND_URL = environment.apiUrl + "/users";
 
 @Injectable({
   providedIn: 'root'
@@ -6,15 +11,19 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   loggedIn = false;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   // théoriquement, on devrait passer en paramètre le login
   // et le password, cette méthode devrait faire une requête
   // vers un Web Service pour vérifier que c'est ok, renvoyer
   // un token d'authentification JWT etc.
   // elle devrait renvoyer un Observable etc.
-  logIn() {
+  logIn(username: String, password: String) {
+
     console.log("ON SE LOGGE")
+    const authData = { nom: username, motDePasse: password };
+    return this.http
+      .post<{token: string, data: Utilisateur, expiresIn: number}>(BACKEND_URL + "/login", authData)
     this.loggedIn = true;
   }
 
