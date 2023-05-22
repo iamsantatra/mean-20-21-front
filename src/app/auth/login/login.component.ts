@@ -10,12 +10,19 @@ import { AuthService } from 'src/app/shared/auth.service';
 export class LoginComponent {
 
   loginForm!: FormGroup;
-  submitted = false;
   errorMessage = "";
   loginFailed = false;
 
   constructor(private formBuilder: FormBuilder,
     public authService: AuthService) { }
+
+  get username() {
+    return this.loginForm.get('username');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
 
   ngOnInit() {
     this.createLoginForm();
@@ -29,7 +36,6 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.submitted = true;
     console.log(this.loginForm.value)
     if (this.loginForm.valid) {
       
