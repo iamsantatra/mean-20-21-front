@@ -17,6 +17,7 @@ export class NavbarComponent {
   
   ngOnInit() {
     const user = this.tokenStorageService.getUser();
+    
     this.profil = user.profil;
     this.nom = user.nom;
   }
