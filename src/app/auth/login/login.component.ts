@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { TokenStorageService } from 'src/app/shared/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,9 @@ export class LoginComponent {
   loginFailed = false;
 
   constructor(private formBuilder: FormBuilder,
-    public authService: AuthService) { }
+    public authService: AuthService,
+    public tokenService: TokenStorageService,
+    public router: Router) { }
 
   get username() {
     return this.loginForm.get('username');
@@ -26,6 +30,11 @@ export class LoginComponent {
 
   ngOnInit() {
     this.createLoginForm();
+    if (this.tokenService.getToken() && this.tokenService.getUser()) {
+      this.router.navigate(["/home"]);
+    }
+    this.username?.setValue("Gabriel")
+    this.password?.setValue("12345678")
   }
 
   createLoginForm() {
@@ -41,14 +50,16 @@ export class LoginComponent {
       
       // Effectuez ici la logique de connexion
       this.authService.logIn(this.loginForm.value.username, this.loginForm.value.password)
-      .subscribe(reponse => {
-        var userConn = reponse;
+      .subscribe(data => {
+        var userConn = data;
         console.log(userConn)
+        this.tokenService.saveToken(data.access_token)
+        this.tokenService.saveUser(data.data)
         // sessionStorage.setItem("token", userT.token);
   
         // il va falloir naviguer (demander au router) d'afficher à nouveau la liste
         // en gros, demander de naviguer vers /home
-        // this.router.navigate(["/home"]);
+        this.router.navigate(["/home"]);
       }, error => {
         this.loginFailed = true;
         this.errorMessage = error.error.message;
