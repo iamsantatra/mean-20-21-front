@@ -10,7 +10,7 @@
                 
                 <div class="form-group">
                   <label class="col-form-label mt-4" for="username">Nom d'utilisateur</label>
-                  <input class="form-control" type="text" formControlName="username" id="username" [ngClass]="{'is-invalid': username?.touched && username?.invalid }" placeholder="Pseudo">
+                  <input class="form-control" type="text" value="Gabriel" formControlName="username" id="username" [ngClass]="{'is-invalid': username?.touched && username?.invalid }" placeholder="Pseudo">
 <!-- 
                   <input type="text" [ngClass]="{ 'is-invalid': submitted && f['nomPlat'].errors }" class="form-control" id="nomPlat" formControlName="nomPlat" placeholder="Entrer le repas">
                   <div class="invalid-feedback" *ngIf="submitted && f['nomPlat'].errors">Veuillez saisir le repas</div> -->
@@ -18,7 +18,7 @@
                 
                 <div class="form-group">
                   <label class="col-form-label">Mot de passe</label>  
-                    <input class="form-control" type="password" formControlName="password" [ngClass]="{'is-invalid': password?.touched && password?.invalid }" placeholder="*********">
+                    <input class="form-control" type="password" value="12345678" formControlName="password" [ngClass]="{'is-invalid': password?.touched && password?.invalid }" placeholder="*********">
                 </div>
 
                 <div class="form-group">

@@ -23,7 +23,7 @@ export class AuthService {
     console.log("ON SE LOGGE")
     const authData = { nom: username, motDePasse: password };
     return this.http
-      .post<{token: string, data: Utilisateur, expiresIn: number}>(BACKEND_URL + "/login", authData)
+      .post<{access_token: string, data: Utilisateur, expiresIn: number}>(BACKEND_URL + "/login", authData)
     this.loggedIn = true;
   }
 
