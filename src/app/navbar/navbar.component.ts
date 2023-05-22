@@ -11,15 +11,17 @@ export class NavbarComponent {
 
   profil:string = ''
   nom:string = ''
+  image:string = ''
 
   constructor(private tokenStorageService: TokenStorageService,
     private redirect: Router) { }
   
   ngOnInit() {
     const user = this.tokenStorageService.getUser();
-    
+    console.log("user navbar: "+user)
     this.profil = user.profil;
     this.nom = user.nom;
+    this.image = user.image;
   }
 
   onLogout() {
