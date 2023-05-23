@@ -27,6 +27,19 @@ export class AuthService {
     this.loggedIn = true;
   }
 
+  register(username: String, password: String, image: String, profil: String) {
+
+    console.log("INSCRIPTION")
+    let registerData: any = { nom: username, motDePasse: password, profil: profil };
+    if(image != '') {
+      registerData.image = image
+    }
+    
+    return this.http
+      .post<{data: Utilisateur}>(BACKEND_URL + "/register", registerData)
+    this.loggedIn = true;
+  }
+
   logOut() {
     console.log("ON SE DELOGGE")
 
