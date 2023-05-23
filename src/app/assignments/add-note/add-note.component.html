@@ -1,0 +1,20 @@
+
+<main class="container">
+<div class="row m-4"><h4>Veuillez attribuer une note à ce devoir</h4></div>
+<form ngForm class="form" #formupdate (submit)="updateAssignment();">
+    <div class="example-container">
+        <mat-form-field>
+          <mat-label>Note</mat-label>
+          <input type="number" matInput [(ngModel)]="note" name="note" required>
+          <!-- <mat-error *ngIf="validNote()">{{getErrorMessage()}}</mat-error> -->
+        </mat-form-field>
+      </div>      
+    <mat-form-field>
+        <mat-label>Remarques:</mat-label>
+        <textarea matInput [(ngModel)]="remarques" name="assignment-remarques"></textarea>
+      </mat-form-field>
+    <button mat-raised-button color="primary">
+        Enregistrer
+    </button>
+    </form>
+</main>

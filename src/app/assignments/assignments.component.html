@@ -48,16 +48,17 @@
       <div class="container-fluid">
         <div class="row ui-sortable" id="draggableMultiple">
           <div class="col-md-4 project-list" 
+              id="nonRendus" 
               cdkDropList 
-              #moviesList="cdkDropList" 
-              [cdkDropListData]="MoviesList"
-              [cdkDropListConnectedTo]="[doneMovieList]" 
+              #divNonRendus="cdkDropList" 
+              [cdkDropListData]="nonRendus"
+              [cdkDropListConnectedTo]="[divRendus]" 
               (cdkDropListDropped)="onDrop($event)">
               <h4 class="font-primary">Non rendu</h4>
-              <div class="card" (click)="onDetailDevoir()" *ngFor="let moviesList of MoviesList" cdkDrag>
+              <div class="card" (click)="onDetailDevoir()" *ngFor="let devoir of nonRendus" cdkDrag>
                   <div class="card-header pb-0">
                     <div class="d-sm-flex d-block justify-content-between">
-                      <h4>{{moviesList}}</h4>
+                      <h4>{{devoir.nom}}</h4>
                       <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
                       <div class="badge-group">
                         <div class="badge badge-light-primary f-12"><span id="txt">Web</span></div>
@@ -77,17 +78,17 @@
               </div>
           </div>
           <div class="col-md-1"></div>
-          <div 
+          <div id="rendus"
               class="col-md-4 project-list"
               cdkDropList 
-              #doneMovieList="cdkDropList" 
-              [cdkDropListData]="MoviesWatched"
-              [cdkDropListConnectedTo]="[moviesList]" 
+              #divRendus="cdkDropList" 
+              [cdkDropListData]="rendus"
+              [cdkDropListConnectedTo]="[divNonRendus]" 
               (cdkDropListDropped)="onDrop($event)">
               <h4 class="font-success">Rendu</h4>
-              <div class="card" *ngFor="let moviesWatched of MoviesWatched" cdkDrag>
+              <div class="card" *ngFor="let devoir of rendus" cdkDrag>
               <div class="card-header pb-0">
-                  <h4>{{moviesWatched}}</h4>
+                  <h4>{{devoir.nom}}</h4>
               </div>
               <div class="card-body">
                     <img class="img-fluid" style="border-radius: 15px;"  src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">

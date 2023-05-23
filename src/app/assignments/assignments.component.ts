@@ -7,6 +7,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatDialog } from '@angular/material/dialog';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+import { AddNoteComponent } from './add-note/add-note.component';
 
 @Component({
   selector: 'app-assignments',
@@ -17,6 +18,8 @@ export class AssignmentsComponent implements OnInit {
   titre="Liste des devoirs à rendre";
   // les données à afficher
   assignments:Assignment[] = [];
+  rendus : Assignment[] = [];
+  nonRendus : Assignment[] = [];
   // Pour la data table
   displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
 
@@ -102,6 +105,10 @@ export class AssignmentsComponent implements OnInit {
       this.hasNextPage = data.hasNextPage;
       this.nextPage = data.nextPage;
 
+      this.rendus = this.assignments.filter(a => a.rendu == true );
+      this.nonRendus = this.assignments.filter(a => a.rendu == false );
+
+      console.log(" devors rendus ",this.rendus);
       console.log("Données reçues");
     });
   }
@@ -154,7 +161,7 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignments();
   }
 
-  MoviesList = [
+  /*MoviesList = [
     'The Far Side of the World',
     'Morituri',
     'Napoleon Dynamite',
@@ -165,16 +172,25 @@ export class AssignmentsComponent implements OnInit {
     'Juice'
   ];
   MoviesWatched = [
-  ];
+  ];*/
+
+
   onDrop(event: any) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
+    //if (event.previousContainer === event.container) {
+    //  moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    //} 
+    if(event.previousContainer != event.container){
+        let dropped = event.previousContainer.data[event.previousIndex];
+        if(event.container.id == "rendus"){  // si ils sont déposés dans le div #rendus, besoin si ajout d'annulation de rendu
+          console.log("mettre en rendu le devoir", dropped);
+          this.dialog.open(AddNoteComponent, { maxWidth: '35vw', data: { assignment : dropped} });
+        }
+        
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+      }
   } 
 
   onAjoutDevoir() {
