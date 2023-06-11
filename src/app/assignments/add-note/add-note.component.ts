@@ -1,8 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
+import { transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-add-note',
@@ -10,47 +13,68 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
   styleUrls: ['./add-note.component.css']
 })
 export class AddNoteComponent {  
-  assignment! : Assignment
-
-  //note  =  new FormControl('', [Validators.required, Validators.pattern(/^(([0-9]|1[0-9]|20)(\.[0-9]+)?)$/), Validators.max(20), Validators.min(0) ]);
-  note!: number 
-  remarques?: string
-
+  assignment! : Assignment // l'assignment à noter
+  event : any //pour annuler et fermer le formulaire d'attribution de note
+  noteForm!: FormGroup
+  
   constructor(
+    private formBuilder : FormBuilder,
     private assignmentsService : AssignmentsService,
-    private dialogRef : MatDialogRef<AddNoteComponent>, 
+    private matDialogRef : MatDialogRef<AddNoteComponent>,
+    private matSnackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){}
 
-  ngOnInit(){
+  ngOnInit() : void{
     this.assignment = this.data.assignment
+    this.event = this.data.event
+    this.noteForm = this.formBuilder.group({
+      note: new FormControl('10', [Validators.required, Validators.min(0), Validators.max(20)]),
+      remarques: new FormControl('',[Validators.minLength(8)])
+    });
   }
 
-  validNote(){
-    return this.note >=0 && this.note <=20
-  }
-
-  /*getErrorMessage(){
-    this.note.hasError('pattern') ? 'Veuillez entrer une note comprise entre 0 et 20' : '';
-  }*/
+  get note () { return this.noteForm.get('note'); }
+  get remarques (){ return this.noteForm.get('remarques'); }
 
   closeDialog(){
-    this.dialogRef.close();
+    this.matDialogRef.close();
   }
 
-  updateAssignment(){
-    //this.assignment.note = Number(this.note.value);
-    this.assignment.note = this.note;
-    this.assignment.rendu = true;
-    console.log("note attribuée=",this.assignment);
-    if(this.remarques) this.assignment.remarques = this.remarques
+  cancel(){
+    // remettre l'assignment dans la partie des non rendus
+    // s'applique aussi aux cas d'erreurs de connexion au serveur, suppression des attributs note et remarques
+    this.assignment.rendu=false;
+    delete this.assignment['note'];
+    delete this.assignment['remarques'];
+    
+    transferArrayItem(this.event.container.data,
+      this.event.previousContainer.data,
+      this.event.currentIndex,
+      this.event.previousIndex);
+      this.closeDialog();
+  }
+  
+  notifyBySnackBar(message : string) {
+    this.matSnackBar.open(message, 'OK', {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration:4000
+    }); 
+  }
 
+  updateAssignment(){    
+    this.assignment.note = this.noteForm.value.note;
+    this.assignment.rendu = true;
+    if(this.noteForm.value.remarques) this.assignment.remarques = this.noteForm.value.remarques;
+    
     this.assignmentsService.updateAssignment(this.assignment)
     .subscribe((response:any)=> {
       this.closeDialog();
-      //affichage du snackbar
+      this.notifyBySnackBar("Modifications enregistrées");
     },(error:any)=> {
-      console.log("Il y a eu une erreur lors de la connexion au serveur");
+      this.cancel();
+      this.notifyBySnackBar("Il y a eu un problème de connexion au serveur, veuillez réessayer");
     })
   }
 }

@@ -32,7 +32,6 @@ export class AssignmentsComponent implements OnInit {
   prevPage: number = 0;
   hasNextPage: boolean = false;
   nextPage: number = 0;
-;
 
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
@@ -92,7 +91,19 @@ export class AssignmentsComponent implements OnInit {
 
   getAssignments() {
     console.log("On va chercher les assignments dans le service");
+    /*
+    //données de test
+    var ass1 = new Assignment();
+    ass1.nom="assignment test1";
+    ass1.rendu=false;
 
+    var ass2 = new Assignment();
+    ass2.nom="assignment test2";
+    ass2.rendu=false;
+
+    this.nonRendus.push(ass1);
+    this.nonRendus.push(ass2);
+    */
     this.assignmentsService.getAssignments(this.page, this.limit)
     .subscribe(data => {
       this.assignments = data.docs;
@@ -105,11 +116,9 @@ export class AssignmentsComponent implements OnInit {
       this.hasNextPage = data.hasNextPage;
       this.nextPage = data.nextPage;
 
+      // filtrage des resultats de la page avec l'attribut rendu 
       this.rendus = this.assignments.filter(a => a.rendu == true );
       this.nonRendus = this.assignments.filter(a => a.rendu == false );
-
-      console.log(" devors rendus ",this.rendus);
-      console.log("Données reçues");
     });
   }
 
@@ -161,36 +170,21 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignments();
   }
 
-  /*MoviesList = [
-    'The Far Side of the World',
-    'Morituri',
-    'Napoleon Dynamite',
-    'Pulp Fiction',
-    'Blade Runner',
-    'Cool Hand Luke',
-    'Heat',
-    'Juice'
-  ];
-  MoviesWatched = [
-  ];*/
-
 
   onDrop(event: any) {
-    //if (event.previousContainer === event.container) {
-    //  moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    //} 
     if(event.previousContainer != event.container){
         let dropped = event.previousContainer.data[event.previousIndex];
         if(event.container.id == "rendus"){  // si ils sont déposés dans le div #rendus, besoin si ajout d'annulation de rendu
-          console.log("mettre en rendu le devoir", dropped);
-          this.dialog.open(AddNoteComponent, { maxWidth: '35vw', data: { assignment : dropped} });
+          console.log("rendre le devoir ", dropped);
+          this.dialog.open(AddNoteComponent, { disableClose: true,  maxWidth: '20vw', data: { assignment : dropped, event: event} });
         }
         
+        //placer l'element dans le container où il a été déposé 
         transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
           event.currentIndex);
-      }
+    }
   } 
 
   onAjoutDevoir() {

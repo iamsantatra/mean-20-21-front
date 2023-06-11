@@ -1,20 +1,31 @@
 
-<main class="container">
-<div class="row m-4"><h4>Veuillez attribuer une note à ce devoir</h4></div>
-<form ngForm class="form" #formupdate (submit)="updateAssignment();">
-    <div class="example-container">
-        <mat-form-field>
-          <mat-label>Note</mat-label>
-          <input type="number" matInput [(ngModel)]="note" name="note" required>
-          <!-- <mat-error *ngIf="validNote()">{{getErrorMessage()}}</mat-error> -->
-        </mat-form-field>
-      </div>      
-    <mat-form-field>
-        <mat-label>Remarques:</mat-label>
-        <textarea matInput [(ngModel)]="remarques" name="assignment-remarques"></textarea>
-      </mat-form-field>
-    <button mat-raised-button color="primary">
-        Enregistrer
-    </button>
-    </form>
+<main class="container p-3">
+  <form [formGroup]="noteForm" class="needs-validation" novalidate="">
+    <h5>Veuillez attribuer une note à ce devoir</h5>
+    <div class="form-group ">
+      <label class="col-form-label mt-4">Note</label>
+      <input size="10" type="number" value="10" step="0.01" class="form-control" formControlName="note" required>
+      <div class="txt-danger" *ngIf="note?.invalid && (note?.dirty || note?.touched)">
+        <!--<div *ngIf="note?.errors?.['required']" class="txt-danger"> -->
+          Veuillez saisir un nombre entre 0 et 20
+        <!--</div> -->
+        <div>
+
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+        <label>Remarques</label>
+        <textarea rows=4 cols="25" name="remarques" formControlName="remarques"></textarea>
+        <div class="txt-danger" *ngIf="remarques?.invalid && (remarques?.dirty || remarques?.touched)">
+          <div *ngIf="remarques?.errors?.['minlength']">
+            La remarque doit contenir au minimum 8 caractères
+          </div>  
+        </div>
+    </div>
+    <div class="form-group mb-0">
+        <button class="btn btn-warning btn-block m-1" (click)="cancel()">Annuler</button>
+        <button class="btn btn-primary btn-block m-1" [disabled]="noteForm.invalid" type="submit" (click)="updateAssignment()">Enregistrer</button>
+    </div>
+  </form>
 </main>
