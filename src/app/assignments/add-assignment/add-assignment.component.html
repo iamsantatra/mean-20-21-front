@@ -109,44 +109,43 @@
 </div>  -->
 <main class="container">
   <div class="row m-4"><h4>Ajout d'un nouveau devoir</h4></div>
-  <mat-stepper class="custom-stepper" [linear]="true">
-    <mat-step [completed]="true">
-      <!-- Icon mbola tsy mety 
-        <ng-template matStepLabel>
-        <ng-template *ngIf="step.completed">
-          <i class="icon-check"></i> 
-        </ng-template>
-      </ng-template> -->
-      <div class="mb-3">
-        <p>Afin de pouvoir ajouter un nouveau devoir à rendre, veuillez prendre quelques instants pour renseigner le nom précis du devoir que vous souhaitez soumettre. Nous vous invitons à insérer le nom du devoir avec soin, en veillant à ce qu'il soit représentatif de son contenu.</p>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-md-12">
-          <div class="mb-3">
-            <label class="control-label">Nom du devoir<span style="color: red"> *</span></label>
-            <input class="form-control" type="text" required>
-          </div>
-          <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
+  <mat-stepper  class="custom-stepper" [linear]="true">
+    <mat-step [stepControl]="firstFormGroup" [completed]="true">
+      <form [formGroup]="firstFormGroup">
+        <div class="mb-3">
+          <p>Afin de pouvoir ajouter un nouveau devoir à rendre, veuillez prendre quelques instants pour renseigner le nom précis du devoir que vous souhaitez soumettre. Nous vous invitons à insérer le nom du devoir avec soin, en veillant à ce qu'il soit représentatif de son contenu.</p>
         </div>
-      </div>
+        <div class="col-xs-12">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label class="control-label">Nom du devoir<span style="color: red"> *</span></label>
+              <input class="form-control" type="text" formControlName="firstCtrl" required>
+            </div>
+            <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
+          </div>
+        </div>
+      </form>
     </mat-step>
-    <mat-step state="phone">
+    <mat-step state="phone"[stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
       <!-- <ng-template matStepLabel></ng-template> -->
-      <div class="mb-3">
-        <p>Veuillez indiquer la date de rendu prévue pour ce devoir. Cette date est d'une importance capitale pour respecter les échéances et planifier votre travail de manière efficace.</p>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-md-12">
-          <div class="mb-3">
-            <label class="control-label">Date de rendu<span style="color: red"> *</span></label>
-            <input class="form-control" type="date" required min="{{today | date:'YYYY-MM-dd'}}" required>
-          </div>
-          <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
-          <button mat-button matStepperPrevious class="pull-right">Retour</button>
+        <div class="mb-3">
+          <p>Veuillez indiquer la date de rendu prévue pour ce devoir. Cette date est d'une importance capitale pour respecter les échéances et planifier votre travail de manière efficace.</p>
         </div>
-      </div>
+        <div class="col-xs-12">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label class="control-label">Date de rendu<span style="color: red"> *</span></label>
+              <input class="form-control" type="date" formControlName="secondCtrl" min="{{today | date:'YYYY-MM-dd'}}" required>
+            </div>
+            <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
+            <button mat-button matStepperPrevious class="pull-right">Retour</button>
+          </div>
+        </div>
+      </form>  
     </mat-step>
-    <mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
       <!-- <ng-template matStepLabel></ng-template> -->
       <div class="mb-3">
         <p>Parmi ces informations cruciales, il est primordial de sélectionner avec soin le nom de la matière à laquelle ce devoir est rattaché. Veuillez choisir attentivement parmi les options proposées la matière correspondante au devoir en question.</p>
@@ -155,19 +154,19 @@
         <div class="col-md-12">
           <div class="mb-3">
             <label class="control-label">Matière<span style="color: red">*</span></label>
-            <select class="form-select btn-square digits" id="exampleFormControlSelect12">
-              <option>Matière 1</option>
-              <option>Matière 2</option>
-              <option>Matière 3</option>
+            <select name="" id="" formControlName="thirdCtrl" class="form-select btn-square digits" id="exampleFormControlSelect12">
+              <option selected disabled></option>
+              <option *ngFor="let matiere of matieres" [value]="matiere.id">{{matiere.nom}}</option>
             </select>
           </div>
           <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
           <button mat-button matStepperPrevious class="pull-right">Retour</button>
         </div>
       </div>
+      </form>
     </mat-step>
-    <mat-step>
-      <!-- <ng-template matStepLabel></ng-template> -->
+    <mat-step [stepControl]="fourthFormGroup">
+      <form [formGroup]="fourthFormGroup">
       <div class="mb-3">
         <p>Veuillez sélectionner attentivement le nom de l'étudiant concerné parmi la liste fournie. Il est essentiel de choisir avec précision le bon étudiant afin d'assurer une attribution correcte du devoir et d'éviter toute confusion.</p>
       </div>
@@ -175,16 +174,18 @@
         <div class="col-md-12">
           <div class="mb-3">
             <label class="control-label">Étudiant<span style="color: red">*</span></label>
-            <select class="form-select btn-square digits" id="exampleFormControlSelect12">
-              <option>Étudiant 1</option>
-              <option>Étudiant 2</option>
-              <option>Étudiant 3</option>
+            <select name="" id="" formControlName="fourthCtrl" class="form-select btn-square digits" id="exampleFormControlSelect12">
+              <option *ngFor="let eleve of eleves" [value]="eleve.id">
+                {{ eleve.nom }}
+                <!-- <img src="{{ eleve.image }}" alt="image" /> -->
+              </option>
             </select>
           </div>
           <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
           <button mat-button matStepperPrevious class="pull-right">Retour</button>
         </div>
       </div>
+      </form>
     </mat-step>
     <mat-step >
       <!-- <ng-template matStepLabel></ng-template> -->
@@ -195,11 +196,15 @@
         <div class="col-md-12">
           <div class="mb-3">
             <label class="control-label">Nom du devoir<span style="color: red"> *</span></label>
-            <input class="form-control" type="text" required disabled>
+            <input class="form-control" formControlName="firstCtrl"
+            [value]="firstFormGroup.value.firstCtrl"
+            readonly type="text" required>
           </div>
           <div class="mb-3">
             <label class="control-label">Date de rendu<span style="color: red"> *</span></label>
-            <input class="form-control" type="date" value="{{today | date:'YYYY-MM-dd'}}" required disabled>
+            <input class="form-control" type="date"
+            [value]="secondFormGroup.value.secondCtrl"
+            readonly >
           </div>
           <div class="mb-3">
             <label class="control-label">Matière<span style="color: red"> *</span></label>
