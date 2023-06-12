@@ -102,10 +102,10 @@ const routes: Routes = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {
-    provide: STEPPER_GLOBAL_OPTIONS, 
-    useValue: { 
-        showError: true,
-        displayDefaultIndicatorType: false 
+      provide: STEPPER_GLOBAL_OPTIONS, 
+      useValue: { 
+          showError: true,
+          displayDefaultIndicatorType: false 
     }
   }],
   bootstrap: [AppComponent]
