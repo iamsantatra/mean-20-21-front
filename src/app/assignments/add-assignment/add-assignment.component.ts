@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Router } from '@angular/router';
+import { Matiere } from 'src/app/models/matiere.model';
+import { MatieresService } from 'src/app/shared/matieres.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsersService } from 'src/app/shared/users.service';
+import { Utilisateur } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-add-assignment',
@@ -14,10 +19,20 @@ export class AddAssignmentComponent {
   nomDevoir = "";
   dateDeRendu!: Date;
   today: Date = new Date();
+  matieres: Matiere[] = [];
+  users: Utilisateur[] = [];
+  firstFormGroup!: FormGroup;
+  secondFormGroup!: FormGroup;
+  thirdFormGroup!: FormGroup;
+  fourthFormGroup!: FormGroup;
+  eleves: Utilisateur[] = [];
+  profs: Utilisateur[] = [];
+  idMatiere!: number;
+  idEleve!: number;
 
-
-  constructor(private assignmentsService: AssignmentsService,
-              private router:Router) { }
+  constructor(private assignmentsService: AssignmentsService, private router:Router, 
+    private matieresService: MatieresService, private formBuilder: FormBuilder,
+    private usersService: UsersService) { }
 
   onSubmit(event: any) {
     // On vérifie que les champs ne sont pas vides
@@ -41,5 +56,48 @@ export class AddAssignmentComponent {
         this.router.navigate(["/home"]);
 
       });
+  }
+
+  getMatieres() {
+    this.matieresService.getMatieres()
+    .subscribe(response => {
+      this.matieres = response.data;
+    });
+  }
+
+  getUsers() {
+    this.usersService.getUsers()
+    .subscribe(response => {
+      this.users = response.data;
+      this.eleves = this.users.filter(u => u.profil == "Etudiant(e)");
+      this.profs = this.users.filter(u => u.profil == "Professeur");
+    });
+  }
+
+  ngOnInit(): void {
+    this.getMatieres();
+    this.getUsers();
+    this.firstFormGroup = this.formBuilder.group({
+      firstCtrl: ['', Validators.required],
+    });
+    this.secondFormGroup = this.formBuilder.group({
+      secondCtrl: ['', Validators.required],
+    });
+    this.thirdFormGroup = this.formBuilder.group({
+      thirdCtrl: ['', Validators.required],
+    });
+    this.fourthFormGroup = this.formBuilder.group({
+      fourthCtrl: ['', Validators.required],
+    });
+  }
+
+  getMatierebyId(id: Number){
+    var mat = this.matieres.find(e => e.id == id );
+    return mat
+  }
+
+  getElevebyId(id: Number){
+    var a = this.eleves.find(e => e.id == id );
+    return a
   }
 }

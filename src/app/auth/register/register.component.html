@@ -17,9 +17,9 @@
                     <label class="col-form-label">Profil</label>
                     <select class="form-select btn-square digits" id="exampleFormControlSelect12" formControlName="profil">
                       <option selected disabled value>Choisir...</option>
-                      <option>Administrateur</option>
-                      <option>Étudiant(e)</option>
-                      <option>Professeur</option>
+                      <option value="Administrateur">Administrateur</option>
+                      <option value="Etudiant(e)">Étudiant(e)</option>
+                      <option value="Professeur">Professeur</option>
                     </select>
                     <div class="invalid-feedback txt-danger" *ngIf="profil?.touched && profil?.invalid">
                     Le profil est requis.
