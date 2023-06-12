@@ -13,7 +13,12 @@ export class RegisterComponent {
   registerForm!: FormGroup;
   errorMessage = "";
   registerFailed = false;
+  base64Image!: string;
+  allowedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png'];
 
+  isImageTypeAllowed(fileType: string): boolean {
+    return this.allowedImageTypes.includes(fileType);
+  }
   constructor(private formBuilder: FormBuilder,
     public authService: AuthService,
     public tokenService: TokenStorageService,
@@ -54,11 +59,11 @@ export class RegisterComponent {
 
   // Fonction de validation personnalisée pour le type de fichier
   fileTypeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const allowedTypes = ['image/jpeg', 'image/png']; // Types de fichiers autorisés
+    const allowedTypes = ['image/jpg','image/jpeg', 'image/png']; // Types de fichiers autorisés
 
     if (control.value) {
       const file = control.value as File;
-      if (allowedTypes.includes(file.type)) {
+      if (this.isImageTypeAllowed(file.type)) {
         return null; // Le type de fichier est valide
       } else {
         return { invalidFileType: true }; // Le type de fichier est invalide
@@ -68,12 +73,26 @@ export class RegisterComponent {
     return null; // Aucun fichier sélectionné
   }
 
+  fileChangeEvent(event: any): void {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      this.base64Image = base64String;
+      // You can use the base64String here or pass it to another function
+      console.log(base64String);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   onSubmit() {
     if (this.registerForm.valid) {
       console.log(this.registerForm.value)
       // Effectuez ici la logique de connexion
       
-      this.authService.register(this.registerForm.value.username, this.registerForm.value.password, this.registerForm.value.image, this.registerForm.value.profil)
+      this.authService.register(this.registerForm.value.username, this.registerForm.value.password, this.base64Image, this.registerForm.value.profil)
       .subscribe(data => {
         var userReg = data;
         console.log(userReg)
@@ -87,7 +106,7 @@ export class RegisterComponent {
       }, error => {
         this.registerFailed = true;
         this.errorMessage = error.error.message;
-        console.log("erreur = " + error.error.message);
+        console.log("erreur = " + error.error);
       })
     }
   }

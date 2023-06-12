@@ -28,7 +28,10 @@
                 <div class="form-group ">   
                     <label class="col-form-label">Image</label>
                     <div class="form-input position-relative">
-                        <input class="form-control" type="file" formControlName="image" id="image" [ngClass]="{'is-invalid': image?.touched && image?.invalid }">
+                        <input class="form-control" type="file" formControlName="image" 
+                        id="image" 
+                        [ngClass]="{'is-invalid': image?.touched && image?.invalid }"
+                        (change)="fileChangeEvent($event)">
                         <div class="invalid-feedback txt-danger" *ngIf="image?.touched && image?.invalid">
                           <div *ngIf="image?.errors!['required']">L'image est requise.</div>
                           <div *ngIf="image?.errors!['invalidFileType']">Le type de fichier sélectionné est invalide. Les types de fichiers autorisés sont JPEG et PNG.</div>
