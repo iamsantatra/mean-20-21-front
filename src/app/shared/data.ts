@@ -1,4 +1,5 @@
-export const bdInitialAssignments = [{"dateDeRendu":"2023-12-12","nom":"Over-Eater, The (L'outremangeur)","idMatiere":2,"idEleve":8},
+export const bdInitialAssignments = [
+{"dateDeRendu":"2023-12-12","nom":"Over-Eater, The (L'outremangeur)","idMatiere":2,"idEleve":8},
 {"dateDeRendu":"2023-08-15","nom":"Round Up, The (La Rafle)","idMatiere":1,"idEleve":6},
 {"dateDeRendu":"2023-09-17","nom":"Great Balls of Fire!","idMatiere":1,"idEleve":8},
 {"dateDeRendu":"2023-09-09","nom":"Trespass","idMatiere":1,"idEleve":7},

@@ -56,7 +56,7 @@ export class AppComponent {
 
       // on refresh la page pour que la liste apparaisse
       // plusieurs manières de faire....
-      window.location.reload();
+      // window.location.reload();
     });
   }
 }

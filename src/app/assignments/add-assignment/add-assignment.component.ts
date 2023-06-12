@@ -7,6 +7,7 @@ import { MatieresService } from 'src/app/shared/matieres.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from 'src/app/shared/users.service';
 import { Utilisateur } from 'src/app/models/user.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-assignment',
@@ -32,7 +33,7 @@ export class AddAssignmentComponent {
 
   constructor(private assignmentsService: AssignmentsService, private router:Router, 
     private matieresService: MatieresService, private formBuilder: FormBuilder,
-    private usersService: UsersService) { }
+    private usersService: UsersService, private snackBar: MatSnackBar ) { }
 
   onSubmit(event: any) {
     // On vérifie que les champs ne sont pas vides
@@ -80,6 +81,7 @@ export class AddAssignmentComponent {
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required],
     });
+    console.log("this.firstFormGroup", this.firstFormGroup)
     this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required],
     });
@@ -92,12 +94,43 @@ export class AddAssignmentComponent {
   }
 
   getMatierebyId(id: Number){
-    var mat = this.matieres.find(e => e.id == id );
-    return mat
+    var matiere = this.matieres.find(e => e.id == id );
+    return matiere
+  }
+
+  openSnackBar() {
+    this.snackBar.open('Devoir ajouté', 'Fermer', {
+      duration:1500,
+      horizontalPosition: "end",
+      verticalPosition: "bottom",
+    });
   }
 
   getElevebyId(id: Number){
-    var a = this.eleves.find(e => e.id == id );
-    return a
+    var eleve = this.eleves.find(e => e.id == id );
+    return eleve
+  }
+  onAjoutAssignment() : void {
+    if((!this.firstFormGroup.value.firstCtrl) || (!this.secondFormGroup.value.secondCtrl)|| (!this.thirdFormGroup.value.thirdCtrl)|| (!this.fourthFormGroup.value.fourthCtrl)) return;
+    console.log(
+      'nom = ' + this.firstFormGroup.value.firstCtrl + ' date de rendu = ' + this.secondFormGroup.value.secondCtrl + ' matiere = ' + this.thirdFormGroup.value.thirdCtrl + ' eleve = ' + this.fourthFormGroup.value.fourthCtrl
+    );
+    let newAssignment = new Assignment();
+    newAssignment.id = Math.round(Math.random()*10000000);
+    newAssignment.nom = this.firstFormGroup.value.firstCtrl;
+    newAssignment.dateDeRendu = this.secondFormGroup.value.secondCtrl;
+    newAssignment.rendu = false;
+    newAssignment.note = 0;
+    newAssignment.remarques = "";
+    newAssignment.idMatiere = this.thirdFormGroup.value.thirdCtrl;
+    newAssignment.idEleve = this.fourthFormGroup.value.fourthCtrl;
+
+    this.assignmentsService.addAssignment(newAssignment)
+    .subscribe(reponse => {
+      console.log(reponse.message);
+      // Redirect to '/home'
+      this.router.navigateByUrl('/home');
+    })
+    this.openSnackBar();
   }
 }
