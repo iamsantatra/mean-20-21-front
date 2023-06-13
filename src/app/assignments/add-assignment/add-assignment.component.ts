@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Router } from '@angular/router';
@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from 'src/app/shared/users.service';
 import { Utilisateur } from 'src/app/models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-assignment',
@@ -33,7 +35,10 @@ export class AddAssignmentComponent {
 
   constructor(private assignmentsService: AssignmentsService, private router:Router, 
     private matieresService: MatieresService, private formBuilder: FormBuilder,
-    private usersService: UsersService, private snackBar: MatSnackBar ) { }
+    private usersService: UsersService, private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<AddAssignmentComponent> ) { }
+
+  
 
   onSubmit(event: any) {
     // On vérifie que les champs ne sont pas vides
@@ -100,7 +105,7 @@ export class AddAssignmentComponent {
 
   openSnackBar() {
     this.snackBar.open('Devoir ajouté', 'Fermer', {
-      duration:1500,
+      duration: environment.snackbar,
       horizontalPosition: "end",
       verticalPosition: "bottom",
     });
@@ -110,6 +115,8 @@ export class AddAssignmentComponent {
     var eleve = this.eleves.find(e => e.id == id );
     return eleve
   }
+
+  assignmentCreated: EventEmitter<Assignment> = new EventEmitter<Assignment>();
   onAjoutAssignment() : void {
     if((!this.nom.value.firstCtrl) || (!this.dateRendu.value.secondCtrl)|| (!this.matiere.value.thirdCtrl)|| (!this.eleve.value.fourthCtrl)) return;
     console.log(
@@ -124,13 +131,54 @@ export class AddAssignmentComponent {
     newAssignment.remarques = "";
     newAssignment.idMatiere = this.matiere.value.thirdCtrl;
     newAssignment.idEleve = this.eleve.value.fourthCtrl;
+    this.fetchMatiere(newAssignment);
+    this.fetchEleve(newAssignment);
+    this.fetchProf(newAssignment);
 
     this.assignmentsService.addAssignment(newAssignment)
     .subscribe(reponse => {
       console.log(reponse.message);
       // Redirect to '/home'
-      this.router.navigateByUrl('/home');
+      // this.router.navigateByUrl('/home');
+      this.dialogRef.close();
+      this.assignmentCreated.emit(newAssignment);
     })
     this.openSnackBar();
+  }
+
+  private fetchMatiere(assignment: Assignment): void {
+    this.matieresService.getMatiereById(assignment.idMatiere)
+      .subscribe(
+        matiere => {
+          assignment.matiere = matiere.data;
+        },
+        error => {
+          console.log("Error fetching matiere:", error);
+        }
+      );
+  }
+
+  private fetchProf(assignment: Assignment): void {
+    this.usersService.getProfByIdMatiere(assignment.idMatiere)
+      .subscribe(
+        prof => {
+          assignment.prof = prof.data;
+        },
+        error => {
+          console.log("Error fetching prof:", error);
+        }
+      );
+  }
+
+  private fetchEleve(assignment: Assignment): void {
+    this.usersService.getUserById(assignment.idEleve)
+      .subscribe(
+        eleve => {
+          assignment.eleve = eleve.data;
+        },
+        error => {
+          console.log("Error fetching eleve:", error);
+        }
+      );
   }
 }

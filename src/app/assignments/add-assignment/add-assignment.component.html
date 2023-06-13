@@ -1,6 +1,26 @@
 <main class="container">
   <div class="row text-center m-4"><h4>Ajout d'un nouveau devoir</h4></div>
   <mat-stepper  class="custom-stepper" [linear]="true">
+    <mat-step [stepControl]="matiere">
+      <form [formGroup]="matiere">
+      <div class="mb-3">
+        <p>Parmi ces informations cruciales, il est primordial de sélectionner avec soin le nom de la matière à laquelle ce devoir est rattaché. Veuillez choisir attentivement parmi les options proposées la matière correspondante au devoir en question.</p>
+      </div>
+      <div class="col-xs-12">
+        <div class="col-md-12">
+          <div class="mb-3">
+            <label class="control-label">Matière<span style="color: red">*</span></label>
+            <select name="" id="" formControlName="thirdCtrl" class="form-select btn-square digits" id="exampleFormControlSelect12">
+              <option selected disabled value>Sélectionnez...</option>
+              <option *ngFor="let matiere of matieres" [value]="matiere.id">{{matiere.nom}}</option>
+            </select>
+          </div>
+          <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
+          <button mat-button matStepperPrevious class="pull-right">Retour</button>
+        </div>
+      </div>
+      </form>
+    </mat-step>
     <mat-step [stepControl]="this.nom" [completed]="true">
       <form [formGroup]="this.nom">
         <div class="mb-3">
@@ -34,26 +54,7 @@
         </div>
       </form>  
     </mat-step>
-    <mat-step [stepControl]="matiere">
-      <form [formGroup]="matiere">
-      <div class="mb-3">
-        <p>Parmi ces informations cruciales, il est primordial de sélectionner avec soin le nom de la matière à laquelle ce devoir est rattaché. Veuillez choisir attentivement parmi les options proposées la matière correspondante au devoir en question.</p>
-      </div>
-      <div class="col-xs-12">
-        <div class="col-md-12">
-          <div class="mb-3">
-            <label class="control-label">Matière<span style="color: red">*</span></label>
-            <select name="" id="" formControlName="thirdCtrl" class="form-select btn-square digits" id="exampleFormControlSelect12">
-              <option selected disabled value>Sélectionnez...</option>
-              <option *ngFor="let matiere of matieres" [value]="matiere.id">{{matiere.nom}}</option>
-            </select>
-          </div>
-          <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
-          <button mat-button matStepperPrevious class="pull-right">Retour</button>
-        </div>
-      </div>
-      </form>
-    </mat-step>
+
     <mat-step [stepControl]="eleve">
       <form [formGroup]="eleve">
       <div class="mb-3">
@@ -84,16 +85,16 @@
       <div class="col-xs-12">
         <div class="col-md-12">
           <div class="mb-3">
+            <div class="mb-3">
+              <label class="control-label">Matière<span style="color: red"> *</span></label>
+              <input class="form-control" type="text" [readonly]="true" [value]="getMatierebyId(matiere.value.thirdCtrl)?.nom">
+            </div>
             <label class="control-label">Nom du devoir<span style="color: red"> *</span></label>
             <input class="form-control" type="text" [readonly]="true" [value]="this.nom.get('firstCtrl')?.value">
           </div>
           <div class="mb-3">
             <label class="control-label">Date de rendu<span style="color: red"> *</span></label>
             <input class="form-control" type="date" [readonly]="true" [value]="dateRendu.get('secondCtrl')?.value">
-          </div>
-          <div class="mb-3">
-            <label class="control-label">Matière<span style="color: red"> *</span></label>
-            <input class="form-control" type="text" [readonly]="true" [value]="getMatierebyId(matiere.value.thirdCtrl)?.nom">
           </div>
           <div class="mb-3">
             <label class="control-label">Étudiant<span style="color: red"> *</span></label>

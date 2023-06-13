@@ -1,9 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -16,12 +19,14 @@ export class AssignmentDetailComponent implements OnInit {
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService:AuthService,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<AssignmentDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
       // console.log(data);
       this.assignmentTransmis = data;
     }
-
+  
   ngOnInit(): void {
     // appelée avant le rendu du composant
     // on va chercher l'id dans l'url active
@@ -37,7 +42,7 @@ export class AssignmentDetailComponent implements OnInit {
     console.log("Dans le ngOnInit de detail")
     console.log(this.assignmentTransmis)
   }
-
+  assignmentDeleted: EventEmitter<Assignment> = new EventEmitter<Assignment>();
   onDeleteAssignment() {
     if (!this.assignmentTransmis) return;
 
@@ -49,11 +54,20 @@ export class AssignmentDetailComponent implements OnInit {
         console.log(message);
         // Pour cacher le detail, on met l'assignment à null
         // this.assignmentTransmis = undefined;
-
+        this.openSnackBar();
         // et on navigue vers la page d'accueil
-        this.router.navigate(["/home"]);
+        // this.router.navigate(["/home"]);
+        this.dialogRef.close();
+        this.assignmentDeleted.emit(this.assignmentTransmis);
       });
+  }
 
+  openSnackBar() {
+    this.snackBar.open('Devoir supprimé', 'Fermer', {
+      duration:environment.snackbar,
+      horizontalPosition: "end",
+      verticalPosition: "bottom",
+    });
   }
 
   onAssignmentRendu() {

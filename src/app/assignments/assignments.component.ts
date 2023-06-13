@@ -256,18 +256,26 @@ export class AssignmentsComponent implements OnInit {
   } 
 
   onAjoutDevoir() {
-    this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.getAssignments(this.token);
-    // });
+    const dialogRef = this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
+    // Subscribe to the assignmentCreated event
+    dialogRef.componentInstance.assignmentCreated.subscribe((newAssignment: Assignment) => {
+      // Add the new assignment to the list of assignments
+      this.assignments.unshift(newAssignment);
+    });
   }
 
   onDetailDevoir(assignment: Assignment) {
-    this.dialog.open(AssignmentDetailComponent, {
+    if(!assignment) return;
+    const dialogRef = this.dialog.open(AssignmentDetailComponent, {
       width:'35vw',
       data: assignment});
     // dialogRef.afterClosed().subscribe(result => {
-    //   this.getAssignments(this.token);
+    //   this.getAssignments();
     // });
+    dialogRef.componentInstance.assignmentDeleted.subscribe((assignmentDeleted: Assignment) => {
+      console.log("assignmentDeleted")
+      console.log(assignmentDeleted)
+      this.assignments = this.assignments.filter(assignment => assignment.idAssignment !== assignmentDeleted.idAssignment);
+    });
   }
 }
