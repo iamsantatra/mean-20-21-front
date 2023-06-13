@@ -30,8 +30,9 @@ export class EditAssignmentComponent implements OnInit {
  getAssignment() {
   // on récupère l'id dans le snapshot passé par le routeur
   // le "+" force l'id de type string en "number"
-  const id = +this.route.snapshot.params['id'];
-
+  // const id = +this.route.snapshot.params['id'];
+  const idParam = this.route.snapshot.queryParamMap.get('id');
+  const id: number | null = idParam !== null ? +idParam : null;
   // Exemple de récupération des query params (après le ? dans l'url)
   const queryParams = this.route.snapshot.queryParams;
   console.log(queryParams);
@@ -41,16 +42,17 @@ export class EditAssignmentComponent implements OnInit {
   // Exemple de récupération du fragment (après le # dans l'url)
   const fragment = this.route.snapshot.fragment;
   console.log("Fragment = " + fragment);
-
-  this.assignmentsService.getAssignment(id)
-  .subscribe((assignment) => {
-    if (!assignment) return;
-    this.assignment = assignment;
-    // Pour pré-remplir le formulaire
-    this.fetchMatiere(assignment);
-    this.fetchEleve(assignment);
-    this.fetchProf(assignment);
+  if (id !== null) {
+    this.assignmentsService.getAssignment(id)
+    .subscribe((assignment) => {
+      if (!assignment) return;
+      this.assignment = assignment;
+      // Pour pré-remplir le formulaire
+      this.fetchMatiere(assignment);
+      this.fetchEleve(assignment);
+      this.fetchProf(assignment);
   });
+  }
 }
   onSaveAssignment() {
     if (!this.assignment) return;

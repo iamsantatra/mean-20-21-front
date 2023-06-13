@@ -88,14 +88,16 @@ export class AssignmentDetailComponent implements OnInit {
     // path = "/assignment/" + this.assignmentTransmis?.id + "/edit";
     // this.router.navigate([path]);
     // c'est pour vous montrer la syntaxe avec [...]
-    this.router.navigate(["/assignments", this.assignmentTransmis?.idAssignment, "edit"],
-    {
-      // queryParams: {
-      //   nom: this.assignmentTransmis?.nom,
-      //   matiere: "Angular"
-      // },
-      // fragment: "edition"
-    });
+    // this.router.navigate(["/assignments", this.assignmentTransmis?.idAssignment, "edit"],
+
+    // {
+    //   // queryParams: {
+    //   //   nom: this.assignmentTransmis?.nom,
+    //   //   matiere: "Angular"
+    //   // },
+    //   // fragment: "edition"
+    // });
+    this.router.navigate(['/assignments'],{queryParams: {id: this.assignmentTransmis?.idAssignment}});
     this.dialogRef.close();
   }
   

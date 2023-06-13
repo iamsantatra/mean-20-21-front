@@ -28,7 +28,7 @@
                 [length]="totalPages"
                 [pageSize]="limit"
                 [pageIndex]="page"
-                style="background-color: #f6f8fc;"
+                style="background-color: #f6f8fc; font-family: 'Montserrat', sans-serif;" 
               >
             </mat-paginator>
           </div>
@@ -62,7 +62,7 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <img class="img-fluid" style="border-radius: 15px;"  src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
+                      <img class="img-fluid" style="border-radius: 15px;"  src="{{assignment.matiere?.image}}" alt="" data-original-title="" title="">
                       <div class="d-flex align-items-start mt-2">
                         <img class="img-40 me-1 mt-2 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-original-title="" title="">
                         <div class="flex-grow-1 mt-3">
