@@ -94,7 +94,7 @@ export class AssignmentDetailComponent implements OnInit {
       //   nom: this.assignmentTransmis?.nom,
       //   matiere: "Angular"
       // },
-      fragment: "edition"
+      // fragment: "edition"
     });
     this.dialogRef.close();
   }
