@@ -160,15 +160,17 @@
             <input class="form-control" value="{{assignmentTransmis.remarques}}" type="text" required disabled>
           </div>
           <div class="row mb-2">
-            <div class="col-md-5"></div>
-            <div class="col-md-3">
-              <button class="btn btn-warning" (click)="onEditAssignment()" style="color: white;">Modifier</button>
+            <div class="col-md-4">
+              <button class="btn btn-warning" (click)="onDeleteAssignment()" style="color: white;"><fa-icon [icon]="faEdit"></fa-icon>Modifier</button>
             </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-              <button class="btn btn-danger pull-right" (click)="onDeleteAssignment()" style="color: white;" >Supprimer</button>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-danger pull-right" (click)="onDeleteAssignment()" style="color: white;" ><fa-icon [icon]="faTimes"></fa-icon>
+                Supprimer</button>
             </div>
           </div>
         </div>
       </div>
 </main>
+

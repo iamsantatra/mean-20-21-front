@@ -10,6 +10,7 @@ import { AssignmentDetailComponent } from './assignment-detail/assignment-detail
 import { UsersService } from '../shared/users.service';
 import { MatieresService } from '../shared/matieres.service';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class AssignmentsComponent implements OnInit {
   assignments:Assignment[] = [];
   // Pour la data table
   displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
+  faPlusCircle = faPlusCircle;
 
   // propriétés pour la pagination
   page: number=1;

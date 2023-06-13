@@ -38,6 +38,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const routes: Routes = [
   {
@@ -98,7 +99,7 @@ const routes: Routes = [
     DragDropModule,
     MatDialogModule,
     MatStepperModule, 
-    MatSidenavModule, MatSnackBarModule
+    MatSidenavModule, MatSnackBarModule, FontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

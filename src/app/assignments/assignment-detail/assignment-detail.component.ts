@@ -7,6 +7,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-assignment-detail',
@@ -15,6 +17,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis!: Assignment;
+  faTimes = faTimes;
+  faEdit = faEdit;
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
