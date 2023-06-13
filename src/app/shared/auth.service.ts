@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Utilisateur } from '../models/user.model';
+import { TokenStorageService } from './token-storage.service';
 
 const BACKEND_URL = environment.apiUrl + "/users";
 
@@ -11,7 +12,7 @@ const BACKEND_URL = environment.apiUrl + "/users";
 export class AuthService {
   loggedIn = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sessionService: TokenStorageService) { }
 
   // théoriquement, on devrait passer en paramètre le login
   // et le password, cette méthode devrait faire une requête
@@ -27,6 +28,19 @@ export class AuthService {
     this.loggedIn = true;
   }
 
+  register(username: String, password: String, image: String, profil: String) {
+
+    console.log("INSCRIPTION")
+    let registerData: any = { nom: username, motDePasse: password, profil: profil };
+    if(image != '') {
+      registerData.image = image
+    }
+    
+    return this.http
+      .post<{data: Utilisateur}>(BACKEND_URL + "/register", registerData)
+    this.loggedIn = true;
+  }
+
   logOut() {
     console.log("ON SE DELOGGE")
 
@@ -38,7 +52,8 @@ export class AuthService {
     // Pour le moment, version simplifiée...
     // on suppose qu'on est admin si on est loggué
     const isUserAdminPromise = new Promise((resolve, reject) => {
-        resolve(this.loggedIn);
+        // resolve(this.loggedIn);
+        resolve(this.sessionService.getToken());
     });
 
     // on renvoie la promesse qui dit si on est admin ou pas

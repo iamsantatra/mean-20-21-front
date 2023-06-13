@@ -43,3 +43,9 @@
     font-weight: bold;
   }
    */
+
+.scrollable-section {
+  min-height: 60px;
+  max-height: 70vh;
+  overflow-y: auto;
+}

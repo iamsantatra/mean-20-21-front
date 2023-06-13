@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
+import { UsersService } from 'src/app/shared/users.service';
+import { MatieresService } from 'src/app/shared/matieres.service';
 
 @Component({
  selector: 'app-edit-assignment',
@@ -17,7 +19,9 @@ export class EditAssignmentComponent implements OnInit {
  constructor(
    private assignmentsService: AssignmentsService,
    private route: ActivatedRoute,
-   private router: Router
+   private router: Router,
+   private usersService: UsersService,
+   private matieresService: MatieresService
  ) {}
 
  ngOnInit(): void {
@@ -43,23 +47,59 @@ export class EditAssignmentComponent implements OnInit {
     if (!assignment) return;
     this.assignment = assignment;
     // Pour pré-remplir le formulaire
-    this.nomAssignment = assignment.nom;
-    this.dateDeRendu = assignment.dateDeRendu;
+    this.fetchMatiere(assignment);
+    this.fetchEleve(assignment);
+    this.fetchProf(assignment);
   });
 }
-onSaveAssignment() {
-  if (!this.assignment) return;
+  onSaveAssignment() {
+    if (!this.assignment) return;
 
-  // on récupère les valeurs dans le formulaire
-  this.assignment.nom = this.nomAssignment;
-  this.assignment.dateDeRendu = this.dateDeRendu;
-  this.assignmentsService
-    .updateAssignment(this.assignment)
-    .subscribe((message) => {
-      console.log(message);
+    // on récupère les valeurs dans le formulaire
+    this.assignment.nom = this.nomAssignment;
+    this.assignment.dateDeRendu = this.dateDeRendu;
+    // this.assignmentsService
+    //   .updateAssignment(this.assignment)
+    //   .subscribe((message) => {
+    //     console.log(message);
 
-      // navigation vers la home page
-      this.router.navigate(['/home']);
-    });
-}
+    //     // navigation vers la home page
+    //     this.router.navigate(['/home']);
+    //   });
+  }
+  private fetchMatiere(assignment: Assignment): void {
+    this.matieresService.getMatiereById(assignment.idMatiere)
+      .subscribe(
+        matiere => {
+          assignment.matiere = matiere.data;
+        },
+        error => {
+          console.log("Error fetching matiere:", error);
+        }
+      );
+  }
+
+  private fetchProf(assignment: Assignment): void {
+    this.usersService.getProfByIdMatiere(assignment.idMatiere)
+      .subscribe(
+        prof => {
+          assignment.prof = prof.data;
+        },
+        error => {
+          console.log("Error fetching prof:", error);
+        }
+      );
+  }
+
+  private fetchEleve(assignment: Assignment): void {
+    this.usersService.getUserById(assignment.idEleve)
+      .subscribe(
+        eleve => {
+          assignment.eleve = eleve.data;
+        },
+        error => {
+          console.log("Error fetching eleve:", error);
+        }
+      );
+  }
 }

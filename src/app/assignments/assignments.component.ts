@@ -7,7 +7,11 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatDialog } from '@angular/material/dialog';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+import { UsersService } from '../shared/users.service';
+import { MatieresService } from '../shared/matieres.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AddNoteComponent } from './add-note/add-note.component';
+
 
 @Component({
   selector: 'app-assignments',
@@ -37,7 +41,8 @@ export class AssignmentsComponent implements OnInit {
 
   constructor(private assignmentsService:AssignmentsService,
               private ngZone: NgZone,
-              public dialog: MatDialog) {    
+              public dialog: MatDialog,
+              private usersService: UsersService, private matieresService: MatieresService) {    
   }
   
   ngOnInit(): void {
@@ -91,36 +96,97 @@ export class AssignmentsComponent implements OnInit {
 
   getAssignments() {
     console.log("On va chercher les assignments dans le service");
-    /*
-    //données de test
-    var ass1 = new Assignment();
-    ass1.nom="assignment test1";
-    ass1.rendu=false;
-
-    var ass2 = new Assignment();
-    ass2.nom="assignment test2";
-    ass2.rendu=false;
-
-    this.nonRendus.push(ass1);
-    this.nonRendus.push(ass2);
-    */
+  
     this.assignmentsService.getAssignments(this.page, this.limit)
-    .subscribe(data => {
-      this.assignments = data.docs;
-      this.page = data.page;
-      this.limit = data.limit;
-      this.totalDocs = data.totalDocs;
-      this.totalPages = data.totalPages;
-      this.hasPrevPage = data.hasPrevPage;
-      this.prevPage = data.prevPage;
-      this.hasNextPage = data.hasNextPage;
-      this.nextPage = data.nextPage;
-
-      // filtrage des resultats de la page avec l'attribut rendu 
-      this.rendus = this.assignments.filter(a => a.rendu == true );
+      .subscribe(data => {
+        this.mapAssignments(data.docs);
+        this.page = data.page;
+        this.limit = data.limit;
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.hasPrevPage = data.hasPrevPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.nextPage = data.nextPage;
+        
+        this.rendus = this.assignments.filter(a => a.rendu == true );
       this.nonRendus = this.assignments.filter(a => a.rendu == false );
+        console.log("Données reçues");
+      });
+  }
+  
+  private mapAssignments(assignments: Assignment[]): void {
+    assignments.forEach(assignment => {
+      const mappedAssignment: Assignment = {
+        _id: assignment._id,
+        idAssignment: assignment.idAssignment,
+        nom: assignment.nom,
+        dateDeRendu: assignment.dateDeRendu,
+        rendu: this.confRendu(assignment),
+        note: this.confNote(assignment),
+        idMatiere: assignment.idMatiere,
+        idEleve: assignment.idEleve,
+        remarques: this.confRemarque(assignment),
+      };
+  
+      this.fetchMatiere(mappedAssignment);
+      this.fetchEleve(mappedAssignment);
+      this.fetchProf(mappedAssignment);
+      this.assignments.push(mappedAssignment);
     });
   }
+
+  private confRendu(assignment: Assignment): boolean {
+    // if assignment.rendu? is undefined or null, then return false
+    return assignment.rendu ? assignment.rendu : false;
+  }
+
+  private confNote(assignment: Assignment): number {
+    // if assignment.note? is undefined or null, then return 0
+    return assignment.note ? assignment.note : 0;
+  }
+
+  private confRemarque(assignment: Assignment): string {
+    // if assignment.remarques? is undefined or null, then return ""
+    return assignment.remarques ? assignment.remarques : "";
+  }
+  
+  private fetchMatiere(assignment: Assignment): void {
+    this.matieresService.getMatiereById(assignment.idMatiere)
+      .subscribe(
+        matiere => {
+          assignment.matiere = matiere.data;
+        },
+        error => {
+          console.log("Error fetching matiere:", error);
+        }
+      );
+  }
+
+  private fetchProf(assignment: Assignment): void {
+    this.usersService.getProfByIdMatiere(assignment.idMatiere)
+      .subscribe(
+        prof => {
+          assignment.prof = prof.data;
+        },
+        error => {
+          console.log("Error fetching prof:", error);
+        }
+      );
+  }
+
+  private fetchEleve(assignment: Assignment): void {
+    this.usersService.getUserById(assignment.idEleve)
+      .subscribe(
+        eleve => {
+          assignment.eleve = eleve.data;
+        },
+        error => {
+          console.log("Error fetching eleve:", error);
+        }
+      );
+  }
+  
 
   getAddAssignmentsForScroll() {
     this.assignmentsService.getAssignments(this.page, this.limit)
@@ -188,16 +254,26 @@ export class AssignmentsComponent implements OnInit {
   } 
 
   onAjoutDevoir() {
-    this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.getAssignments(this.token);
-    // });
+    const dialogRef = this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
+    // Subscribe to the assignmentCreated event
+    dialogRef.componentInstance.assignmentCreated.subscribe((newAssignment: Assignment) => {
+      // Add the new assignment to the list of assignments
+      this.assignments.unshift(newAssignment);
+    });
   }
 
-  onDetailDevoir() {
-    this.dialog.open(AssignmentDetailComponent, {width:'35vw'});
+  onDetailDevoir(assignment: Assignment) {
+    if(!assignment) return;
+    const dialogRef = this.dialog.open(AssignmentDetailComponent, {
+      width:'35vw',
+      data: assignment});
     // dialogRef.afterClosed().subscribe(result => {
-    //   this.getAssignments(this.token);
+    //   this.getAssignments();
     // });
+    dialogRef.componentInstance.assignmentDeleted.subscribe((assignmentDeleted: Assignment) => {
+      console.log("assignmentDeleted")
+      console.log(assignmentDeleted)
+      this.assignments = this.assignments.filter(assignment => assignment.idAssignment !== assignmentDeleted.idAssignment);
+    });
   }
 }
