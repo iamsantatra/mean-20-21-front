@@ -1,8 +1,8 @@
 <main class="container">
   <div class="row text-center m-4"><h4>Ajout d'un nouveau devoir</h4></div>
   <mat-stepper  class="custom-stepper" [linear]="true">
-    <mat-step [stepControl]="firstFormGroup" [completed]="true">
-      <form [formGroup]="firstFormGroup">
+    <mat-step [stepControl]="this.nom" [completed]="true">
+      <form [formGroup]="this.nom">
         <div class="mb-3">
           <p>Afin de pouvoir ajouter un nouveau devoir à rendre, veuillez prendre quelques instants pour renseigner le nom précis du devoir que vous souhaitez soumettre. Nous vous invitons à insérer le nom du devoir avec soin, en veillant à ce qu'il soit représentatif de son contenu.</p>
         </div>
@@ -17,8 +17,8 @@
         </div>
       </form>
     </mat-step>
-    <mat-step state="phone"[stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
+    <mat-step state="phone"[stepControl]="dateRendu">
+      <form [formGroup]="dateRendu">
         <div class="mb-3">
           <p>Veuillez indiquer la date de rendu prévue pour ce devoir. Cette date est d'une importance capitale pour respecter les échéances et planifier votre travail de manière efficace.</p>
         </div>
@@ -34,8 +34,8 @@
         </div>
       </form>  
     </mat-step>
-    <mat-step [stepControl]="thirdFormGroup">
-      <form [formGroup]="thirdFormGroup">
+    <mat-step [stepControl]="matiere">
+      <form [formGroup]="matiere">
       <div class="mb-3">
         <p>Parmi ces informations cruciales, il est primordial de sélectionner avec soin le nom de la matière à laquelle ce devoir est rattaché. Veuillez choisir attentivement parmi les options proposées la matière correspondante au devoir en question.</p>
       </div>
@@ -54,8 +54,8 @@
       </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="fourthFormGroup">
-      <form [formGroup]="fourthFormGroup">
+    <mat-step [stepControl]="eleve">
+      <form [formGroup]="eleve">
       <div class="mb-3">
         <p>Veuillez sélectionner attentivement le nom de l'étudiant concerné parmi la liste fournie. Il est essentiel de choisir avec précision le bon étudiant afin d'assurer une attribution correcte du devoir et d'éviter toute confusion.</p>
       </div>
@@ -85,24 +85,19 @@
         <div class="col-md-12">
           <div class="mb-3">
             <label class="control-label">Nom du devoir<span style="color: red"> *</span></label>
-            <input class="form-control" type="text" [readonly]="true" [value]="firstFormGroup.get('firstCtrl')?.value">
+            <input class="form-control" type="text" [readonly]="true" [value]="this.nom.get('firstCtrl')?.value">
           </div>
           <div class="mb-3">
             <label class="control-label">Date de rendu<span style="color: red"> *</span></label>
-            <input class="form-control" type="date" [readonly]="true" [value]="secondFormGroup.get('secondCtrl')?.value">
+            <input class="form-control" type="date" [readonly]="true" [value]="dateRendu.get('secondCtrl')?.value">
           </div>
           <div class="mb-3">
             <label class="control-label">Matière<span style="color: red"> *</span></label>
-            <select class="form-select btn-square digits"  [value]="thirdFormGroup.get('thirdCtrl')">
-              <option selected disabled></option>
-              <option *ngFor="let matiere of matieres" [value]="matiere.id">{{matiere.nom}}</option>
-            </select>
+            <input class="form-control" type="text" [readonly]="true" [value]="getMatierebyId(matiere.value.thirdCtrl)?.nom">
           </div>
           <div class="mb-3">
             <label class="control-label">Étudiant<span style="color: red"> *</span></label>
-            <select class="form-select btn-square digits" [value]="fourthFormGroup.get('fourthCtrl')">
-              <option *ngFor="let eleve of eleves" [value]="eleve.id">{{ eleve.nom }}</option>
-            </select>
+            <input class="form-control" type="text" [readonly]="true" [value]="getElevebyId(eleve.value.fourthCtrl)?.nom">
           </div>
           <button mat-button matStepperNext (click)="onAjoutAssignment()" class="btn btn-success pull-right" style="color: white;">Terminé</button>
           <button mat-button matStepperPrevious class="pull-right">Retour</button>

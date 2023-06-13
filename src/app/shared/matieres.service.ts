@@ -19,4 +19,8 @@ export class MatieresService {
   getMatieres():Observable<any> {
     return this.http.get<{message: string, data: Matiere[]}>(BACKEND_URL);
   }
+
+  getMatiereById(id: number): Observable<any> {
+    return this.http.get<{message: string, data: Matiere}>(BACKEND_URL+"/"+id);
+  }
 }

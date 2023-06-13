@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -10,25 +11,31 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./assignment-detail.component.css']
 })
 export class AssignmentDetailComponent implements OnInit {
-  assignmentTransmis?: Assignment;
+  assignmentTransmis!: Assignment;
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService:AuthService) { }
+    private authService:AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+      // console.log(data);
+      this.assignmentTransmis = data;
+    }
 
   ngOnInit(): void {
     // appelée avant le rendu du composant
     // on va chercher l'id dans l'url active
     // en mettant + on force la conversion en number
-    const id = +this.route.snapshot.params['id'];
-    console.log("Dans le ngOnInit de detail, id = " + id);
+    // const id = +this.route.snapshot.params['id'];
+    // console.log("Dans le ngOnInit de detail, id = " + id);
 
-    // on va chercher l'assignment à afficher
-    this.assignmentsService.getAssignment(id)
-      .subscribe(assignment => {
-        this.assignmentTransmis = assignment;
-      });
+    // // on va chercher l'assignment à afficher
+    // this.assignmentsService.getAssignment(id)
+    //   .subscribe(assignment => {
+    //     this.assignmentTransmis = assignment;
+    //   });
+    console.log("Dans le ngOnInit de detail")
+    console.log(this.assignmentTransmis)
   }
 
   onDeleteAssignment() {
@@ -41,7 +48,7 @@ export class AssignmentDetailComponent implements OnInit {
       .subscribe(message => {
         console.log(message);
         // Pour cacher le detail, on met l'assignment à null
-        this.assignmentTransmis = undefined;
+        // this.assignmentTransmis = undefined;
 
         // et on navigue vers la page d'accueil
         this.router.navigate(["/home"]);
@@ -67,7 +74,7 @@ export class AssignmentDetailComponent implements OnInit {
     // path = "/assignment/" + this.assignmentTransmis?.id + "/edit";
     // this.router.navigate([path]);
     // c'est pour vous montrer la syntaxe avec [...]
-    this.router.navigate(["/assignments", this.assignmentTransmis?.id, "edit"],
+    this.router.navigate(["/assignments", this.assignmentTransmis?.idAssignment, "edit"],
     {
       queryParams: {
         nom: this.assignmentTransmis?.nom,

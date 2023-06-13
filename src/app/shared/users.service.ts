@@ -14,5 +14,12 @@ export class UsersService {
   getUsers(): Observable<any> {
     return this.http.get<{message: string, data: Utilisateur[]}>(BACKEND_URL);
   }
+
+  getUserById(id: number): Observable<any> {
+    return this.http.get<{message: string, data: Utilisateur}>(BACKEND_URL+"/"+id);
+  }
+  getProfByIdMatiere(idMatiere: number): Observable<any> {
+    return this.http.get<{message: string, data: Utilisateur}>(BACKEND_URL+"/prof/"+idMatiere);
+  }
   constructor(private http:HttpClient) { }
 }

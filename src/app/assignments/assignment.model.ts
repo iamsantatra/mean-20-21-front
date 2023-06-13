@@ -1,6 +1,9 @@
+import { Matiere } from "../models/matiere.model";
+import { Utilisateur } from "../models/user.model";
+
 export class Assignment {
     _id!: string;
-    id?: number;
+    idAssignment?: number;
     nom!: string;
     dateDeRendu!: Date;
     rendu!: boolean;
@@ -8,5 +11,8 @@ export class Assignment {
     idMatiere!: number;
     idEleve!: number;
     remarques?: string;
+    matiere?: Matiere;
+    eleve?: Utilisateur;
+    prof?: Utilisateur;
 }
 

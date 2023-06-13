@@ -22,10 +22,10 @@ export class AddAssignmentComponent {
   today: Date = new Date();
   matieres: Matiere[] = [];
   users: Utilisateur[] = [];
-  firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
-  thirdFormGroup!: FormGroup;
-  fourthFormGroup!: FormGroup;
+  nom!: FormGroup;
+  dateRendu!: FormGroup;
+  matiere!: FormGroup;
+  eleve!: FormGroup;
   eleves: Utilisateur[] = [];
   profs: Utilisateur[] = [];
   idMatiere!: number;
@@ -42,7 +42,7 @@ export class AddAssignmentComponent {
 
     let nouvelAssignment = new Assignment();
     // génération d'id, plus tard ce sera fait dans la BD
-    nouvelAssignment.id = Math.abs(Math.random() * 1000000000000000);
+    // nouvelAssignment.id = Math.abs(Math.random() * 1000000000000000);
     nouvelAssignment.nom = this.nomDevoir;
     nouvelAssignment.dateDeRendu = this.dateDeRendu;
     nouvelAssignment.rendu = false;
@@ -78,17 +78,17 @@ export class AddAssignmentComponent {
   ngOnInit(): void {
     this.getMatieres();
     this.getUsers();
-    this.firstFormGroup = this.formBuilder.group({
+    this.nom = this.formBuilder.group({
       firstCtrl: ['', Validators.required],
     });
-    console.log("this.firstFormGroup", this.firstFormGroup)
-    this.secondFormGroup = this.formBuilder.group({
+    console.log("this.nom", this.nom)
+    this.dateRendu = this.formBuilder.group({
       secondCtrl: ['', Validators.required],
     });
-    this.thirdFormGroup = this.formBuilder.group({
+    this.matiere = this.formBuilder.group({
       thirdCtrl: ['', Validators.required],
     });
-    this.fourthFormGroup = this.formBuilder.group({
+    this.eleve = this.formBuilder.group({
       fourthCtrl: ['', Validators.required],
     });
   }
@@ -111,19 +111,19 @@ export class AddAssignmentComponent {
     return eleve
   }
   onAjoutAssignment() : void {
-    if((!this.firstFormGroup.value.firstCtrl) || (!this.secondFormGroup.value.secondCtrl)|| (!this.thirdFormGroup.value.thirdCtrl)|| (!this.fourthFormGroup.value.fourthCtrl)) return;
+    if((!this.nom.value.firstCtrl) || (!this.dateRendu.value.secondCtrl)|| (!this.matiere.value.thirdCtrl)|| (!this.eleve.value.fourthCtrl)) return;
     console.log(
-      'nom = ' + this.firstFormGroup.value.firstCtrl + ' date de rendu = ' + this.secondFormGroup.value.secondCtrl + ' matiere = ' + this.thirdFormGroup.value.thirdCtrl + ' eleve = ' + this.fourthFormGroup.value.fourthCtrl
+      'nom = ' + this.nom.value.firstCtrl + ' date de rendu = ' + this.dateRendu.value.secondCtrl + ' matiere = ' + this.matiere.value.thirdCtrl + ' eleve = ' + this.eleve.value.fourthCtrl
     );
     let newAssignment = new Assignment();
-    newAssignment.id = Math.round(Math.random()*10000000);
-    newAssignment.nom = this.firstFormGroup.value.firstCtrl;
-    newAssignment.dateDeRendu = this.secondFormGroup.value.secondCtrl;
+    // newAssignment.id = Math.round(Math.random()*10000000);
+    newAssignment.nom = this.nom.value.firstCtrl;
+    newAssignment.dateDeRendu = this.dateRendu.value.secondCtrl;
     newAssignment.rendu = false;
     newAssignment.note = 0;
     newAssignment.remarques = "";
-    newAssignment.idMatiere = this.thirdFormGroup.value.thirdCtrl;
-    newAssignment.idEleve = this.fourthFormGroup.value.fourthCtrl;
+    newAssignment.idMatiere = this.matiere.value.thirdCtrl;
+    newAssignment.idEleve = this.eleve.value.fourthCtrl;
 
     this.assignmentsService.addAssignment(newAssignment)
     .subscribe(reponse => {

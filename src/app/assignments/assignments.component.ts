@@ -7,6 +7,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { MatDialog } from '@angular/material/dialog';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+import { UsersService } from '../shared/users.service';
+import { MatieresService } from '../shared/matieres.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+
 
 @Component({
   selector: 'app-assignments',
@@ -35,7 +39,8 @@ export class AssignmentsComponent implements OnInit {
 
   constructor(private assignmentsService:AssignmentsService,
               private ngZone: NgZone,
-              public dialog: MatDialog) {    
+              public dialog: MatDialog,
+              private usersService: UsersService, private matieresService: MatieresService) {    
   }
   
   ngOnInit(): void {
@@ -89,22 +94,95 @@ export class AssignmentsComponent implements OnInit {
 
   getAssignments() {
     console.log("On va chercher les assignments dans le service");
-
+  
     this.assignmentsService.getAssignments(this.page, this.limit)
-    .subscribe(data => {
-      this.assignments = data.docs;
-      this.page = data.page;
-      this.limit = data.limit;
-      this.totalDocs = data.totalDocs;
-      this.totalPages = data.totalPages;
-      this.hasPrevPage = data.hasPrevPage;
-      this.prevPage = data.prevPage;
-      this.hasNextPage = data.hasNextPage;
-      this.nextPage = data.nextPage;
-
-      console.log("Données reçues");
+      .subscribe(data => {
+        this.mapAssignments(data.docs);
+        this.page = data.page;
+        this.limit = data.limit;
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.hasPrevPage = data.hasPrevPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.nextPage = data.nextPage;
+  
+        console.log("Données reçues");
+      });
+  }
+  
+  private mapAssignments(assignments: Assignment[]): void {
+    assignments.forEach(assignment => {
+      const mappedAssignment: Assignment = {
+        _id: assignment._id,
+        idAssignment: assignment.idAssignment,
+        nom: assignment.nom,
+        dateDeRendu: assignment.dateDeRendu,
+        rendu: this.confRendu(assignment),
+        note: this.confNote(assignment),
+        idMatiere: assignment.idMatiere,
+        idEleve: assignment.idEleve,
+        remarques: this.confRemarque(assignment),
+      };
+  
+      this.fetchMatiere(mappedAssignment);
+      this.fetchEleve(mappedAssignment);
+      this.fetchProf(mappedAssignment);
+      this.assignments.push(mappedAssignment);
     });
   }
+
+  private confRendu(assignment: Assignment): boolean {
+    // if assignment.rendu? is undefined or null, then return false
+    return assignment.rendu ? assignment.rendu : false;
+  }
+
+  private confNote(assignment: Assignment): number {
+    // if assignment.note? is undefined or null, then return 0
+    return assignment.note ? assignment.note : 0;
+  }
+
+  private confRemarque(assignment: Assignment): string {
+    // if assignment.remarques? is undefined or null, then return ""
+    return assignment.remarques ? assignment.remarques : "";
+  }
+  
+  private fetchMatiere(assignment: Assignment): void {
+    this.matieresService.getMatiereById(assignment.idMatiere)
+      .subscribe(
+        matiere => {
+          assignment.matiere = matiere.data;
+        },
+        error => {
+          console.log("Error fetching matiere:", error);
+        }
+      );
+  }
+
+  private fetchProf(assignment: Assignment): void {
+    this.usersService.getProfByIdMatiere(assignment.idMatiere)
+      .subscribe(
+        prof => {
+          assignment.prof = prof.data;
+        },
+        error => {
+          console.log("Error fetching prof:", error);
+        }
+      );
+  }
+
+  private fetchEleve(assignment: Assignment): void {
+    this.usersService.getUserById(assignment.idEleve)
+      .subscribe(
+        eleve => {
+          assignment.eleve = eleve.data;
+        },
+        error => {
+          console.log("Error fetching eleve:", error);
+        }
+      );
+  }
+  
 
   getAddAssignmentsForScroll() {
     this.assignmentsService.getAssignments(this.page, this.limit)
@@ -184,8 +262,10 @@ export class AssignmentsComponent implements OnInit {
     // });
   }
 
-  onDetailDevoir() {
-    this.dialog.open(AssignmentDetailComponent, {width:'35vw'});
+  onDetailDevoir(assignment: Assignment) {
+    this.dialog.open(AssignmentDetailComponent, {
+      width:'35vw',
+      data: assignment});
     // dialogRef.afterClosed().subscribe(result => {
     //   this.getAssignments(this.token);
     // });

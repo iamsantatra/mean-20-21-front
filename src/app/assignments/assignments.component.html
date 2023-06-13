@@ -2,7 +2,7 @@
 
 <div class="page-body-wrapper">
     <div class="page-body" style="margin-top: 50px; padding-top: 80px;">
-      <div class="container-fluid">
+      <!-- <div class="container-fluid">
         <div class="page-title">
           <div class="row">
             <div class="col-sm-6">
@@ -12,7 +12,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-12 project-list">
         <div class="card">
           <div class="row">
@@ -24,7 +24,7 @@
                   <!-- <button class="btn btn-primary" type="button">Rechercher</button> -->
                 </div>
             </div>
-            <div class="col-md-5 p-0 ">
+            <div class="col-md-5 p-0" >
               <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                   showFirstLastButtons
                   aria-label="Selection de la page des assigments"
@@ -47,38 +47,40 @@
       <!-- Container-fluid starts-->
       <div class="container-fluid">
         <div class="row ui-sortable" id="draggableMultiple">
-          <div class="col-md-4 project-list" 
+          <div class="col-md-4 scrollable-section" 
               cdkDropList 
               #moviesList="cdkDropList" 
               [cdkDropListData]="MoviesList"
               [cdkDropListConnectedTo]="[doneMovieList]" 
               (cdkDropListDropped)="onDrop($event)">
               <h4 class="font-primary">Non rendu</h4>
-              <div class="card" (click)="onDetailDevoir()" *ngFor="let moviesList of MoviesList" cdkDrag>
-                  <div class="card-header pb-0">
-                    <div class="d-sm-flex d-block justify-content-between">
-                      <h4>{{moviesList}}</h4>
-                      <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
-                      <div class="badge-group">
-                        <div class="badge badge-light-primary f-12"><span id="txt">Web</span></div>
+              <div *ngFor="let assignment of assignments">
+                <div class="card" (click)="onDetailDevoir(assignment)" cdkDrag>
+                    <div class="card-header pb-0">
+                      <div class="d-sm-flex d-block justify-content-between">
+                        <h4>{{assignment.nom}}</h4>
+                        <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
+                        <div class="badge-group">
+                          <div class="badge badge-light-primary f-12"><span id="txt">{{assignment.matiere?.nom}}</span></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <img class="img-fluid" style="border-radius: 15px;"  src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
-                    <div class="d-flex align-items-start mt-2">
-                      <img class="img-40 me-1 mt-2 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-original-title="" title="">
-                      <div class="flex-grow-1 mt-3">
-                        <p class="mb-0"> Themeforest, australia</p>
+                    <div class="card-body">
+                      <img class="img-fluid" style="border-radius: 15px;"  src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
+                      <div class="d-flex align-items-start mt-2">
+                        <img class="img-40 me-1 mt-2 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-original-title="" title="">
+                        <div class="flex-grow-1 mt-3">
+                          <p class="mb-0"> Themeforest, australia</p>
+                        </div>
                       </div>
+                      <p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
                     </div>
-                    <p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
-                  </div>
+                </div>
               </div>
           </div>
           <div class="col-md-1"></div>
           <div 
-              class="col-md-4 project-list"
+              class="col-md-4 scrollable-section"
               cdkDropList 
               #doneMovieList="cdkDropList" 
               [cdkDropListData]="MoviesWatched"
