@@ -45,6 +45,7 @@
    */
 
 .scrollable-section {
-  height: 500px;
+  min-height: 60px;
+  max-height: 70vh;
   overflow-y: auto;
 }
