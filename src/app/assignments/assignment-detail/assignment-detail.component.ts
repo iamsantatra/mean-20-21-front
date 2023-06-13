@@ -90,14 +90,15 @@ export class AssignmentDetailComponent implements OnInit {
     // c'est pour vous montrer la syntaxe avec [...]
     this.router.navigate(["/assignments", this.assignmentTransmis?.idAssignment, "edit"],
     {
-      queryParams: {
-        nom: this.assignmentTransmis?.nom,
-        matiere: "Angular"
-      },
+      // queryParams: {
+      //   nom: this.assignmentTransmis?.nom,
+      //   matiere: "Angular"
+      // },
       fragment: "edition"
     });
+    this.dialogRef.close();
   }
-
+  
   isLogged() {
     // renvoie si on est loggé ou pas
     return this.authService.loggedIn;
