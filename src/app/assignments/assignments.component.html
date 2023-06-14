@@ -16,9 +16,10 @@
       <div class="col-md-12 project-list">
         <div class="row">
           <div class="col-md-3 p-0 d-flex">
-            <div class="col-sm-9">
-              <input class="form-control" id="Website" type="url" placeholder="Website">
-            </div>
+              <div class="input-group">
+                <input [(ngModel)]="searchTerm" class="form-control" placeholder="Nom du devoir...">
+                <button class="btn btn-primary" (click)="onSearch()" type="submit">Rechercher</button>
+              </div>
           </div>
           <div class="col-md-6 p-0" >
             <mat-paginator [pageSizeOptions]="[5, 10, 20]"

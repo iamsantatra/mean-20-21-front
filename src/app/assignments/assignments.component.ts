@@ -39,7 +39,10 @@ export class AssignmentsComponent implements OnInit {
   nextPage: number = 0;
 
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
-
+  searchTerm! : string;
+  onSearch() {
+    this.getAssignments(); 
+  }
   constructor(private assignmentsService:AssignmentsService,
               private ngZone: NgZone,
               public dialog: MatDialog,
@@ -110,8 +113,14 @@ export class AssignmentsComponent implements OnInit {
         this.hasNextPage = data.hasNextPage;
         this.nextPage = data.nextPage;
         
-        this.rendus = this.assignments.filter(a => a.rendu == true );
-      this.nonRendus = this.assignments.filter(a => a.rendu == false );
+        if (!this.searchTerm) {
+          this.rendus = this.assignments.filter(a => a.rendu == true);
+          this.nonRendus = this.assignments.filter(a => a.rendu == false);
+        } else {
+          this.rendus = this.assignments.filter(a => a.rendu == true && a.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
+          this.nonRendus = this.assignments.filter(a => a.rendu == false && a.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        }
+
         console.log("Données reçues");
       });
   }
