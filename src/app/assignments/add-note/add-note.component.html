@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="form-group">
-        <label>Remarques</label>
+        <label class="col-form-label mt-4">Remarques</label>
         <textarea rows=4 cols="25" name="remarques" formControlName="remarques"></textarea>
         <div class="txt-danger" *ngIf="remarques?.invalid && (remarques?.dirty || remarques?.touched)">
           <div *ngIf="remarques?.errors?.['minlength']">

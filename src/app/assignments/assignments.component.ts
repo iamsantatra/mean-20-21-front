@@ -11,6 +11,7 @@ import { UsersService } from '../shared/users.service';
 import { MatieresService } from '../shared/matieres.service';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AddNoteComponent } from './add-note/add-note.component';
+import { DeleteNoteComponent } from './delete-note/delete-note.component';
 
 
 @Component({
@@ -240,16 +241,19 @@ export class AssignmentsComponent implements OnInit {
   onDrop(event: any) {
     if(event.previousContainer != event.container){
         let dropped = event.previousContainer.data[event.previousIndex];
+        //placer l'element dans le container où il a été déposé 
+        transferArrayItem(event.previousContainer.data,
+                          event.container.data,
+                          event.previousIndex,
+                          event.currentIndex
+                        );
+
         if(event.container.id == "rendus"){  // si ils sont déposés dans le div #rendus, besoin si ajout d'annulation de rendu
           console.log("rendre le devoir ", dropped);
           this.dialog.open(AddNoteComponent, { disableClose: true,  maxWidth: '20vw', data: { assignment : dropped, event: event} });
+        }else{
+          this.dialog.open(DeleteNoteComponent, { disableClose:true, maxWidth: '30vw', data: { assignment: dropped, event: event } });
         }
-        
-        //placer l'element dans le container où il a été déposé 
-        transferArrayItem(event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex);
     }
   } 
 

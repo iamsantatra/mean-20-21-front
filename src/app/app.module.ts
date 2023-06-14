@@ -39,6 +39,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
 import { AddNoteComponent } from './assignments/add-note/add-note.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { DeleteNoteComponent } from './assignments/delete-note/delete-note.component';
 
 
 const routes: Routes = [
@@ -85,7 +86,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    AddNoteComponent
+    AddNoteComponent,
+    DeleteNoteComponent
   ],
   imports: [
     BrowserModule,
