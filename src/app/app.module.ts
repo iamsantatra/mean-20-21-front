@@ -37,8 +37,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
+import { AddNoteComponent } from './assignments/add-note/add-note.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { DeleteNoteComponent } from './assignments/delete-note/delete-note.component';
+
 
 const routes: Routes = [
   {
@@ -83,7 +86,9 @@ const routes: Routes = [
     EditAssignmentComponent,
     LoginComponent,
     RegisterComponent,
-    NavbarComponent
+    NavbarComponent,
+    AddNoteComponent,
+    DeleteNoteComponent
   ],
   imports: [
     BrowserModule,

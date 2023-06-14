@@ -40,78 +40,88 @@
           </div>
         </div>
       </div>
-      <!-- Container-fluid starts-->
+      <!-- Container-fluid starts-->  
       <div class="container-fluid">
-        <div class="row ui-sortable">
-            <div class="col-md-4">
-              <h4 class="font-primary">À rendre</h4>
-              <div class="scrollable-section" 
-                  cdkDropList 
-                  #moviesList="cdkDropList" 
-                  [cdkDropListData]="MoviesList"
-                  [cdkDropListConnectedTo]="[doneMovieList]" 
-                  (cdkDropListDropped)="onDrop($event)">
-                  <div *ngFor="let assignment of assignments">
-                    <div class="card" sty (click)="onDetailDevoir(assignment)" cdkDrag>
-                        <div class="card-header pb-0">
-                          <div class="d-sm-flex d-block justify-content-between">
-                            <h4>{{assignment.nom}}</h4>
-                            <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
-                            <div class="badge-group">
-
-                                <div [ngClass]="{
-                                  'btn btn-primary btn-xs f-right': assignment.matiere?.idMatiere === 3,
-                                  'btn btn-danger btn-xs f-right': assignment.matiere?.idMatiere === 2,
-                                  'btn btn-success btn-xs f-right': assignment.matiere?.idMatiere === 1
-                                  }">
-                                  <span id="txt">{{assignment.matiere?.nom}}</span>
-                                
-                                </div>
-                              <!-- <h3><span class="badge rounded-pill bg-success">New</span></h3> -->
-                            </div>
+        <div class="row ui-sortable" >
+          <div class="col-md-4">
+            <h4 class="font-primary">À rendre</h4>
+            <div 
+                class="scrollable-section" id="nonRendus" 
+                cdkDropList 
+                #divNonRendus="cdkDropList" 
+                [cdkDropListData]="nonRendus"
+                [cdkDropListConnectedTo]="[divRendus]" 
+                (cdkDropListDropped)="onDrop($event)">
+                
+                <div *ngFor="let devoir of nonRendus">
+                  <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
+                    <div class="card-header pb-0">
+                      <div class="d-sm-flex d-block justify-content-between">
+                        <h4>{{devoir.nom}}</h4>
+                        <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
+                        <div class="badge-group">
+                          <div [ngClass]="{
+                            'btn btn-primary btn-xs f-right': devoir.matiere?.idMatiere === 3,
+                            'btn btn-danger btn-xs f-right': devoir.matiere?.idMatiere === 2,
+                            'btn btn-success btn-xs f-right': devoir.matiere?.idMatiere === 1
+                            }">
+                            <span id="txt">{{ devoir.matiere?.nom }}</span>
                           </div>
                         </div>
-                        <div class="card-body">
-                          <img class="img-fluid" style="border-radius: 15px;"  src="{{assignment.matiere?.image}}" alt="" data-original-title="" title="">
-                          <div class="d-flex align-items-start mt-2">
-                            <img class="img-40 me-1 mt-2 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-original-title="" title="">
-                            <div class="flex-grow-1 mt-3">
-                              <p class="mb-0"> Themeforest, australia</p>
-                            </div>
-                          </div>
-                          <p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                      <div class="d-flex align-items-start">
+                        <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
+                        <div class="flex-grow-1 mt-3">
+                          <p class="mb-0">{{devoir.prof?.nom}}</p>
                         </div>
+                      </div>
+                      <p class="mt-2">Date limite de soumission du devoir par {{devoir.eleve?.nom}} : {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}}.</p>
                     </div>
                   </div>
+                </div>
               </div>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-4">
-              <h4 class="font-success">Rendu</h4>
-              <div class="scrollable-section"
-                  cdkDropList 
-                  #doneMovieList="cdkDropList" 
-                  [cdkDropListData]="MoviesWatched"
-                  [cdkDropListConnectedTo]="[moviesList]" 
-                  (cdkDropListDropped)="onDrop($event)">
-                  <h4 class="font-success"></h4>
-                  <div class="card" *ngFor="let moviesWatched of MoviesWatched" cdkDrag>
-                  <div class="card-header pb-0">
-                      <h4>{{moviesWatched}}</h4>
-                  </div>
-                  <div class="card-body">
-                        <img class="img-fluid" style="border-radius: 15px;"  src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
-                        <div class="d-flex align-items-start mt-2">
-                          <img class="img-40 me-1 mt-2 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-original-title="" title="">
-                          <div class="flex-grow-1 mt-3">
-                            <p class="mb-0"> Themeforest, australia</p>
-                          </div>
-                        </div>
-                        <p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <h4 class="font-success">Rendu</h4>
+            <div class="scrollable-section"
+              id="rendus"
+              cdkDropList 
+              #divRendus="cdkDropList" 
+              [cdkDropListData]="rendus"
+              [cdkDropListConnectedTo]="[divNonRendus]" 
+              (cdkDropListDropped)="onDrop($event)">
+              <div class="card" *ngFor="let devoir of rendus" cdkDrag>
+                <div class="card-header pb-0">
+                  <div class="d-sm-flex d-block justify-content-between">
+                    <h4>{{devoir.nom}}</h4>
+                    <div class="badge-group">
+                      <div [ngClass]="{
+                        'btn btn-primary btn-xs f-right': devoir.matiere?.idMatiere === 3,
+                        'btn btn-danger btn-xs f-right': devoir.matiere?.idMatiere === 2,
+                        'btn btn-success btn-xs f-right': devoir.matiere?.idMatiere === 1
+                        }">
+                        <span id="txt">{{ devoir.matiere?.nom }}</span>
                       </div>
+                    </div>
                   </div>
+                </div>
+                <div class="card-body">
+                  <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                  <div class="d-flex align-items-start mt-2">
+                    <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
+                    <div class="flex-grow-1 mt-3">
+                      <p class="mb-0"> Themeforest, australia</p>
+                    </div>
+                  </div>
+                  <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
+                </div>
               </div>
             </div>
+          </div>
           <div class="col-md-3"></div>
         </div>
       </div>
