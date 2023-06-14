@@ -1,5 +1,6 @@
 export const environment = {
     production: false,
     apiUrl: "http://localhost:8010/api",
-    snackbar: 2000    
+    snackbar: 2000,
+    dateFormat: "yyyy-MM-dd",   
 };

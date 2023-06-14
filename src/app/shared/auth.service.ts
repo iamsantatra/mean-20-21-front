@@ -48,12 +48,24 @@ export class AuthService {
   }
 
   // si on l'utilisait on ferai isAdmin().then(...)
-  isAdmin() {
+  isConnected() {
     // Pour le moment, version simplifiée...
     // on suppose qu'on est admin si on est loggué
     const isUserAdminPromise = new Promise((resolve, reject) => {
         // resolve(this.loggedIn);
         resolve(this.sessionService.getToken());
+    });
+
+    // on renvoie la promesse qui dit si on est admin ou pas
+    return isUserAdminPromise;
+  }
+
+  isAdmin() {
+    // Pour le moment, version simplifiée...
+    // on suppose qu'on est admin si on est loggué
+    const isUserAdminPromise = new Promise((resolve, reject) => {
+        // resolve(this.loggedIn);
+        resolve(this.sessionService.getUser().profil == 'Administrateur' || this.sessionService.getUser().profil == 'Professeur');
     });
 
     // on renvoie la promesse qui dit si on est admin ou pas

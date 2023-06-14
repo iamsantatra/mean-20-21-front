@@ -18,7 +18,6 @@ export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis!: Assignment;
 
   constructor(private assignmentsService: AssignmentsService,
-    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private snackBar: MatSnackBar,
@@ -45,34 +44,34 @@ export class AssignmentDetailComponent implements OnInit {
     console.log(this.assignmentTransmis)
   }
   
-  assignmentDeleted: EventEmitter<Assignment> = new EventEmitter<Assignment>();
+  // assignmentDeleted: EventEmitter<Assignment> = new EventEmitter<Assignment>();
 
-  onDeleteAssignment() {
-    if (!this.assignmentTransmis) return;
+  // onDeleteAssignment() {
+  //   if (!this.assignmentTransmis) return;
 
-    console.log("Suppression de l'assignment " + this.assignmentTransmis.nom);
+  //   console.log("Suppression de l'assignment " + this.assignmentTransmis.nom);
 
-    // on demande au service la suppression de l'assignment
-    this.assignmentsService.deleteAssignment(this.assignmentTransmis)
-      .subscribe(message => {
-        console.log(message);
-        // Pour cacher le detail, on met l'assignment à null
-        // this.assignmentTransmis = undefined;
-        this.openSnackBar();
-        // et on navigue vers la page d'accueil
-        // this.router.navigate(["/home"]);
-        this.dialogRef.close();
-        this.assignmentDeleted.emit(this.assignmentTransmis);
-      });
-  }
+  //   // on demande au service la suppression de l'assignment
+  //   this.assignmentsService.deleteAssignment(this.assignmentTransmis)
+  //     .subscribe(message => {
+  //       console.log(message);
+  //       // Pour cacher le detail, on met l'assignment à null
+  //       // this.assignmentTransmis = undefined;
+  //       this.openSnackBar();
+  //       // et on navigue vers la page d'accueil
+  //       // this.router.navigate(["/home"]);
+  //       this.dialogRef.close();
+  //       this.assignmentDeleted.emit(this.assignmentTransmis);
+  //     });
+  // }
 
-  openSnackBar() {
-    this.snackBar.open('Devoir supprimé', 'Fermer', {
-      duration:environment.snackbar,
-      horizontalPosition: "end",
-      verticalPosition: "bottom",
-    });
-  }
+  // openSnackBar() {
+  //   this.snackBar.open('Devoir supprimé', 'Fermer', {
+  //     duration:environment.snackbar,
+  //     horizontalPosition: "end",
+  //     verticalPosition: "bottom",
+  //   });
+  // }
 
   onAssignmentRendu() {
     if (!this.assignmentTransmis) return;

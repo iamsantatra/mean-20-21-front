@@ -5,6 +5,8 @@ import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
 import { bdInitialAssignments } from './data';
 import { environment } from 'src/environments/environment';
+import { MatieresService } from './matieres.service';
+import { UsersService } from './users.service';
 
 const BACKEND_URL = environment.apiUrl + "/assignments";
 
@@ -14,8 +16,10 @@ const BACKEND_URL = environment.apiUrl + "/assignments";
 export class AssignmentsService {
 // tableau de devoirs à rendre
 assignments:Assignment[] = []
-  constructor(private loggingService:LoggingService,
-    private http:HttpClient) { }
+constructor(private loggingService:LoggingService,
+  private http:HttpClient,
+  private matieresService: MatieresService,
+  private usersService: UsersService) { }
 
     // uri_api = 'http://localhost:8010/api/assignments';
     // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
@@ -32,36 +36,50 @@ assignments:Assignment[] = []
     //return of(this.assignments);
   }
 
-  getAssignment(id:number):Observable<Assignment|undefined> {
-    // Plus tard on utilisera un Web Service et une BD
-    return this.http.get<Assignment|undefined>(`${BACKEND_URL}/${id}`)
-   
-    .pipe(
-      map(a => {
-        if(a) {
-          a.nom += " MAP MAP MAP";
+  // getAssignment(id:number):Observable<Assignment|undefined> {
+  //   return this.http.get<Assignment|undefined>(`${BACKEND_URL}/${id}`)
+  // }
+
+  getAssignment(id: number): Observable<Assignment | undefined> {
+    return this.http.get<Assignment | undefined>(`${BACKEND_URL}/${id}`).pipe(
+      map((assignment: Assignment | undefined) => {
+        if (assignment) {
+          return {
+            _id: assignment._id,
+            idAssignment: assignment.idAssignment,
+            nom: assignment.nom,
+            dateDeRendu: assignment.dateDeRendu,
+            rendu: this.confRendu(assignment),
+            note: this.confNote(assignment),
+            idMatiere: assignment.idMatiere,
+            idEleve: assignment.idEleve,
+            remarques: this.confRemarque(assignment),
+          };
+        } else {
+          return undefined;
         }
-        return a;
       }),
-      tap(a => {
-        if(a)
-          console.log("ICI DANS LE TAP " + a.nom)
-      }),
-      map(a => {
-        if(a) {
-          a.nom += " TOTOTOTO";
+      tap((mappedAssignment: Assignment | undefined) => {
+        if (mappedAssignment) {
+          this.matieresService.fetchMatiere(mappedAssignment);
+          this.usersService.fetchEleve(mappedAssignment);
+          this.usersService.fetchProf(mappedAssignment);
+          this.assignments.push(mappedAssignment);
         }
-        return a;
-      }),
-      catchError(this.handleError<Assignment>("Erreur dans le traitement de assignment avec id = " + id))
-    )
-    
-    // On va chercher dans le tableau des assignments
-    // l'assignment dont l'id est celui passé en paramètre
-    
-    //const assignment = this.assignments.find(a => a.id === id);
-    // on retourne cet assignment encapsulé dans un Observable
-    //return of(assignment);
+      })
+    );
+  }
+  
+  private confRendu(assignment: Assignment): boolean {
+    return assignment.rendu ?? false;
+  }
+  
+  private confNote(assignment: Assignment): number {
+    return assignment.note ?? 0;
+  }
+  
+  private confRemarque(assignment: Assignment): string {
+    return assignment.remarques ?? "";
   }
 
   private handleError<T>(operation: any, result?: T) {

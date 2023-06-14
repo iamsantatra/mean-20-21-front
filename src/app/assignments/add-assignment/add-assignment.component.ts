@@ -131,9 +131,9 @@ export class AddAssignmentComponent {
     newAssignment.remarques = "";
     newAssignment.idMatiere = this.matiere.value.thirdCtrl;
     newAssignment.idEleve = this.eleve.value.fourthCtrl;
-    this.fetchMatiere(newAssignment);
-    this.fetchEleve(newAssignment);
-    this.fetchProf(newAssignment);
+    this.matieresService.fetchMatiere(newAssignment);
+    this.usersService.fetchEleve(newAssignment);
+    this.usersService.fetchProf(newAssignment);
 
     this.assignmentsService.addAssignment(newAssignment)
     .subscribe(reponse => {
@@ -144,41 +144,5 @@ export class AddAssignmentComponent {
       this.assignmentCreated.emit(newAssignment);
     })
     this.openSnackBar();
-  }
-
-  private fetchMatiere(assignment: Assignment): void {
-    this.matieresService.getMatiereById(assignment.idMatiere)
-      .subscribe(
-        matiere => {
-          assignment.matiere = matiere.data;
-        },
-        error => {
-          console.log("Error fetching matiere:", error);
-        }
-      );
-  }
-
-  private fetchProf(assignment: Assignment): void {
-    this.usersService.getProfByIdMatiere(assignment.idMatiere)
-      .subscribe(
-        prof => {
-          assignment.prof = prof.data;
-        },
-        error => {
-          console.log("Error fetching prof:", error);
-        }
-      );
-  }
-
-  private fetchEleve(assignment: Assignment): void {
-    this.usersService.getUserById(assignment.idEleve)
-      .subscribe(
-        eleve => {
-          assignment.eleve = eleve.data;
-        },
-        error => {
-          console.log("Error fetching eleve:", error);
-        }
-      );
   }
 }

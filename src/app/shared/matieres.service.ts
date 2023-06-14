@@ -4,6 +4,7 @@ import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { Assignment } from '../assignments/assignment.model';
 
 const BACKEND_URL = environment.apiUrl + "/matieres";
 
@@ -14,7 +15,7 @@ export class MatieresService {
 
   matieres:Matiere[] = []
   
-  constructor(private loggingService:LoggingService, private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
   
   getMatieres():Observable<any> {
     return this.http.get<{message: string, data: Matiere[]}>(BACKEND_URL);
@@ -22,5 +23,17 @@ export class MatieresService {
 
   getMatiereById(id: number): Observable<any> {
     return this.http.get<{message: string, data: Matiere}>(BACKEND_URL+"/"+id);
+  }
+
+  public fetchMatiere(assignment: Assignment): void {
+    this.getMatiereById(assignment.idMatiere)
+      .subscribe(
+        matiere => {
+          assignment.matiere = matiere.data;
+        },
+        error => {
+          console.log("Error fetching matiere:", error);
+        }
+      );
   }
 }

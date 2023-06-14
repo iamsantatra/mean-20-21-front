@@ -125,9 +125,9 @@ export class AssignmentsComponent implements OnInit {
         remarques: this.confRemarque(assignment),
       };
   
-      this.fetchMatiere(mappedAssignment);
-      this.fetchEleve(mappedAssignment);
-      this.fetchProf(mappedAssignment);
+      this.matieresService.fetchMatiere(mappedAssignment);
+      this.usersService.fetchEleve(mappedAssignment);
+      this.usersService.fetchProf(mappedAssignment);
       this.assignments.push(mappedAssignment);
     });
   }
@@ -147,43 +147,6 @@ export class AssignmentsComponent implements OnInit {
     return assignment.remarques ? assignment.remarques : "";
   }
   
-  private fetchMatiere(assignment: Assignment): void {
-    this.matieresService.getMatiereById(assignment.idMatiere)
-      .subscribe(
-        matiere => {
-          assignment.matiere = matiere.data;
-        },
-        error => {
-          console.log("Error fetching matiere:", error);
-        }
-      );
-  }
-
-  private fetchProf(assignment: Assignment): void {
-    this.usersService.getProfByIdMatiere(assignment.idMatiere)
-      .subscribe(
-        prof => {
-          assignment.prof = prof.data;
-        },
-        error => {
-          console.log("Error fetching prof:", error);
-        }
-      );
-  }
-
-  private fetchEleve(assignment: Assignment): void {
-    this.usersService.getUserById(assignment.idEleve)
-      .subscribe(
-        eleve => {
-          assignment.eleve = eleve.data;
-        },
-        error => {
-          console.log("Error fetching eleve:", error);
-        }
-      );
-  }
-  
-
   getAddAssignmentsForScroll() {
     this.assignmentsService.getAssignments(this.page, this.limit)
     .subscribe(data => {
@@ -272,10 +235,10 @@ export class AssignmentsComponent implements OnInit {
     // dialogRef.afterClosed().subscribe(result => {
     //   this.getAssignments();
     // });
-    dialogRef.componentInstance.assignmentDeleted.subscribe((assignmentDeleted: Assignment) => {
-      console.log("assignmentDeleted")
-      console.log(assignmentDeleted)
-      this.assignments = this.assignments.filter(assignment => assignment.idAssignment !== assignmentDeleted.idAssignment);
-    });
+    // dialogRef.componentInstance.assignmentDeleted.subscribe((assignmentDeleted: Assignment) => {
+    //   console.log("assignmentDeleted")
+    //   console.log(assignmentDeleted)
+    //   this.assignments = this.assignments.filter(assignment => assignment.idAssignment !== assignmentDeleted.idAssignment);
+    // });
   }
 }

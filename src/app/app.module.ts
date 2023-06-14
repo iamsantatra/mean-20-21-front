@@ -27,7 +27,7 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
 import { Routes, RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
-import { authGuard } from './shared/auth.guard';
+import { authGuard, authGuardAdmin } from './shared/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { NavbarComponent } from './navbar/navbar.component';  
@@ -38,6 +38,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AuthInterceptor } from './interceptor/auth-interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -61,7 +62,7 @@ const routes: Routes = [
   {
     path: 'assignments',
     component: EditAssignmentComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuardAdmin]
   },
   {
     path: 'login',
@@ -98,7 +99,8 @@ const routes: Routes = [
     DragDropModule,
     MatDialogModule,
     MatStepperModule, 
-    MatSidenavModule, MatSnackBarModule
+    MatSidenavModule, MatSnackBarModule,
+    DatePipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -107,8 +109,10 @@ const routes: Routes = [
       useValue: { 
           showError: true,
           displayDefaultIndicatorType: false 
-    }
-  }],
+    },
+    
+  },
+  DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

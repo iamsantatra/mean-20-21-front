@@ -4,104 +4,191 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
 import { UsersService } from 'src/app/shared/users.service';
 import { MatieresService } from 'src/app/shared/matieres.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Matiere } from 'src/app/models/matiere.model';
+import { HelperService } from 'src/app/shared/helper.service';
+import { Utilisateur } from 'src/app/models/user.model';
+import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
- selector: 'app-edit-assignment',
- templateUrl: './edit-assignment.component.html',
- styleUrls: ['./edit-assignment.component.css'],
+  selector: 'app-edit-assignment',
+  templateUrl: './edit-assignment.component.html',
+  styleUrls: ['./edit-assignment.component.css'],
 })
 export class EditAssignmentComponent implements OnInit {
- assignment!: Assignment | undefined;
- // associées aux champs du formulaire
- nomAssignment!: string;
- dateDeRendu!: Date;
 
- constructor(
-   private assignmentsService: AssignmentsService,
-   private route: ActivatedRoute,
-   private router: Router,
-   private usersService: UsersService,
-   private matieresService: MatieresService
- ) {}
+  assignment!: Assignment ;
+  // associées aux champs du formulaire
+  nomAssignment!: string;
+  editForm!: FormGroup;
+  matieres!: Matiere[];
+  selectedMatiereId!: number;
+  selectedEleveId!: number;
+  eleves: Utilisateur[] = [];
 
- ngOnInit(): void {
-   this.getAssignment();
- }
- getAssignment() {
-  // on récupère l'id dans le snapshot passé par le routeur
-  // le "+" force l'id de type string en "number"
-  // const id = +this.route.snapshot.params['id'];
-  const idParam = this.route.snapshot.queryParamMap.get('id');
-  const id: number | null = idParam !== null ? +idParam : null;
-  // Exemple de récupération des query params (après le ? dans l'url)
-  const queryParams = this.route.snapshot.queryParams;
-  console.log(queryParams);
-  console.log("nom :"  + queryParams['nom'])
-  console.log("matière :" + queryParams['matiere'])
- 
-  // Exemple de récupération du fragment (après le # dans l'url)
-  const fragment = this.route.snapshot.fragment;
-  console.log("Fragment = " + fragment);
-  if (id !== null) {
-    this.assignmentsService.getAssignment(id)
-    .subscribe((assignment) => {
-      if (!assignment) return;
-      this.assignment = assignment;
-      // Pour pré-remplir le formulaire
-      this.fetchMatiere(assignment);
-      this.fetchEleve(assignment);
-      this.fetchProf(assignment);
-  });
+  constructor(
+    private assignmentsService: AssignmentsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private usersService: UsersService,
+    private formBuilder: FormBuilder,
+    private helperService: HelperService,
+    private matieresService: MatieresService,
+    private snackBar: MatSnackBar,
+  ) {}
+
+  get nomDevoir() {
+    return this.editForm.get('nomDevoir');
   }
-}
-  onSaveAssignment() {
-    if (!this.assignment) return;
+
+  get dateRendu() {
+    return this.editForm.get('dateRendu');
+  }
+
+  get note() {
+    return this.editForm.get('note');
+  }
+
+  get remarques() {
+    return this.editForm.get('remarques');
+  }
+
+  get matieresNom() {
+    return this.editForm.get('matieresNom');
+  }
+
+  get elevesNom() {
+    return this.editForm.get('elevesNom');
+  }
+
+  ngOnInit(): void {
+    this.createEditForm();
+    this.getAssignment();
+    this.getMatieres();
+    this.getEleves()
+  }
+  createEditForm() {
+    this.editForm = this.formBuilder.group({
+      nomDevoir: ['', Validators.required],
+      note: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
+      remarques: ['', Validators.required],
+      dateRendu: ['', Validators.required],
+      matieresNom: ['', Validators.required],
+      elevesNom: ['', Validators.required]
+      // eleve: ['', Validators.required]
+    });
+  }
+
+  getAssignment() {
+    // on récupère l'id dans le snapshot passé par le routeur
+    // le "+" force l'id de type string en "number"
+    // const id = +this.route.snapshot.params['id'];
+    const idParam = this.route.snapshot.queryParamMap.get('id');
+    const id: number | null = idParam !== null ? +idParam : null;
+    // Exemple de récupération des query params (après le ? dans l'url)
+    const queryParams = this.route.snapshot.queryParams;
+    console.log(queryParams);
+
+    if (id !== null) {
+      this.assignmentsService.getAssignment(id)
+      .subscribe((assignment) => {
+        if (!assignment) { return this.router.navigate(['/home']) };
+        this.assignment = assignment;
+        this.formSetter(assignment);
+        return this.assignment;
+      });
+    }
+  }
+
+  formSetter(assignment: Assignment) {
+    this.selectedMatiereId = assignment.idMatiere
+    this.selectedEleveId = assignment.idEleve  
+    this.nomDevoir?.setValue(assignment.nom)
+    this.dateRendu?.setValue(this.helperService.formatDate(assignment.dateDeRendu))
+    this.note?.setValue(assignment.note)
+    this.remarques?.setValue(assignment.remarques)
+  }
+
+  changeMatiere(e: any) {
+    this.matieresNom?.setValue(e.target.value, {
+      onlySelf: true,
+    });
+  }
+
+  changeEleve(e: any) {
+    this.elevesNom?.setValue(e.target.value, {
+      onlySelf: true,
+    });
+  }
+
+  getMatieres(): void {
+    this.matieresService.getMatieres().subscribe((subject) => {
+      this.matieres = subject.data
+    });
+  }
+
+  getEleves(): void {
+    // get users where user.profile = "Etudiant(e)"
+    this.usersService.getUsers().subscribe((students) => {
+      this.eleves = students.data.filter((student: Utilisateur) => student.profil === "Etudiant(e)")
+    });
+  }
+  onUpdateAssignment() {
+
+    if (!this.assignment) { 
+      console.log("tsy misy")
+      return;
+    }
+    console.log("before: ", this.assignment)
 
     // on récupère les valeurs dans le formulaire
-    this.assignment.nom = this.nomAssignment;
-    this.assignment.dateDeRendu = this.dateDeRendu;
-    // this.assignmentsService
-    //   .updateAssignment(this.assignment)
-    //   .subscribe((message) => {
-    //     console.log(message);
+    this.assignment.nom = this.nomDevoir?.value;
+    // cast this.note?.value en number
+    this.assignment.note = +this.note?.value;
+    this.assignment.remarques = this.remarques?.value;
+    this.assignment.dateDeRendu = this.dateRendu?.value
+    this.assignment.idMatiere = this.selectedMatiereId
+    this.assignment.idEleve = this.selectedEleveId
+    this.assignmentsService
+      .updateAssignment(this.assignment)
+      .subscribe((message) => {
+        // console.log(message);
 
-    //     // navigation vers la home page
-    //     this.router.navigate(['/home']);
-    //   });
-  }
-  private fetchMatiere(assignment: Assignment): void {
-    this.matieresService.getMatiereById(assignment.idMatiere)
-      .subscribe(
-        matiere => {
-          assignment.matiere = matiere.data;
-        },
-        error => {
-          console.log("Error fetching matiere:", error);
-        }
-      );
+        // navigation vers la home page
+        this.router.navigate(['/home']);
+      });
   }
 
-  private fetchProf(assignment: Assignment): void {
-    this.usersService.getProfByIdMatiere(assignment.idMatiere)
-      .subscribe(
-        prof => {
-          assignment.prof = prof.data;
-        },
-        error => {
-          console.log("Error fetching prof:", error);
+  onDeleteAssignment() {
+    if (!this.assignment) { 
+      console.log("tsy misy")
+      return;
+    }
+
+    console.log("Suppression de l'assignment " + this.assignment.nom);
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce devoir ?");
+
+    if (confirmation) {
+      // on demande au service la suppression de l'assignment
+      this.assignmentsService.deleteAssignment(this.assignment)
+        .subscribe(message => {
+          console.log(message);
+          // Pour cacher le detail, on met l'assignment à null
+          // this.assignment = undefined;
+          this.openSnackBar();
+          // et on navigue vers la page d'accueil
+          this.router.navigate(["/home"]);
         }
       );
+    }
   }
 
-  private fetchEleve(assignment: Assignment): void {
-    this.usersService.getUserById(assignment.idEleve)
-      .subscribe(
-        eleve => {
-          assignment.eleve = eleve.data;
-        },
-        error => {
-          console.log("Error fetching eleve:", error);
-        }
-      );
+  openSnackBar() {
+    this.snackBar.open('Devoir supprimé', 'Fermer', {
+      duration:environment.snackbar,
+      horizontalPosition: "end",
+      verticalPosition: "bottom",
+    });
   }
 }
