@@ -31,7 +31,7 @@ export class AddNoteComponent {
     this.event = this.data.event
     this.noteForm = this.formBuilder.group({
       note: new FormControl('10', [Validators.required, Validators.min(0), Validators.max(20)]),
-      remarques: new FormControl('',[Validators.minLength(8)])
+      remarques: new FormControl('',[Validators.minLength(4)])
     });
   }
 

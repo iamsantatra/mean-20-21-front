@@ -19,7 +19,7 @@
         <textarea rows=4 cols="25" name="remarques" class="form-control" formControlName="remarques"></textarea>
         <div class="txt-danger" *ngIf="remarques?.invalid && (remarques?.dirty || remarques?.touched)">
           <div *ngIf="remarques?.errors?.['minlength']">
-            La remarque doit contenir au minimum 8 caractères
+            La remarque doit contenir au minimum 4 caractères
           </div>  
         </div>
     </div>

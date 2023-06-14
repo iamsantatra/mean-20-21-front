@@ -96,31 +96,33 @@
               [cdkDropListData]="rendus"
               [cdkDropListConnectedTo]="[divNonRendus]" 
               (cdkDropListDropped)="onDrop($event)">
-              <div class="card" *ngFor="let devoir of rendus" cdkDrag>
-                <div class="card-header pb-0">
-                  <div class="d-sm-flex d-block justify-content-between">
-                    <h4>{{devoir.nom}}</h4>
-                    <div class="badge-group">
-                      <div class="btn btn-xs f-right" [ngClass]="{
-                        'btn-primary': devoir.matiere?.idMatiere === 3,
-                        'btn-danger': devoir.matiere?.idMatiere === 2,
-                        'btn-success': devoir.matiere?.idMatiere === 1
-                      }">
-                        <!-- <div class="btn btn-primary btn-xs f-right"> -->
-                        <span id="txt">{{ devoir.matiere?.nom }}</span>
+              <div *ngFor="let devoir of rendus" >
+                <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
+                  <div class="card-header pb-0">
+                    <div class="d-sm-flex d-block justify-content-between">
+                      <h4>{{devoir.nom}}</h4>
+                      <div class="badge-group">
+                        <div class="btn btn-xs f-right" [ngClass]="{
+                          'btn-primary': devoir.matiere?.idMatiere === 3,
+                          'btn-danger': devoir.matiere?.idMatiere === 2,
+                          'btn-success': devoir.matiere?.idMatiere === 1
+                        }">
+                          <!-- <div class="btn btn-primary btn-xs f-right"> -->
+                          <span id="txt">{{ devoir.matiere?.nom }}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="card-body">
-                  <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
-                  <div class="d-flex align-items-start mt-2">
-                    <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
-                    <div class="flex-grow-1 mt-3">
-                      <p class="mb-0"> Themeforest, australia</p>
+                  <div class="card-body">
+                    <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                    <div class="d-flex align-items-start mt-2">
+                      <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
+                      <div class="flex-grow-1 mt-3">
+                        <p class="mb-0"> Themeforest, australia</p>
+                      </div>
                     </div>
+                    <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
                   </div>
-                  <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
                 </div>
               </div>
             </div>

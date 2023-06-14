@@ -26,6 +26,9 @@ export class EditAssignmentComponent implements OnInit {
   selectedMatiereId!: number;
   selectedEleveId!: number;
   eleves: Utilisateur[] = [];
+  editFailed?: boolean = false;
+  errorMessage?: string = "";
+  today: Date = new Date();
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -63,16 +66,15 @@ export class EditAssignmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createEditForm();
     this.getAssignment();
+    this.createEditForm();
     this.getMatieres();
     this.getEleves()
   }
   createEditForm() {
     this.editForm = this.formBuilder.group({
-      nomDevoir: ['', Validators.required],
+      nomDevoir: ['', [Validators.required,  Validators.minLength(5), Validators.maxLength(30)]],
       note: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
-      remarques: ['', Validators.required],
       dateRendu: ['', Validators.required],
       matieresNom: ['', Validators.required],
       elevesNom: ['', Validators.required]
@@ -135,11 +137,8 @@ export class EditAssignmentComponent implements OnInit {
     });
   }
   onUpdateAssignment() {
-
-    if (!this.assignment) { 
-      console.log("tsy misy")
-      return;
-    }
+    if (this.editForm.valid && this.assignment) {
+    
     console.log("before: ", this.assignment)
 
     // on récupère les valeurs dans le formulaire
@@ -152,12 +151,16 @@ export class EditAssignmentComponent implements OnInit {
     this.assignment.idEleve = this.selectedEleveId
     this.assignmentsService
       .updateAssignment(this.assignment)
-      .subscribe((message) => {
+      .subscribe(() => {
         // console.log(message);
-
         // navigation vers la home page
         this.router.navigate(['/home']);
+      }, error => {
+        console.log(error);
+        this.editFailed = true;
+        this.errorMessage = error.error.message;
       });
+    } console.log("tsy metyu validation")
   }
 
   onDeleteAssignment() {

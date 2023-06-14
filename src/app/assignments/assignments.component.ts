@@ -126,6 +126,7 @@ export class AssignmentsComponent implements OnInit {
   }
   
   private mapAssignments(assignments: Assignment[]): void {
+    this.assignments = [];
     assignments.forEach(assignment => {
       const mappedAssignment: Assignment = {
         _id: assignment._id,

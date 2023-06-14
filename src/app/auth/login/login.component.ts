@@ -33,14 +33,12 @@ export class LoginComponent {
     if (this.tokenService.getToken() && this.tokenService.getUser()) {
       this.router.navigate(["/home"]);
     }
-    this.username?.setValue("Gabriel")
-    this.password?.setValue("12345678")
   }
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: ['Gabriel', Validators.required],
+      password: ['12345678', Validators.required]
     });
   }
 
