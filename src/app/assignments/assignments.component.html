@@ -60,18 +60,19 @@
                         <h4>{{devoir.nom}}</h4>
                         <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
                         <div class="badge-group">
-                          <div [ngClass]="{
-                            'btn btn-primary btn-xs f-right': devoir.matiere?.idMatiere === 3,
-                            'btn btn-danger btn-xs f-right': devoir.matiere?.idMatiere === 2,     
-                            'btn btn-success btn-xs f-right': devoir.matiere?.idMatiere === 1
-                            }">
+                          <div class="btn btn-xs f-right" [ngClass]="{
+                            'btn-primary': devoir.matiere?.idMatiere === 3,
+                            'btn-danger': devoir.matiere?.idMatiere === 2,
+                            'btn-success': devoir.matiere?.idMatiere === 1
+                          }">
+                            <!-- <div class='btn btn-primary btn-xs f-right'> -->
                             <span id="txt">{{ devoir.matiere?.nom }}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                      <img class="img-fluid"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
                       <div class="d-flex align-items-start">
                         <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
                         <div class="flex-grow-1 mt-3">
@@ -99,11 +100,12 @@
                   <div class="d-sm-flex d-block justify-content-between">
                     <h4>{{devoir.nom}}</h4>
                     <div class="badge-group">
-                      <div [ngClass]="{
-                        'btn btn-primary btn-xs f-right': devoir.matiere?.idMatiere === 3,
-                        'btn btn-danger btn-xs f-right': devoir.matiere?.idMatiere === 2,
-                        'btn btn-success btn-xs f-right': devoir.matiere?.idMatiere === 1
-                        }">
+                      <div class="btn btn-xs f-right" [ngClass]="{
+                        'btn-primary': devoir.matiere?.idMatiere === 3,
+                        'btn-danger': devoir.matiere?.idMatiere === 2,
+                        'btn-success': devoir.matiere?.idMatiere === 1
+                      }">
+                        <!-- <div class="btn btn-primary btn-xs f-right"> -->
                         <span id="txt">{{ devoir.matiere?.nom }}</span>
                       </div>
                     </div>
