@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -22,6 +23,7 @@ export class AssignmentDetailComponent implements OnInit {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<AssignmentDetailComponent>,
+    private helperService: HelperService,
     @Inject(MAT_DIALOG_DATA) public data: any) { 
       // console.log(data);
       this.assignmentTransmis = data;
@@ -42,7 +44,9 @@ export class AssignmentDetailComponent implements OnInit {
     console.log("Dans le ngOnInit de detail")
     console.log(this.assignmentTransmis)
   }
+  
   assignmentDeleted: EventEmitter<Assignment> = new EventEmitter<Assignment>();
+
   onDeleteAssignment() {
     if (!this.assignmentTransmis) return;
 
@@ -97,7 +101,11 @@ export class AssignmentDetailComponent implements OnInit {
     //   // },
     //   // fragment: "edition"
     // });
-    this.router.navigate(['/assignments'],{queryParams: {id: this.assignmentTransmis?.idAssignment}});
+    this.router.navigate(['/assignments'],{
+      queryParams: {
+        id: this.assignmentTransmis?.idAssignment
+      }
+    });
     this.dialogRef.close();
   }
   
