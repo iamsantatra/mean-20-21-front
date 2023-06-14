@@ -19,6 +19,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 })
 export class AssignmentsComponent implements OnInit {
   titre="Liste des devoirs à rendre";
+  isLoading: boolean = true;
   // les données à afficher
   assignments:Assignment[] = [];
   // Pour la data table
@@ -50,7 +51,7 @@ export class AssignmentsComponent implements OnInit {
     // et les passer à la méthode getAssignments
     // TODO
 
-    this.getAssignments();
+    this.getAssignments()
   }
 
   ngAfterViewInit() { 
@@ -108,6 +109,7 @@ export class AssignmentsComponent implements OnInit {
         this.nextPage = data.nextPage;
   
         console.log("Données reçues");
+        this.isLoading = false;
       });
   }
   
