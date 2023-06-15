@@ -73,7 +73,9 @@
                       </div>
                     </div>
                     <div class="card-body">
-                      <img class="img-fluid"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                      <!-- <img class="img-fluid"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title=""> -->
+                      <!-- <ng-lottie [options]="options" class="img-fluid" (animationCreated)="animationCreated($event)"></ng-lottie> -->
+                      <ng-lottie [options]="getAnimationOptions(devoir.matiere?.image)" class="img-fluid"></ng-lottie>
                       <div class="d-flex align-items-start">
                         <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
                         <div class="flex-grow-1 mt-3">

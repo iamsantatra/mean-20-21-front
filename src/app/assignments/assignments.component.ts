@@ -9,10 +9,10 @@ import { AddAssignmentComponent } from './add-assignment/add-assignment.componen
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
 import { UsersService } from '../shared/users.service';
 import { MatieresService } from '../shared/matieres.service';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AddNoteComponent } from './add-note/add-note.component';
 import { DeleteNoteComponent } from './delete-note/delete-note.component';
-
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-assignments',
@@ -252,5 +252,24 @@ export class AssignmentsComponent implements OnInit {
     //   console.log(assignmentDeleted)
     //   this.assignments = this.assignments.filter(assignment => assignment.idAssignment !== assignmentDeleted.idAssignment);
     // });
+  }
+
+  options: AnimationOptions = {
+    path: 'https://assets7.lottiefiles.com/packages/lf20_B2qAl3/data.json',
+  };
+
+  // animationCreated(animationItem: AnimationItem): void {
+  //   console.log(animationItem);
+  // }
+
+  getAnimationOptions(animationUrl?: string): AnimationOptions {
+    const defaultAnimationUrl = 'https://assets7.lottiefiles.com/packages/lf20_B2qAl3/data.json';
+    const path = animationUrl || defaultAnimationUrl;
+  
+    return {
+      path,
+      loop: true,
+      autoplay: true,
+    };
   }
 }

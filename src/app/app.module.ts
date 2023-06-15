@@ -41,7 +41,14 @@ import { AddNoteComponent } from './assignments/add-note/add-note.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { DeleteNoteComponent } from './assignments/delete-note/delete-note.component';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
 
+// Note we need a separate function as it's required
+// by the AOT compiler.
+export function playerFactory() {
+  return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
+}
 
 const routes: Routes = [
   {
@@ -105,7 +112,8 @@ const routes: Routes = [
     MatDialogModule,
     MatStepperModule, 
     MatSidenavModule, MatSnackBarModule,
-    DatePipe
+    DatePipe,
+    LottieModule.forRoot({ player: playerFactory })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
