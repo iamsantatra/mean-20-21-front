@@ -95,7 +95,7 @@ constructor(private loggingService:LoggingService,
     this.loggingService.log(assignment.nom, 'ajouté');
 
     // plus tard on utilisera un web service pour l'ajout dans une vraie BD
-    return this.http.post<Assignment>(BACKEND_URL, assignment);
+    return this.http.post<{message: string, data: Assignment}>(BACKEND_URL, assignment);
     // on ajoute le devoir au tableau des devoirs
     //this.assignments.push(assignment);
     // on retourne un message de succès à travers

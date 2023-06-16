@@ -100,6 +100,8 @@ export class AssignmentDetailComponent implements OnInit {
     //   // },
     //   // fragment: "edition"
     // });
+    console.log("Dans le onEditAssignment de detail")
+    console.log(this.assignmentTransmis)
     this.router.navigate(['/assignments'],{
       queryParams: {
         id: this.assignmentTransmis?.idAssignment

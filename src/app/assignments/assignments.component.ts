@@ -229,13 +229,14 @@ export class AssignmentsComponent implements OnInit {
         }
     }
   } 
-
+  
   onAjoutDevoir() {
     const dialogRef = this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
     // Subscribe to the assignmentCreated event
     dialogRef.componentInstance.assignmentCreated.subscribe((newAssignment: Assignment) => {
       // Add the new assignment to the list of assignments
-      this.assignments.unshift(newAssignment);
+      this.nonRendus.unshift(newAssignment);
+      this.assignments.push(newAssignment);
     });
   }
 

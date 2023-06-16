@@ -142,8 +142,10 @@ export class AddAssignmentComponent {
       console.log(reponse.message);
       // Redirect to '/home'
       // this.router.navigateByUrl('/home');
-      this.dialogRef.close();
+      newAssignment._id = reponse.data._id
+      newAssignment.idAssignment = reponse.data.idAssignment
       this.assignmentCreated.emit(newAssignment);
+      this.dialogRef.close();
     })
     this.openSnackBar();
   }
