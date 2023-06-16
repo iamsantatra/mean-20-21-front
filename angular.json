@@ -21,13 +21,19 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/assets/images/favicon/favicon.png",
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/assets/css/vendors/font-awesome.css",
+              "src/assets/css/vendors/bootstrap.css",
+              "src/assets/css/style.css",
+              "src/assets/css/color-1.css"
             ],
             "scripts": [
+              "src/assets/js/jquery-3.6.0.min.js",
+              "src/assets/js/bootstrap/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {
