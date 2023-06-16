@@ -26,12 +26,6 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/assets/css/vendors/font-awesome.css",
-              "src/assets/css/vendors/icofont.css",
-              "src/assets/css/vendors/themify.css",
-              "src/assets/css/vendors/flag-icon.css",
-              "src/assets/css/vendors/feather-icon.css",
-              "src/assets/css/vendors/scrollbar.css",
               "src/assets/css/vendors/bootstrap.css",
               "src/assets/css/style.css",
               "src/assets/css/color-1.css",
@@ -40,17 +34,9 @@
             "scripts": [
               "src/assets/js/jquery-3.6.0.min.js",
               "src/assets/js/bootstrap/bootstrap.bundle.min.js",
-              "src/assets/js/icons/feather-icon/feather.min.js",
-              "src/assets/js/icons/feather-icon/feather-icon.js",
-              "src/assets/js/scrollbar/simplebar.js",
-              "src/assets/js/scrollbar/custom.js",
               "src/assets/js/config.js",
-              "src/assets/js/jkanban/custom.js",
-              "src/assets/js/typeahead/handlebars.js",
               "src/assets/js/typeahead/typeahead.bundle.js",
               "src/assets/js/typeahead/typeahead.custom.js",
-              "src/assets/js/dragable/sortable.js",
-              "src/assets/js/dragable/sortable-custom.js",
               "src/assets/js/typeahead-search/handlebars.js",
               "src/assets/js/script.js"
             ]
