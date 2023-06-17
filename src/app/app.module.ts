@@ -41,7 +41,7 @@ import { AddNoteComponent } from './assignments/add-note/add-note.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { DeleteNoteComponent } from './assignments/delete-note/delete-note.component';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -105,7 +105,7 @@ const routes: Routes = [
     MatDialogModule,
     MatStepperModule, 
     MatSidenavModule, MatSnackBarModule,
-    DatePipe
+    DatePipe, MatProgressSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
