@@ -34,14 +34,14 @@ export class LoginComponent {
     if (this.tokenService.getToken() && this.tokenService.getUser()) {
       this.router.navigate(["/home"]);
     }
-    if (sessionStorage.getItem('loginVisitedFirstTime') === 'true') {
+    // if (sessionStorage.getItem('loginVisitedFirstTime') === 'true') {
+    //   this.isLoading = false;
+    // } else {
+    setTimeout(() => {
       this.isLoading = false;
-    } else {
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 2500);
-      sessionStorage.setItem('loginVisitedFirstTime', 'true');
-    }
+    }, 2500);
+    //   sessionStorage.setItem('loginVisitedFirstTime', 'true');
+    // }
   }
 
   createLoginForm() {
