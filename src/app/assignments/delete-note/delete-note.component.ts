@@ -6,6 +6,7 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { AddNoteComponent } from '../add-note/add-note.component';
 import { Assignment } from '../assignment.model';
 import { environment } from 'src/environments/environment';
+import { NotifyerService } from 'src/app/shared/notifyer.service';
 
 @Component({
   selector: 'app-delete-note',
@@ -19,7 +20,7 @@ export class DeleteNoteComponent {
   constructor(
     private assignmentsService : AssignmentsService,
     private matDialogRef : MatDialogRef<AddNoteComponent>,
-    private matSnackBar: MatSnackBar,
+    private notifyer: NotifyerService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){}
 
@@ -28,13 +29,13 @@ export class DeleteNoteComponent {
     this.event = this.data.event
   }
 
-  notifyBySnackBar(message : string) {
+  /*notifyBySnackBar(message : string) {
     this.matSnackBar.open(message, 'Fermer', {
       horizontalPosition: "end",
       verticalPosition: "bottom",
       duration:environment.snackbar
     }); 
-  }
+  }*/
 
   cancel(){
     console.log("remise de l'assignment dans la partie des non rendus");
@@ -57,13 +58,13 @@ export class DeleteNoteComponent {
     this.assignmentsService.updateAssignment(this.assignment)
     .subscribe((response:any)=> {
       this.matDialogRef.close();
-      this.notifyBySnackBar("Modifications enregistrées");
+      this.notifyer.notifyBySnackBar("Modifications enregistrées");
     },(error:any)=> {
       this.assignment.rendu = true;
       this.assignment.note = n;
       this.assignment.remarques = r;
       this.cancel();
-      this.notifyBySnackBar("Il y a eu un problème de connexion au serveur, veuillez réessayer");
+      this.notifyer.notifyBySnackBar("Il y a eu un problème de connexion au serveur, veuillez réessayer");
     })
   }
 }

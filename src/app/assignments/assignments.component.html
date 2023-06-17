@@ -22,15 +22,16 @@
               </div>
           </div>
           <div class="col-md-6 p-0" >
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                showFirstLastButtons
-                aria-label="Selection de la page des assigments"
-                (page)="handlePage($event)"
-                [length]="totalPages"
-                [pageSize]="limit"
-                [pageIndex]="page"
-                style="background-color: #f6f8fc; font-family: 'Montserrat', sans-serif;" 
-              >
+            <mat-paginator
+              [pageIndex]="page-1"
+              [length]="totalDocs"
+              [pageSize]="10"
+              (page)="handlePage($event)"
+              aria-label="Select page"
+              [showFirstLastButtons]="showFirstLastButtons"
+              [pageSizeOptions]="pageSizeOptions"
+              style="background-color: #f6f8fc; font-family: 'Montserrat', sans-serif;" 
+            >
             </mat-paginator>
           </div>
           <div class="col-md-3 p-0 ">                    
@@ -54,6 +55,9 @@
                 [cdkDropListConnectedTo]="[divRendus]" 
                 (cdkDropListDropped)="onDrop($event)">
                 
+                <div class="indication" *ngIf="nonRendus.length==0">
+                  Drag and drop pour annuler des devoirs
+                </div>
                 <div *ngFor="let devoir of nonRendus">
                   <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
                     <div class="card-header pb-0">
@@ -96,6 +100,9 @@
               [cdkDropListData]="rendus"
               [cdkDropListConnectedTo]="[divNonRendus]" 
               (cdkDropListDropped)="onDrop($event)">
+              <div class="indication" *ngIf="rendus.length==0">
+                Drag and drop pour rendre des devoirs
+              </div>
               <div *ngFor="let devoir of rendus" >
                 <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
                   <div class="card-header pb-0">

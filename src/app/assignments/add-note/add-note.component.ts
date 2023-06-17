@@ -6,6 +6,7 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
+import { NotifyerService } from 'src/app/shared/notifyer.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class AddNoteComponent {
     private formBuilder : FormBuilder,
     private assignmentsService : AssignmentsService,
     private matDialogRef : MatDialogRef<AddNoteComponent>,
-    private matSnackBar: MatSnackBar,
+    private notifyer: NotifyerService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){}
 
@@ -56,13 +57,13 @@ export class AddNoteComponent {
       this.closeDialog();
   }
   
-  notifyBySnackBar(message : string) {
+  /*notifyBySnackBar(message : string) {
     this.matSnackBar.open(message, 'Fermer', {
       horizontalPosition: "end",
       verticalPosition: "bottom",
       duration:environment.snackbar
     }); 
-  }
+  }*/
 
   updateAssignment(){    
     this.assignment.note = this.noteForm.value.note;
@@ -72,10 +73,10 @@ export class AddNoteComponent {
     this.assignmentsService.updateAssignment(this.assignment)
     .subscribe((response:any)=> {
       this.closeDialog();
-      this.notifyBySnackBar("Modifications enregistrées");
+      this.notifyer.notifyBySnackBar("Modifications enregistrées");
     },(error:any)=> {
       this.cancel();
-      this.notifyBySnackBar("Il y a eu un problème de connexion au serveur, veuillez réessayer");
+      this.notifyer.notifyBySnackBar("Il y a eu un problème de connexion au serveur, veuillez réessayer");
     })
   }
 }

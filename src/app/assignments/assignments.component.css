@@ -49,8 +49,24 @@
   max-height: 70vh;
   overflow-y: auto;
   width: 450px; /* Adjust the width as needed */
+  scrollbar-width: thin;
 }
 
 .scrollable-section::-webkit-scrollbar {
   display: none;
+}
+
+#rendus, #nonRendus{
+  min-height: 40vh;
+  border: 3px dotted #dadbdf;
+  border-radius: 4%;
+  padding:3%;
+}
+
+.indication{
+  text-align: center;
+  font-weight: bolder;
+  font-size:medium;
+  color:#797a7c;
+  margin-top:20%;
 }
