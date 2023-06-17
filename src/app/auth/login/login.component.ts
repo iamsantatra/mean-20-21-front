@@ -14,7 +14,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
   errorMessage = "";
   loginFailed = false;
-  isLoading = false;
+  isLoading = true;
 
   constructor(private formBuilder: FormBuilder,
     public authService: AuthService,
@@ -34,6 +34,11 @@ export class LoginComponent {
     if (this.tokenService.getToken() && this.tokenService.getUser()) {
       this.router.navigate(["/home"]);
     }
+    this.router.events.subscribe(event => {
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 2750);
+    });
   }
 
   createLoginForm() {
