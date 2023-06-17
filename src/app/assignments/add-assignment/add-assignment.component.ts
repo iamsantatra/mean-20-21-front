@@ -10,6 +10,7 @@ import { Utilisateur } from 'src/app/models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/shared/helper.service';
 
 @Component({
   selector: 'app-add-assignment',
@@ -36,7 +37,8 @@ export class AddAssignmentComponent {
   constructor(private assignmentsService: AssignmentsService, private router:Router, 
     private matieresService: MatieresService, private formBuilder: FormBuilder,
     private usersService: UsersService, private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<AddAssignmentComponent> ) { }
+    private dialogRef: MatDialogRef<AddAssignmentComponent> ,
+    private helpersService: HelperService) { }
 
   
 
@@ -88,7 +90,7 @@ export class AddAssignmentComponent {
     });
     console.log("this.nom", this.nom)
     this.dateRendu = this.formBuilder.group({
-      secondCtrl: ['', Validators.required],
+      secondCtrl: [this.today, [Validators.required, this.helpersService.validateDateMin]],
     });
     this.matiere = this.formBuilder.group({
       thirdCtrl: ['', Validators.required],
@@ -140,8 +142,10 @@ export class AddAssignmentComponent {
       console.log(reponse.message);
       // Redirect to '/home'
       // this.router.navigateByUrl('/home');
-      this.dialogRef.close();
+      newAssignment._id = reponse.data._id
+      newAssignment.idAssignment = reponse.data.idAssignment
       this.assignmentCreated.emit(newAssignment);
+      this.dialogRef.close();
     })
     this.openSnackBar();
   }

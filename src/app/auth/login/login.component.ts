@@ -14,6 +14,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
   errorMessage = "";
   loginFailed = false;
+  isLoading = false;
 
   constructor(private formBuilder: FormBuilder,
     public authService: AuthService,
@@ -33,21 +34,19 @@ export class LoginComponent {
     if (this.tokenService.getToken() && this.tokenService.getUser()) {
       this.router.navigate(["/home"]);
     }
-    this.username?.setValue("Gabriel")
-    this.password?.setValue("12345678")
   }
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: ['Gabriel', Validators.required],
+      password: ['12345678', Validators.required]
     });
   }
 
   onSubmit() {
     console.log(this.loginForm.value)
     if (this.loginForm.valid) {
-      
+      this.isLoading = true;
       // Effectuez ici la logique de connexion
       this.authService.logIn(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(data => {
@@ -59,10 +58,12 @@ export class LoginComponent {
   
         // il va falloir naviguer (demander au router) d'afficher à nouveau la liste
         // en gros, demander de naviguer vers /home
+        this.isLoading = false;
         this.router.navigate(["/home"]);
       }, error => {
         this.loginFailed = true;
         this.errorMessage = error.error.message;
+        this.isLoading = false;
         console.log("erreur = " + error.error.message);
       })
     }

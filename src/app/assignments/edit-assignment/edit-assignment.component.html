@@ -21,14 +21,14 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid">
       <div class="edit-profile">
-        <form [formGroup]="editForm">
+        <form [formGroup]="editForm" class="needs-validation" novalidate="">
           <div class="row">
               <div class="col-xl-3 col-lg-3">
               </div>          
               <div class="col-xl-6 col-lg-6">
                 <div class="card">
                   <div class="card-header pb-0">
-                    <h4 class="card-title mb-0">Modification devoir</h4>
+                    <h4 class="card-title mb-0">Modification devoir #{{ assignment.idAssignment }}</h4>
                     <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
                   </div>
                   <div class="card-body">
@@ -36,19 +36,28 @@
                       <div class="row">
                           <div class="mb-3">
                             <label class="form-label f-w-500">Nom du devoir<span style="color: red"> *</span></label>
-                            <input class="form-control" type="text" formControlName="nomDevoir" id="nomDevoir">
+                            <input class="form-control" type="text"  [ngClass]="{'is-invalid': nomDevoir?.touched && nomDevoir?.invalid }"  formControlName="nomDevoir" id="nomDevoir" required>
+                            <div class="invalid-feedback txt-danger" *ngIf="nomDevoir?.invalid && nomDevoir?.touched ">
+                                Veuillez saisir un nom de devoir correct (minimum 5 caractères)
+                            </div>
                           </div>
                           <div class="row">
                             <div class="col-xl-6 col-lg-6">
                               <div class="mb-3">
                                 <label class="form-label f-w-500">Date de rendu<span style="color: red"> *</span></label>
-                                <input class="form-control" type="date" formControlName="dateRendu">
+                                <input class="form-control" type="date" [ngClass]="{'is-invalid': dateRendu?.invalid && (dateRendu?.dirty || dateRendu?.touched) }" formControlName="dateRendu" required>
+                                <div class="invalid-feedback txt-danger" *ngIf="dateRendu?.invalid && (dateRendu?.dirty || dateRendu?.touched)">
+                                  Veuillez saisir une date correcte
+                                </div>
                               </div>
                             </div>
                             <div class="col-xl-6 col-lg-6">
                               <div class="mb-3">
                                 <label class="form-label f-w-500">Note<span style="color: red"> *</span></label>
-                                <input class="form-control" type="text" formControlName="note" type="number">
+                                <input class="form-control" type="text" [ngClass]="{'is-invalid': note?.invalid && (note?.dirty || note?.touched) }" formControlName="note" type="number" required>
+                                <div class="invalid-feedback txt-danger" *ngIf="note?.invalid && (note?.dirty || note?.touched)">
+                                  Veuillez saisir un nombre correct
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -56,18 +65,29 @@
                             <div class="col-xl-6 col-lg-6">
                               <div class="mb-3">
                                 <label class="form-label f-w-500">Matière<span style="color: red"> *</span></label>
-                                <select class="form-control btn-square" formControlName="matieresNom" [(ngModel)]="selectedMatiereId">
+                                <select class="form-control btn-square" [ngClass]="{'is-invalid': matieresNom?.invalid && (matieresNom?.dirty || matieresNom?.touched) }" formControlName="matieresNom" [(ngModel)]="selectedMatiereId" required>
                                   <option *ngFor="let matiere of matieres" [value]="matiere.id" >{{ matiere.nom }}</option>
                                 </select>
+                                <div class="invalid-feedback txt-danger" *ngIf="matieresNom?.invalid && (matieresNom?.dirty || matieresNom?.touched)">
+                                  Veuillez choisir une matière
+                                </div>
                               </div>
                             </div>
                             <div class="col-xl-6 col-lg-6">
                               <div class="mb-3">
                                 <label class="form-label f-w-500">Elève<span style="color: red"> *</span></label>
-                                <select class="form-control btn-square" formControlName="elevesNom" [(ngModel)]="selectedEleveId">
+                                <select class="form-control btn-square" [ngClass]="{'is-invalid': elevesNom?.invalid && (elevesNom?.dirty || elevesNom?.touched) }" formControlName="elevesNom" [(ngModel)]="selectedEleveId" required>
                                   <option *ngFor="let eleve of eleves" [value]="eleve.id" >{{ eleve.nom }}</option>
                                 </select>
+                                <div class="invalid-feedback txt-danger" *ngIf="elevesNom?.invalid && (elevesNom?.dirty || elevesNom?.touched)">
+                                  Veuillez choisir un élève
+                                </div>
                               </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="form-group">
+                              <div *ngIf="editFailed" class="txt-danger mt-2">{{ errorMessage }}</div>
                             </div>
                           </div>
                           <div>

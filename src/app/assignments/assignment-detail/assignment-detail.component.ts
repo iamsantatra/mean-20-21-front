@@ -16,6 +16,7 @@ import { HelperService } from 'src/app/shared/helper.service';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis!: Assignment;
+  isAdmin?: boolean = true;
 
   constructor(private assignmentsService: AssignmentsService,
     private router: Router,
@@ -29,6 +30,7 @@ export class AssignmentDetailComponent implements OnInit {
     }
   
   ngOnInit(): void {
+
     // appelée avant le rendu du composant
     // on va chercher l'id dans l'url active
     // en mettant + on force la conversion en number
@@ -100,6 +102,8 @@ export class AssignmentDetailComponent implements OnInit {
     //   // },
     //   // fragment: "edition"
     // });
+    console.log("Dans le onEditAssignment de detail")
+    console.log(this.assignmentTransmis)
     this.router.navigate(['/assignments'],{
       queryParams: {
         id: this.assignmentTransmis?.idAssignment
