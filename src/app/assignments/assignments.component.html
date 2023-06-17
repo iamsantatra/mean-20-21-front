@@ -73,8 +73,8 @@
                             <p class="mb-0">{{devoir.prof?.nom}}</p>
                           </div>
                         </div>
-                        <p class="mt-2">Date limite de soumission du devoir par {{devoir.eleve?.nom}} : {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}}.</p>
-                      </div>
+                        <p class="mt-2">Date limite de soumission du devoir par <strong>{{devoir.eleve?.nom}}</strong> le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}}.</p>
+                      </div> 
                     </div>
                   </div>
               </div>
@@ -115,7 +115,7 @@
                           <p class="mb-0"> Themeforest, australia</p>
                         </div>
                       </div>
-                      <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
+                      <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par <strong>{{devoir.eleve?.nom}}</strong>.</p>
                     </div>
                   </div>
                 </div>
