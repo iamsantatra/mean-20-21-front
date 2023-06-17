@@ -9,6 +9,7 @@ import { AssignmentsService } from './shared/assignments.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  isLoading: boolean = true;
   title = 'Application de gestion de devoirs à rendre';
   labelConnexion = "Se connecter";
   nom:string = "";
@@ -17,16 +18,15 @@ export class AppComponent {
   constructor(private authService:AuthService, 
               private router:Router,
               private assigmmentsService:AssignmentsService) {
-    console.log(router.url);
 
-    router.events.subscribe(event => {
-      if(event instanceof NavigationEnd) {
-        console.log(event.url);
-        this.currentRoute = event.url;
-      }
-    });
-    
-    
+    // this.router.events.subscribe(event => {
+    //   // if (event instanceof NavigationEnd) {
+    //   //   this.isLoading = false;
+    //   // }
+    //   setTimeout(() => {
+    //     this.isLoading = false;
+    //   }, 2000);
+    // });
   }
 
   login() {

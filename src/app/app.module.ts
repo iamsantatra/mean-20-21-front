@@ -40,8 +40,9 @@ import { AuthInterceptor } from './interceptor/auth-interceptor';
 import { AddNoteComponent } from './assignments/add-note/add-note.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { LoadingComponent } from './loading/loading/loading.component';
 import { DeleteNoteComponent } from './assignments/delete-note/delete-note.component';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -87,6 +88,7 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
+    LoadingComponent,
     AddNoteComponent,
     DeleteNoteComponent
   ],
@@ -105,7 +107,7 @@ const routes: Routes = [
     MatDialogModule,
     MatStepperModule, 
     MatSidenavModule, MatSnackBarModule,
-    DatePipe
+    DatePipe, MatProgressSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

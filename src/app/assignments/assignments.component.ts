@@ -9,15 +9,16 @@ import { UsersService } from '../shared/users.service';
 import { MatieresService } from '../shared/matieres.service';
 import { AddNoteComponent } from './add-note/add-note.component';
 import { DeleteNoteComponent } from './delete-note/delete-note.component';
-
+import { AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.css']
 })
-export class AssignmentsComponent implements OnInit {
+export class AssignmentsComponent implements OnInit, AfterViewInit {
   titre="Liste des devoirs à rendre";
+  isLoading: boolean = true;
   // les données à afficher
   assignments:Assignment[] = [];
   rendus : Assignment[] = [];
@@ -47,6 +48,46 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignments();
   }
 
+  ngAfterViewInit() { 
+    console.log("after view init");
+
+    // if(!this.scroller) return;
+
+    // // on s'abonne à l'évènement scroll de la liste
+    // this.scroller.elementScrolled()
+    // .pipe(
+    //   tap(event => {
+    //     //console.log(event);
+    //   }),
+    //   map(event => {
+    //      return this.scroller.measureScrollOffset('bottom');
+    //   }),
+    //   tap(y => {
+    //     //console.log("y = " + y);
+    //   }),
+    //   pairwise(),
+    //   tap(([y1, y2]) => {
+    //     //console.log("y1 = " + y1 + " y2 = " + y2);
+    //   }),
+    //   filter(([y1, y2]) => {
+    //     return y2 < y1 && y2 < 100;
+    //   }),
+    //   // Pour n'envoyer des requêtes que toutes les 200ms
+    //   //throttleTime(200)
+    // )
+    // .subscribe((val) => {
+    //   console.log("val = " + val);
+    //   console.log("je CHARGE DE NOUVELLES DONNEES page = " + this.page);
+    //   this.ngZone.run(() => {
+    //     if(!this.hasNextPage) return;
+
+    //     this.page = this.nextPage;
+    //     this.getAddAssignmentsForScroll();
+    //   });
+    // });
+    // this.isLoading = false;
+  }
+
   getAssignments() {
     this.assignmentsService.getAssignments(this.page, this.limit)
       .subscribe(data => {
@@ -61,6 +102,9 @@ export class AssignmentsComponent implements OnInit {
           this.rendus = this.assignments.filter(a => a.rendu == true && a.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
           this.nonRendus = this.assignments.filter(a => a.rendu == false && a.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
         }
+
+        console.log("Données reçues");
+        this.isLoading = false;
       });
   }
   
@@ -128,13 +172,14 @@ export class AssignmentsComponent implements OnInit {
         }
     }
   } 
-
+  
   onAjoutDevoir() {
     const dialogRef = this.dialog.open(AddAssignmentComponent, {maxWidth:'35vw'});
     // Subscribe to the assignmentCreated event
     dialogRef.componentInstance.assignmentCreated.subscribe((newAssignment: Assignment) => {
       // Add the new assignment to the list of assignments
-      this.assignments.unshift(newAssignment);
+      this.nonRendus.unshift(newAssignment);
+      this.assignments.push(newAssignment);
     });
   }
 
@@ -151,5 +196,9 @@ export class AssignmentsComponent implements OnInit {
     //   console.log(assignmentDeleted)
     //   this.assignments = this.assignments.filter(assignment => assignment.idAssignment !== assignmentDeleted.idAssignment);
     // });
-  }
+  } 
+
+  // onImageLoad() {
+  //   this.isLoading = false;
+  // }
 }
