@@ -30,6 +30,7 @@ export class EditAssignmentComponent implements OnInit {
   errorMessage?: string = "";
   today: Date = new Date();
   remarquesTxt?: string = "";
+  isLoading: boolean = true;
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -100,6 +101,7 @@ export class EditAssignmentComponent implements OnInit {
         if (!assignment) { return this.router.navigate(['/home']) };
         this.assignment = assignment;
         this.formSetter(assignment);
+        this.isLoading = false;
         return this.assignment;
       });
     }
