@@ -15,15 +15,16 @@
                 </div>
             </div>
             <div class="col-md-6 p-0" >
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                  showFirstLastButtons
-                  aria-label="Selection de la page des assigments"
-                  (page)="handlePage($event)"
-                  [length]="totalPages"
-                  [pageSize]="limit"
-                  [pageIndex]="page"
-                  style="background-color: #f6f8fc; font-family: 'Montserrat', sans-serif;" 
-                >
+              <mat-paginator
+                [pageIndex]="page-1"
+                [length]="totalDocs"
+                [pageSize]="10"
+                (page)="handlePage($event)"
+                aria-label="Select page"
+                [showFirstLastButtons]="showFirstLastButtons"
+                [pageSizeOptions]="pageSizeOptions"
+                style="background-color: #f6f8fc; font-family: 'Montserrat', sans-serif;" 
+              >
               </mat-paginator>
             </div>
             <div class="col-md-3 p-0 ">                    
@@ -34,6 +35,7 @@
             </div>
           </div>
         </div>
+
         <!-- Container-fluid starts-->  
         <div class="container-fluid">
           <div class="row ui-sortable" >
@@ -46,7 +48,9 @@
                   [cdkDropListData]="nonRendus"
                   [cdkDropListConnectedTo]="[divRendus]" 
                   (cdkDropListDropped)="onDrop($event)">
-                  
+                  <div class="indication" *ngIf="nonRendus.length==0">
+                    Drag and drop pour annuler des devoirs
+                  </div>
                   <div *ngFor="let devoir of nonRendus">
                     <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
                       <div class="card-header pb-0">
@@ -79,74 +83,7 @@
                   </div>
               </div>
           </div>
-          <div class="col-md-6 p-0" >
-            <mat-paginator
-              [pageIndex]="page-1"
-              [length]="totalDocs"
-              [pageSize]="10"
-              (page)="handlePage($event)"
-              aria-label="Select page"
-              [showFirstLastButtons]="showFirstLastButtons"
-              [pageSizeOptions]="pageSizeOptions"
-              style="background-color: #f6f8fc; font-family: 'Montserrat', sans-serif;" 
-            >
-            </mat-paginator>
-          </div>
-          <div class="col-md-3 p-0 ">                    
-            <!-- <div class="form-group mb-0 me-0"></div> -->
-            <a (click)="onAjoutDevoir()" class="ajouterBtn">
-              <button class="btn btn-warning" type="button">Ajouter devoir</button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- Container-fluid starts-->  
-      <div class="container-fluid">
-        <div class="row ui-sortable" >
-          <div class="col-md-4">
-            <h4 class="font-primary">À rendre</h4>
-            <div 
-                class="scrollable-section" id="nonRendus" 
-                cdkDropList 
-                #divRendus="cdkDropList" 
-                [cdkDropListData]="rendus"
-                [cdkDropListConnectedTo]="[divNonRendus]" 
-                (cdkDropListDropped)="onDrop($event)">
-                
-                <div class="indication" *ngIf="nonRendus.length==0">
-                  Drag and drop pour annuler des devoirs
-                </div>
-                <div *ngFor="let devoir of nonRendus">
-                  <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
-                    <div class="card-header pb-0">
-                      <div class="d-sm-flex d-block justify-content-between">
-                        <h4>{{devoir.nom}}</h4>
-                        <div class="badge-group">
-                          <div class="btn btn-xs f-right" [ngClass]="{
-                            'btn-primary': devoir.matiere?.idMatiere === 3,
-                            'btn-light': devoir.matiere?.idMatiere === 2,
-                            'btn-danger': devoir.matiere?.idMatiere === 1
-                          }">
-                            <!-- <div class="btn btn-primary btn-xs f-right"> -->
-                            <span id="txt">{{ devoir.matiere?.nom }}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" style="width: 100%; height: 230px" data-original-title="" title="">
-                      <div class="d-flex align-items-start mt-2">
-                        <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
-                        <div class="flex-grow-1 mt-3">
-                          <p class="mb-0">{{devoir.prof?.nom}}</p>
-                        </div>
-                      </div>
-                      <p class="mt-2">Date limite de soumission du devoir par {{devoir.eleve?.nom}} : {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}}.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
+        
           <div class="col-md-1"></div>
           <div class="col-md-4">
             <h4 class="font-success">Rendu</h4>
@@ -183,8 +120,9 @@
             </div>
             <div class="col-md-4"></div>
           </div>
+        </div>
           <!-- Container-fluid Ends-->
         </div>
-      </div> 
+      </div>
   </div>
 </ng-template>
