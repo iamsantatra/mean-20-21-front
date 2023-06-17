@@ -52,17 +52,17 @@
                     Drag and drop pour annuler des devoirs
                   </div>
                   <div *ngFor="let devoir of nonRendus">
-                    <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
+                    <div class="card h-400"  (click)="onDetailDevoir(devoir)" cdkDrag>
                       <div class="card-header pb-0">
                         <div class="d-sm-flex d-block justify-content-between">
                           <h4>{{devoir.nom}}</h4>
                           <!-- <p class="square-after f-w-600 header-text-primary">{{moviesList}}<i class="fa fa-circle"> </i></p> -->
                           <div class="badge-group">
                             <div class="btn btn-xs f-right" [ngClass]="{
-                              'btn-primary': devoir.matiere?.idMatiere === 3,
-                              'btn-light': devoir.matiere?.idMatiere === 2,
-                              'btn-danger': devoir.matiere?.idMatiere === 1
-                            }">
+                                'btn-primary': devoir.matiere?.idMatiere === 3,
+                                'btn-light': devoir.matiere?.idMatiere === 2,
+                                'btn-danger': devoir.matiere?.idMatiere === 1
+                              }">
                               <!-- <div class='btn btn-primary btn-xs f-right'> -->
                               <span id="txt">{{ devoir.matiere?.nom }}</span>
                             </div>
@@ -70,7 +70,7 @@
                         </div>
                       </div>
                       <div class="card-body">
-                        <img class="img-fluid" style="border-radius: 15px;"  src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}"  style="width: 100%; height: 230px"  data-original-title="" title="">
+                        <img class="img-fluid" style="border-radius: 15px; width: 100%; height: 230px"  alt="{{devoir.matiere?.image}}" src="{{devoir.matiere?.image}}"  data-original-title="" title="">
                         <div class="d-flex align-items-start">
                           <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
                           <div class="flex-grow-1 mt-3">
@@ -84,8 +84,8 @@
               </div>
           </div>
         
-          <div class="col-md-1"></div>
-          <div class="col-md-4">
+          <!-- <div class="col-md-1"></div> -->
+          <div class="col-md-4 ml-4">
             <h4 class="font-success">Rendu</h4>
             <div class="scrollable-section"
               id="rendus"
@@ -98,28 +98,37 @@
                 Drag and drop pour rendre des devoirs
               </div>
               <div *ngFor="let devoir of rendus" >
-                <div class="card" (click)="onDetailDevoir(devoir)" cdkDrag>
+                <div class="card h-400" (click)="onDetailDevoir(devoir)" cdkDrag>
                   <div class="card-header pb-0">
                     <div class="d-sm-flex d-block justify-content-between">
                       <h4>{{devoir.nom}}</h4>
                       <div class="badge-group">
                         <div class="btn btn-xs f-right" [ngClass]="{
                           'btn-primary': devoir.matiere?.idMatiere === 3,
-                          'btn-danger': devoir.matiere?.idMatiere === 2,
-                          'btn-success': devoir.matiere?.idMatiere === 1
+                          'btn-light': devoir.matiere?.idMatiere === 2,
+                          'btn-danger': devoir.matiere?.idMatiere === 1
                         }">
                           <!-- <div class="btn btn-primary btn-xs f-right"> -->
                           <span id="txt">{{ devoir.matiere?.nom }}</span>
                         </div>
                       </div>
-                      <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par <strong>{{devoir.eleve?.nom}}</strong>.</p>
                     </div>
+                  </div>
+                  <div class="card-body">
+                    <img class="img-fluid" style="border-radius: 15px; width: 100%; height: 230px"   src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                    <div class="d-flex align-items-start mt-2">
+                      <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
+                      <div class="flex-grow-1 mt-3">
+                        <p class="mb-0">{{devoir.prof?.nom}}</p>
+                      </div>
+                    </div>
+                    <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-4"></div>
           </div>
+          <div class="col-md-4"></div>
         </div>
           <!-- Container-fluid Ends-->
         </div>

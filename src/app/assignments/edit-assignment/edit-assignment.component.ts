@@ -29,6 +29,7 @@ export class EditAssignmentComponent implements OnInit {
   editFailed?: boolean = false;
   errorMessage?: string = "";
   today: Date = new Date();
+  remarquesTxt?: string = "";
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -77,7 +78,8 @@ export class EditAssignmentComponent implements OnInit {
       note: ['', [Validators.required, Validators.min(0), Validators.max(20)]],
       dateRendu: ['', Validators.required],
       matieresNom: ['', Validators.required],
-      elevesNom: ['', Validators.required]
+      elevesNom: ['', Validators.required],
+      remarques: ['', Validators.maxLength(200)]
       // eleve: ['', Validators.required]
     });
   }
@@ -110,6 +112,7 @@ export class EditAssignmentComponent implements OnInit {
     this.dateRendu?.setValue(this.helperService.formatDate(assignment.dateDeRendu))
     this.note?.setValue(assignment.note)
     this.remarques?.setValue(assignment.remarques)
+    this.remarquesTxt = assignment.remarques
   }
 
   changeMatiere(e: any) {
