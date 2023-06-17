@@ -3,47 +3,48 @@
 </ng-container>
 <ng-template #content>
   <div class="container-fluid p-0">
-      <div class="row m-0">
-        <div class="col-12 p-0">    
-          <div class="login-card">
-            <div>
-              <div><a class="logo" href="#"><img class="img-fluid for-light" src="../assets/images/logo/logo2.png" alt="looginpage"></a></div>
-              <div class="login-main mb-4"> 
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="theme-form needs-validation" novalidate>
-                  <h4 class="text-center">Connectez-vous</h4>
-                  <div class="form-group">
-                    <label class="col-form-label mt-4" for="username">Nom d'utilisateur</label>
-                    <input class="form-control" type="text" value="Gabriel" formControlName="username" id="username" [ngClass]="{'is-invalid': username?.touched && username?.invalid }" placeholder="Pseudo">
-                    <div class="invalid-feedback txt-danger"  *ngIf="username?.touched && username?.invalid && username?.errors!['required']">Le nom d'utilisateur est requis.</div>
-  <!-- 
-                    <input type="text" [ngClass]="{ 'is-invalid': submitted && f['nomPlat'].errors }" class="form-control" id="nomPlat" formControlName="nomPlat" placeholder="Entrer le repas">
-                    <div class="invalid-feedback" *ngIf="submitted && f['nomPlat'].errors">Veuillez saisir le repas</div> -->
-                  </div>
-                  
-                  <div class="form-group">
-                    <label class="col-form-label">Mot de passe</label>  
-                      <input class="form-control" type="password" value="12345678" formControlName="password" [ngClass]="{'is-invalid': password?.touched && password?.invalid }" placeholder="*********" />
-                      <div class="invalid-feedback txt-danger"  *ngIf="password?.touched && password?.invalid && password?.errors!['required']">Le mot de passe est requis.</div>
+        <div class="row m-0">
+          <div class="col-12 p-0">    
+            <div class="login-card">
+              <div>
+                <div><a class="logo" href="#"><img class="img-fluid for-light" src="../assets/images/logo/logo2.png" alt="looginpage"></a></div>
+                <div class="login-main mb-4"> 
+                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="theme-form needs-validation" novalidate>
+                    <h4 class="text-center">Connectez-vous</h4>
+                    
+                    <div class="form-group">
+                      <label class="col-form-label mt-4" for="username">Nom d'utilisateur</label>
+                      <input class="form-control" type="text" value="Gabriel" formControlName="username" id="username" [ngClass]="{'is-invalid': username?.touched && username?.invalid }" placeholder="Pseudo">
+                      <div class="invalid-feedback txt-danger"  *ngIf="username?.touched && username?.invalid && username?.errors!['required']">Le nom d'utilisateur est requis.</div>
+    <!-- 
+                      <input type="text" [ngClass]="{ 'is-invalid': submitted && f['nomPlat'].errors }" class="form-control" id="nomPlat" formControlName="nomPlat" placeholder="Entrer le repas">
+                      <div class="invalid-feedback" *ngIf="submitted && f['nomPlat'].errors">Veuillez saisir le repas</div> -->
                     </div>
+                    
+                    <div class="form-group">
+                      <label class="col-form-label">Mot de passe</label>  
+                        <input class="form-control" type="password" value="12345678" formControlName="password" [ngClass]="{'is-invalid': password?.touched && password?.invalid }" placeholder="*********" />
+                        <div class="invalid-feedback txt-danger"  *ngIf="password?.touched && password?.invalid && password?.errors!['required']">Le mot de passe est requis.</div>
+                      </div>
 
-                  <div class="form-group">
-                    <div *ngIf="loginFailed" class="txt-danger mt-2">{{ errorMessage }}</div>
-                  </div>
-                  
-                  <div class="form-group mb-0">
-                    <div class="text-end mt-3">
-                      <button class="btn btn-primary btn-block w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
-                        Se connecter
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
-                      </button>
+                    <div class="form-group">
+                      <div *ngIf="loginFailed" class="txt-danger mt-2">{{ errorMessage }}</div>
                     </div>
-                  </div>
-                  <p class="mt-4 mb-0 text-center">Vous n'avez pas de compte ?<a class="ms-2" [routerLink]="['/register']">Inscrivez-vous</a></p>
-                </form>
+                    
+                    <div class="form-group mb-0">
+                      <div class="text-end mt-3">
+                        <button class="btn btn-primary btn-block w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
+                          Se connecter
+                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <p class="mt-4 mb-0 text-center">Vous n'avez pas de compte ?<a class="ms-2" [routerLink]="['/register']">Inscrivez-vous</a></p>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
   </div>
 </ng-template>

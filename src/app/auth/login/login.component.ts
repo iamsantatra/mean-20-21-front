@@ -29,16 +29,19 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.createLoginForm();
     if (this.tokenService.getToken() && this.tokenService.getUser()) {
       this.router.navigate(["/home"]);
     }
-    this.router.events.subscribe(event => {
+    if (sessionStorage.getItem('loginVisitedFirstTime') === 'true') {
+      this.isLoading = false;
+    } else {
       setTimeout(() => {
         this.isLoading = false;
-      }, 2750);
-    });
+      }, 2500);
+      sessionStorage.setItem('loginVisitedFirstTime', 'true');
+    }
   }
 
   createLoginForm() {
