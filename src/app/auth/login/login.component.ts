@@ -14,7 +14,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
   errorMessage = "";
   loginFailed = false;
-  isLoading = false;
+  isLoading = true;
 
   constructor(private formBuilder: FormBuilder,
     public authService: AuthService,
@@ -29,10 +29,18 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.createLoginForm();
     if (this.tokenService.getToken() && this.tokenService.getUser()) {
       this.router.navigate(["/home"]);
+    }
+    if (sessionStorage.getItem('loginVisitedFirstTime') === 'true') {
+      this.isLoading = false;
+    } else {
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 2500);
+      sessionStorage.setItem('loginVisitedFirstTime', 'true');
     }
   }
 
