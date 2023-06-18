@@ -14,7 +14,7 @@
 Clonez le projet front-end
 `git clone https://github.com/iamsantatra/mean-20-21-front.git`
 
-Utilisez la commande cd pour vous rendre dans le répertoire racine de votre projet
+Utilisez la commande `cd` pour vous rendre dans le répertoire racine de votre projet
 `cd mean-20-21-front`
 
 Vérifiez que vous êtes bien dans la branche principale (main) 
