@@ -39,7 +39,7 @@ GitHub Copilot et ChatGPT nous ont aussi aidé pour une meilleure productivité.
 - Le mot de passe pour tous les utilisateurs est: 12345678
 - Dans la barre de navigation (navbar), pour se déconnecter, il suffit de pointer sur le nom et le profil de l'utilisateur, puis de cliquer sur le bouton "Déconnexion".
 
-2. **Inscription**
+2. **Inscription**<br/>
 On doit renseigner les champs: nom d'utilisateur, profil, photo (convertie en base64 dans la BDD) et un mot de passe.
 <br/>
 
@@ -56,5 +56,5 @@ On doit renseigner les champs: nom d'utilisateur, profil, photo (convertie en ba
 - Les pages de gestion des devoirs sont contrôlées par **Router Guards**.
 - La page de modification/suppression est exclusivement réservée aux professeurs ou administrateurs, et elle est aussi protégée par un système de **Router Guards**.
 
-4. **Hebergement**
+4. **Hebergement**<br/>
 L'application est hebergée dans [render](https://render.com/).
