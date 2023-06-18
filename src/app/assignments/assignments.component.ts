@@ -94,7 +94,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
         this.mapAssignments(data.docs);
         this.limit = data.limit;
         this.totalDocs = data.totalDocs;
-        
+        this.isLoading = false;
         if (!this.searchTerm) {
           this.rendus = this.assignments.filter(a => a.rendu == true);
           this.nonRendus = this.assignments.filter(a => a.rendu == false);
@@ -102,9 +102,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
           this.rendus = this.assignments.filter(a => a.rendu == true && a.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
           this.nonRendus = this.assignments.filter(a => a.rendu == false && a.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
         }
-
         console.log("Données reçues");
-        this.isLoading = false;
       });
   }
   
