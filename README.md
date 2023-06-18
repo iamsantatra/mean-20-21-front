@@ -11,16 +11,16 @@
 
 ## Démarrage du projet
 
-Clonez le projet front-end
+Clonez le projet front-end<br/>
 `git clone https://github.com/iamsantatra/mean-20-21-front.git`
 
-Vérifiez que vous êtes bien dans la branche principale (main)   
+Vérifiez que vous êtes bien dans la branche principale (main)<br/>   
 `git branch`
 
-Installez les dépendances
+Installez les dépendances<br/>
 `npm install`
 
-Pour démarrer le projet dans un server dev
+Pour démarrer le projet dans un server dev<br/>
 `ng serve`
 
 Naviguez vers l'url `http://localhost:4200/` depuis votre navigateur pour tester localement le projet.
@@ -29,7 +29,7 @@ Naviguez vers l'url `http://localhost:4200/` depuis votre navigateur pour tester
 
 On a utilisé le composant [Angular material](https://material.angular.io/) et un template intitulé [Tivo](https://admin.pixelstrap.com/tivo/template/index.html) pour améliorer l'esthétique du site.
 
-Notre code (back-end et front-end) est basé sur notre projet de l'année dernière, disponible sur : `https://github.com/iamsantatra/m1p9mean-santatry-ny-aina` qui est inspiré de ce tutoriel `https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/` ainsi que par le site `https://www.bezkoder.com/`.
+Ce code (back-end et front-end) est basé sur notre projet de l'année dernière, disponible sur GitHub : [E-Kaly](https://github.com/iamsantatra/m1p9mean-santatry-ny-aina) ,inspiré de du tutoriel [AcademindPro MEAN](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/) ainsi que le site [bezkoder](https://www.bezkoder.com/).
 
 GitHub Copilot et ChatGPT nous ont aussi aidé pour une meilleure productivité.
 
