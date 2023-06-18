@@ -36,17 +36,24 @@ GitHub Copilot et ChatGPT nous ont aussi aidé pour une meilleure productivité.
 - Géré avec JWT
 - Le formulaire est déjà pré-rempli. 
 - Le mot de passe pour tous les utilisateurs est: 12345678
+- Dans la barre de navigation (navbar), pour se déconnecter, il suffit de pointer sur le nom et le profil de l'utilisateur, puis de cliquer sur le bouton "Déconnexion".
 
 2. **Inscription**
 On doit renseigner les champs: nom d'utilisateur, profil, photo (convertie en base64 dans la BDD) et un mot de passe.
 <br/>
+
 3. **Gestion des devoirs**
 - La colonne de gauche contient la liste des devoirs à rendre et la partie de droite contient les devoirs rendus.
 - Pour rendre un devoir, il suffit de le déplacer dans la colonne rendu à l'aide d'un mouvement  glisser-déposer (***drag un drop***). Ensuite, une petite fenêtre s'affichera pour renseigner la note et, si nécessaire, ajouter une remarque."
 - Par contre, pour annuler le devoir il faut tout simplement remettre le devoir dans la colonne de gauche. Ensuite, une petite fenêtre de confirmation apparaîtra pour confirmer l'annulation.
-- Un devoir est représenté dans un **card** contenant: le nom, l'image de la matière, le nom de l'élève, la photo du prof et son nom et la date de soumission.
+- Un devoir est représenté dans un élément **card** qui comprend les éléments suivants : le nom du devoir, l'image de la matière, le nom de l'élève, la photo et le nom du professeur, ainsi que la date de rendue.
 - Pour rechercher un devoir, il suffit de renseigner le nom.
 - La liste est paginée.
-- Pour consulter les détails d'un devoir, il suffit de cliquer sur un élément de la liste.
+- Pour consulter le détail d'un devoir, il suffit de cliquer sur un élément de la liste.
 - Pour l'ajout d'un devoir, nous avons utilisé le composant **mat-stepper**. 
+- Pour modifier ou supprimer un devoir, il faut cliquer sur le bouton "Modifier" dans la partie détail, ce qui nous redirige vers un formulaire dédié à la modification du devoir.
+- Les pages de gestion des devoirs sont contrôlées par **Router Guards**.
+- La page de modification/suppression est exclusivement réservée aux professeurs ou administrateurs, et elle est aussi protégée par un système de **Router Guards**.
 
+4. **Hebergement**
+L'application est hebergée dans [render](https://render.com/).
