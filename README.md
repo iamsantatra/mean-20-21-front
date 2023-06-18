@@ -57,4 +57,4 @@ On doit renseigner les champs: nom d'utilisateur, profil, photo (convertie en ba
 - La page de modification/suppression est exclusivement réservée aux professeurs ou administrateurs, et elle est aussi protégée par un système de **Router Guards**.
 
 4. **Hebergement**<br/>
-L'application est hebergée dans [render](https://render.com/).
+L'application est hebergée sur [render](https://render.com/).
