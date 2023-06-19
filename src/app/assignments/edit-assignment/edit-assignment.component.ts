@@ -160,7 +160,7 @@ export class EditAssignmentComponent implements OnInit {
       .updateAssignment(this.assignment)
       .subscribe(() => {
         // console.log(message);
-        // navigation vers la home page
+        // navigation vers la home 
         this.notifyer.notifyBySnackBar("Modifications enregistrées");
         this.router.navigate(['/home']);
       }, error => {
