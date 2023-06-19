@@ -91,10 +91,10 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   getAssignments() {
     this.assignmentsService.getAssignments(this.page, this.limit)
       .subscribe(data => {
+        this.isLoading = false;
         this.mapAssignments(data.docs);
         this.limit = data.limit;
         this.totalDocs = data.totalDocs;
-        this.isLoading = false;
         if (!this.searchTerm) {
           this.rendus = this.assignments.filter(a => a.rendu == true);
           this.nonRendus = this.assignments.filter(a => a.rendu == false);
