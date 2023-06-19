@@ -10,6 +10,7 @@ import { HelperService } from 'src/app/shared/helper.service';
 import { Utilisateur } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotifyerService } from 'src/app/shared/notifyer.service';
 
 @Component({
   selector: 'app-edit-assignment',
@@ -41,6 +42,7 @@ export class EditAssignmentComponent implements OnInit {
     private helperService: HelperService,
     private matieresService: MatieresService,
     private snackBar: MatSnackBar,
+    private notifyer: NotifyerService
   ) {}
 
   get nomDevoir() {
@@ -159,11 +161,13 @@ export class EditAssignmentComponent implements OnInit {
       .subscribe(() => {
         // console.log(message);
         // navigation vers la home page
+        this.notifyer.notifyBySnackBar("Modifications enregistrées");
         this.router.navigate(['/home']);
       }, error => {
         console.log(error);
         this.editFailed = true;
         this.errorMessage = error.error.message;
+        this.notifyer.notifyBySnackBar("Une erreur est survenue, veuillez réessayer");
       });
     } console.log("tsy metyu validation")
   }
