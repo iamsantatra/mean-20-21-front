@@ -61,7 +61,7 @@
                               <div class="col-xl-6 col-lg-6">
                                 <div class="mb-3">
                                   <label class="form-label f-w-500">Note<span style="color: red"> *</span></label>
-                                  <input class="form-control" type="text" [ngClass]="{'is-invalid': note?.invalid && (note?.dirty || note?.touched) }" formControlName="note" type="number" required>
+                                  <input class="form-control" type="text" [ngClass]="{'is-invalid': note?.invalid && (note?.dirty || note?.touched) }" formControlName="note" type="number"  required>
                                   <div class="invalid-feedback txt-danger" *ngIf="note?.invalid && (note?.dirty || note?.touched)">
                                     Veuillez saisir un nombre correct
                                   </div>
@@ -73,7 +73,7 @@
                                 <div class="mb-3">
                                   <label class="form-label f-w-500">Matière<span style="color: red"> *</span></label>
                                   <select class="form-control btn-square" [ngClass]="{'is-invalid': matieresNom?.invalid && (matieresNom?.dirty || matieresNom?.touched) }" formControlName="matieresNom" [(ngModel)]="selectedMatiereId" required>
-                                    <option *ngFor="let matiere of matieres" [value]="matiere.id" >{{ matiere.nom }}</option>
+                                    <option *ngFor="let matiere of matieres" >{{ matiere.nom }}</option>
                                   </select>
                                   <div class="invalid-feedback txt-danger" *ngIf="matieresNom?.invalid && (matieresNom?.dirty || matieresNom?.touched)">
                                     Veuillez choisir une matière
@@ -94,7 +94,7 @@
                             </div>
                             <div>
                               <label class="form-label f-w-500">Remarques</label>
-                              <textarea class="form-control" rows="5" formControlName="remarques">{{remarquesTxt}}</textarea>
+                              <textarea class="form-control" rows="5" formControlName="remarques" [readonly]="!rendu">{{remarquesTxt}}</textarea>
                             </div>
                             <div class="row">
                               <div class="form-group">

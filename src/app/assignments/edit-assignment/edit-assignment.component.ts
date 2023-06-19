@@ -31,6 +31,7 @@ export class EditAssignmentComponent implements OnInit {
   today: Date = new Date();
   remarquesTxt?: string = "";
   isLoading: boolean = true;
+  rendu: boolean = true;
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -70,6 +71,7 @@ export class EditAssignmentComponent implements OnInit {
   ngOnInit(): void {
     this.getAssignment();
     this.createEditForm();
+    console.log(this.assignment)
     this.getMatieres();
     this.getEleves()
   }
@@ -101,7 +103,6 @@ export class EditAssignmentComponent implements OnInit {
         if (!assignment) { return this.router.navigate(['/home']) };
         this.assignment = assignment;
         this.formSetter(assignment);
-        this.isLoading = false;
         return this.assignment;
       });
     }
@@ -113,8 +114,15 @@ export class EditAssignmentComponent implements OnInit {
     this.nomDevoir?.setValue(assignment.nom)
     this.dateRendu?.setValue(this.helperService.formatDate(assignment.dateDeRendu))
     this.note?.setValue(assignment.note)
+
     this.remarques?.setValue(assignment.remarques)
     this.remarquesTxt = assignment.remarques
+    if(!assignment.rendu) {
+      this.rendu = assignment.rendu
+      this.note?.disable()
+      this.remarques?.disable()
+    } 
+    this.isLoading = false;
   }
 
   changeMatiere(e: any) {
@@ -149,8 +157,10 @@ export class EditAssignmentComponent implements OnInit {
     // on récupère les valeurs dans le formulaire
     this.assignment.nom = this.nomDevoir?.value;
     // cast this.note?.value en number
-    this.assignment.note = +this.note?.value;
-    this.assignment.remarques = this.remarques?.value;
+    if(this.assignment.rendu) {
+      this.assignment.note = +this.note?.value;
+      this.assignment.remarques = this.remarques?.value;
+    }
     this.assignment.dateDeRendu = this.dateRendu?.value
     this.assignment.idMatiere = this.selectedMatiereId
     this.assignment.idEleve = this.selectedEleveId
