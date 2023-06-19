@@ -169,6 +169,7 @@ export class EditAssignmentComponent implements OnInit {
       .subscribe(() => {
         // console.log(message);
         // navigation vers la home page
+        this.openEditSnackBar(this.assignment.idAssignment);
         this.router.navigate(['/home']);
       }, error => {
         console.log(error);
@@ -205,6 +206,14 @@ export class EditAssignmentComponent implements OnInit {
   openSnackBar() {
     this.snackBar.open('Devoir supprimé', 'Fermer', {
       duration:environment.snackbar,
+      horizontalPosition: "end",
+      verticalPosition: "bottom",
+    });
+  }
+
+  openEditSnackBar(id: number | undefined) {
+    this.snackBar.open('Devoir #'+id+' modifié', 'Fermer', {
+      duration:environment.snackbar+1000,
       horizontalPosition: "end",
       verticalPosition: "bottom",
     });

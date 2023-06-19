@@ -86,7 +86,7 @@ export class AddAssignmentComponent {
     this.getMatieres();
     this.getUsers();
     this.nom = this.formBuilder.group({
-      firstCtrl: ['', Validators.required],
+      firstCtrl: ['', [Validators.required, Validators.minLength(5)]],
     });
     console.log("this.nom", this.nom)
     this.dateRendu = this.formBuilder.group({

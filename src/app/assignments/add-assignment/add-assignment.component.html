@@ -16,13 +16,12 @@
             </select>
           </div>
           <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
-          <button mat-button matStepperPrevious class="pull-right">Retour</button>
         </div>
       </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="this.nom" [completed]="true">
-      <form [formGroup]="this.nom">
+    <mat-step [stepControl]="nom">
+      <form [formGroup]="this.nom" class="needs-validation" novalidate="">
         <div class="mb-3">
           <p>Afin de pouvoir ajouter un nouveau devoir à rendre, veuillez prendre quelques instants pour renseigner le nom précis du devoir que vous souhaitez soumettre. Nous vous invitons à insérer le nom du devoir avec soin, en veillant à ce qu'il soit représentatif de son contenu.</p>
         </div>
@@ -30,14 +29,18 @@
           <div class="col-md-12">
             <div class="mb-3">
               <label class="control-label">Nom du devoir<span style="color: red"> *</span></label>
-              <input class="form-control" type="text" formControlName="firstCtrl" required>
+              <input class="form-control" [ngClass]="{'is-invalid': this.nom.touched && this.nom.invalid }" type="text" formControlName="firstCtrl" required>
+            </div>
+            <div class="mb-2 txt-danger" *ngIf="this.nom.invalid && this.nom.touched ">
+              Veuillez saisir un nom de devoir correct (minimum 5 caractères)
             </div>
             <button mat-button matStepperNext class="btn btn-primary pull-right" style="color: white;" >Suivant</button>
+            <button mat-button matStepperPrevious class="pull-right">Retour</button>
           </div>
         </div>
       </form>
     </mat-step>
-    <mat-step state="phone"[stepControl]="dateRendu">
+    <mat-step [stepControl]="dateRendu">
       <form [formGroup]="dateRendu">
         <div class="mb-3">
           <p>Veuillez indiquer la date de rendu prévue pour ce devoir. Cette date est d'une importance capitale pour respecter les échéances et planifier votre travail de manière efficace.</p>
@@ -54,7 +57,6 @@
         </div>
       </form>  
     </mat-step>
-
     <mat-step [stepControl]="eleve">
       <form [formGroup]="eleve">
       <div class="mb-3">
