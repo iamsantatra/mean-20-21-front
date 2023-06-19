@@ -5,16 +5,16 @@
   <app-navbar></app-navbar>
 
   <div class="page-body-wrapper">
-      <div class="page-body" style="margin-top: 50px; padding-top: 80px;">
+      <div class="page-body" style="margin-top: 30px; padding-top: 69px;">
         <div class="col-md-12 project-list">
           <div class="row">
-            <div class="col-md-3 p-0 d-flex">
+            <div class="col-md-4 p-0">
                 <div class="input-group">
                   <input [(ngModel)]="searchTerm" class="form-control" placeholder="Nom du devoir...">
                   <button class="btn btn-primary" (click)="onSearch()" type="submit">Rechercher</button>
                 </div>
             </div>
-            <div class="col-md-6 p-0" >
+            <div class="col-md-5 p-0" >
               <mat-paginator
                 [pageIndex]="page-1"
                 [length]="totalDocs"
@@ -39,7 +39,7 @@
         <!-- Container-fluid starts-->  
         <div class="container-fluid">
           <div class="row ui-sortable" >
-            <div class="col-md-4">
+            <div class="col-md-6">
               <h4 class="font-primary">À rendre</h4>
               <div 
                   class="scrollable-section" id="nonRendus" 
@@ -82,54 +82,53 @@
                     </div>
                   </div>
               </div>
-          </div>
-        
-          <!-- <div class="col-md-1"></div> -->
-          <div class="col-md-4 ml-4">
-            <h4 class="font-success">Rendu</h4>
-            <div class="scrollable-section"
-              id="rendus"
-              cdkDropList 
-              #divRendus="cdkDropList" 
-              [cdkDropListData]="rendus"
-              [cdkDropListConnectedTo]="[divNonRendus]" 
-              (cdkDropListDropped)="onDrop($event)">
-              <div class="indication" *ngIf="rendus.length==0">
-                Drag and drop pour rendre des devoirs
-              </div>
-              <div *ngFor="let devoir of rendus" >
-                <div class="card h-400" (click)="onDetailDevoir(devoir)" cdkDrag>
-                  <div class="card-header pb-0">
-                    <div class="d-sm-flex d-block justify-content-between">
-                      <h4>{{devoir.nom}}</h4>
-                      <div class="badge-group">
-                        <div class="btn btn-xs f-right" [ngClass]="{
-                          'btn-primary': devoir.matiere?.idMatiere === 3,
-                          'btn-light': devoir.matiere?.idMatiere === 2,
-                          'btn-danger': devoir.matiere?.idMatiere === 1
-                        }">
-                          <!-- <div class="btn btn-primary btn-xs f-right"> -->
-                          <span id="txt">{{ devoir.matiere?.nom }}</span>
+            </div>
+            <!-- <div class="col-md-4 col-sm-6"></div> -->
+            <div class="col-md-6">
+              <h4 class="font-success">Rendu</h4>
+              <div class="scrollable-section"
+                id="rendus"
+                cdkDropList 
+                #divRendus="cdkDropList" 
+                [cdkDropListData]="rendus"
+                [cdkDropListConnectedTo]="[divNonRendus]" 
+                (cdkDropListDropped)="onDrop($event)">
+                <div class="indication" *ngIf="rendus.length==0">
+                  Drag and drop pour rendre des devoirs
+                </div>
+                <div *ngFor="let devoir of rendus" >
+                  <div class="card h-400" (click)="onDetailDevoir(devoir)" cdkDrag>
+                    <div class="card-header pb-0">
+                      <div class="d-sm-flex d-block justify-content-between">
+                        <h4>{{devoir.nom}}</h4>
+                        <div class="badge-group">
+                          <div class="btn btn-xs f-right" [ngClass]="{
+                            'btn-primary': devoir.matiere?.idMatiere === 3,
+                            'btn-light': devoir.matiere?.idMatiere === 2,
+                            'btn-danger': devoir.matiere?.idMatiere === 1
+                          }">
+                            <!-- <div class="btn btn-primary btn-xs f-right"> -->
+                            <span id="txt">{{ devoir.matiere?.nom }}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <img class="img-fluid" style="border-radius: 15px; width: 100%; height: 230px"   src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
-                    <div class="d-flex align-items-start mt-2">
-                      <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
-                      <div class="flex-grow-1 mt-3">
-                        <p class="mb-0">{{devoir.prof?.nom}}</p>
+                    <div class="card-body">
+                      <img class="img-fluid" style="border-radius: 15px; width: 100%; height: 230px"   src="{{devoir.matiere?.image}}" alt="{{devoir.matiere?.image}}" data-original-title="" title="">
+                      <div class="d-flex align-items-start mt-2">
+                        <img class="img-40 me-1 mt-2 rounded-circle" src="{{devoir.prof?.image}}" alt="{{devoir.prof?.image}}" data-original-title="" title="">
+                        <div class="flex-grow-1 mt-3">
+                          <p class="mb-0">{{devoir.prof?.nom}}</p>
+                        </div>
                       </div>
+                      <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
                     </div>
-                    <p class="mt-2">Devoir soumis le {{devoir.dateDeRendu | date: 'dd-MM-yyyy'}} par {{devoir.eleve?.nom}}.</p>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- <div class="col-md-3 col-sm-2"></div> -->
           </div>
-          <div class="col-md-4"></div>
-        </div>
           <!-- Container-fluid Ends-->
         </div>
       </div>
