@@ -37,7 +37,7 @@ export class AuthService {
     }
     
     return this.http
-      .post<{data: Utilisateur}>(BACKEND_URL + "/register", registerData)
+      .post<{access_token: string, data: Utilisateur, expiresIn: number}>(BACKEND_URL + "/register", registerData)
     this.loggedIn = true;
   }
 

@@ -33,9 +33,9 @@
                     
                     <div class="form-group mb-0">
                       <div class="text-end mt-3">
-                        <button class="btn btn-primary btn-block w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
+                        <button class="btn btn-primary btn-block w-100" type="submit" [disabled]="loginForm.invalid || isLoginLoading">
                           Se connecter
-                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoginLoading"></span>
                         </button>
                       </div>
                     </div>

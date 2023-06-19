@@ -15,6 +15,7 @@ export class LoginComponent {
   errorMessage = "";
   loginFailed = false;
   isLoading = true;
+  isLoginLoading = false;
 
   constructor(private formBuilder: FormBuilder,
     public authService: AuthService,
@@ -39,7 +40,7 @@ export class LoginComponent {
     // } else {
     setTimeout(() => {
       this.isLoading = false;
-    }, 2500);
+    }, 2100);
     //   sessionStorage.setItem('loginVisitedFirstTime', 'true');
     // }
   }
@@ -54,7 +55,7 @@ export class LoginComponent {
   onSubmit() {
     console.log(this.loginForm.value)
     if (this.loginForm.valid) {
-      this.isLoading = true;
+      this.isLoginLoading = true;
       // Effectuez ici la logique de connexion
       this.authService.logIn(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(data => {
@@ -66,12 +67,12 @@ export class LoginComponent {
   
         // il va falloir naviguer (demander au router) d'afficher à nouveau la liste
         // en gros, demander de naviguer vers /home
-        this.isLoading = false;
+        this.isLoginLoading = false;
         this.router.navigate(["/home"]);
       }, error => {
         this.loginFailed = true;
         this.errorMessage = error.error.message;
-        this.isLoading = false;
+        this.isLoginLoading = false;
         console.log("erreur = " + error.error.message);
       })
     }

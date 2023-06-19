@@ -15,6 +15,7 @@ export class RegisterComponent {
   registerFailed = false;
   base64Image!: string;
   allowedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png'];
+  isRegisterLoading = false;
 
   isImageTypeAllowed(fileType: string): boolean {
     return this.allowedImageTypes.includes(fileType);
@@ -89,6 +90,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.isRegisterLoading = true;
       console.log(this.registerForm.value)
       // Effectuez ici la logique de connexion
       
@@ -96,13 +98,16 @@ export class RegisterComponent {
       .subscribe(data => {
         var userReg = data;
         console.log(userReg)
+        this.tokenService.saveToken(data.access_token)
+        this.tokenService.saveUser(data.data)
         // this.tokenService.saveToken(data.access_token)
         // this.tokenService.saveUser(data.data)
         // sessionStorage.setItem("token", userT.token);
   
         // il va falloir naviguer (demander au router) d'afficher à nouveau la liste
         // en gros, demander de naviguer vers /home
-        this.router.navigate(["/login"]);
+        this.isRegisterLoading = false
+        this.router.navigate(["/home"]);
       }, error => {
         this.registerFailed = true;
         this.errorMessage = error.error.message;

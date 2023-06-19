@@ -51,8 +51,11 @@
                 </div>
                 <div class="form-group mb-0">
                   <div class="text-end mt-4">
-                    <button class="btn btn-primary btn-block w-100" type="submit" [disabled]="registerForm.invalid">S'inscrire</button>
-                    </div>
+                    <button class="btn btn-primary btn-block w-100" type="submit" [disabled]="registerForm.invalid || isRegisterLoading">
+                      S'inscrire
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isRegisterLoading"></span>
+                    </button>
+                  </div>
                 </div>
                 <p class="mt-4 mb-0 text-center">Vous avez déjà un compte ?<a class="ms-2" [routerLink]="['/login']">Connectez-vous</a></p>
               </form>
