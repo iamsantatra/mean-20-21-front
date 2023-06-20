@@ -1,4 +1,4 @@
-# Gestion de devoir MBDS (front-end MEAN)
+# Gestion des devoirs MBDS (front-end MEAN)
 
 ## Lien de l'application 
 `https://assignment-20-21-front.onrender.com/`
