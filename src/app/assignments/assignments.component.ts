@@ -164,7 +164,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
 
         if(event.container.id == "rendus"){  // si ils sont déposés dans le div #rendus, besoin si ajout d'annulation de rendu
           console.log("rendre le devoir ", dropped);
-          this.dialog.open(AddNoteComponent, { disableClose: true,  maxWidth: '20vw', data: { assignment : dropped, event: event} });
+          this.dialog.open(AddNoteComponent, { disableClose: true,  maxWidth: '30vw', data: { assignment : dropped, event: event} });
         }else{
           this.dialog.open(DeleteNoteComponent, { disableClose:true, maxWidth: '30vw', data: { assignment: dropped, event: event } });
         }
