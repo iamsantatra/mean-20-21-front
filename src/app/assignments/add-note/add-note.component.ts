@@ -73,7 +73,7 @@ export class AddNoteComponent {
     this.assignmentsService.updateAssignment(this.assignment)
     .subscribe((response:any)=> {
       this.closeDialog();
-      this.notifyer.notifyBySnackBar("Modifications enregistrées");
+      this.notifyer.notifyBySnackBar("Devoir #"+this.assignment.idAssignment+" rendu");
     },(error:any)=> {
       this.cancel();
       this.notifyer.notifyBySnackBar("Il y a eu un problème de connexion au serveur, veuillez réessayer");

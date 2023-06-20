@@ -58,7 +58,7 @@ export class DeleteNoteComponent {
     this.assignmentsService.updateAssignment(this.assignment)
     .subscribe((response:any)=> {
       this.matDialogRef.close();
-      this.notifyer.notifyBySnackBar("Modifications enregistrées");
+      this.notifyer.notifyBySnackBar("Devoir #"+this.assignment.idAssignment+" annulé");
     },(error:any)=> {
       this.assignment.rendu = true;
       this.assignment.note = n;
