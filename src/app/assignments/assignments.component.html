@@ -6,7 +6,7 @@
 
   <div class="page-body-wrapper">
       <div class="page-body" style="margin-top: 30px; padding-top: 69px;">
-        <div class="col-md-12 project-list">
+        <div class="project-list">
           <div class="row">
             <div class="col-md-4 p-0">
                 <div class="input-group">
@@ -48,9 +48,9 @@
                   [cdkDropListData]="nonRendus"
                   [cdkDropListConnectedTo]="[divRendus]" 
                   (cdkDropListDropped)="onDrop($event)">
-                  <div class="indication" *ngIf="nonRendus.length==0">
+                  <!-- <div class="indication align-middle" *ngIf="nonRendus.length==0">
                     Drag and drop pour annuler des devoirs
-                  </div>
+                  </div> -->
                   <div *ngFor="let devoir of nonRendus">
                     <div class="card h-400"  (click)="onDetailDevoir(devoir)" cdkDrag>
                       <div class="card-header pb-0">
@@ -93,9 +93,9 @@
                 [cdkDropListData]="rendus"
                 [cdkDropListConnectedTo]="[divNonRendus]" 
                 (cdkDropListDropped)="onDrop($event)">
-                <div class="indication" *ngIf="rendus.length==0">
+                <!-- <div class="indication" *ngIf="rendus.length==0">
                   Drag and drop pour rendre des devoirs
-                </div>
+                </div> -->
                 <div *ngFor="let devoir of rendus" >
                   <div class="card h-400" (click)="onDetailDevoir(devoir)" cdkDrag>
                     <div class="card-header pb-0">
