@@ -1,7 +1,7 @@
 # Gestion de devoir MBDS (front-end MEAN)
 
 ## Lien de l'application 
-`https://mean-20-21-front.onrender.com`
+`https://assignment-20-21-front.onrender.com/`
 
 ## Membres du groupe
 
